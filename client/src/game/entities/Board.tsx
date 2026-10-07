@@ -9,212 +9,323 @@ interface BoardProps {
 }
 
 /**
- * REAL SLING PUCK BOARD:
- * - Rectangular board with 4 solid walls
- * - Center divider (solid) with a gate SLOT in the middle through which pucks pass
- * - No goal pockets (pucks stay on opponent's side after crossing)
- * - Each arena has a distinct vibrant felt + rail color
+ * REAL SLING PUCK BOARD — full-screen, bright, realistic.
+ *
+ * Layout (top-down):
+ *   - Thick wooden side rails (left + right)
+ *   - Thick end bumpers (north + south)
+ *   - Bright, visible playing surface
+ *   - Center divider with gate slot
+ *   - Elastic band "strap" running across each half (3D cylinder)
+ *   - Two small metal pegs where the strap anchors to the rails
  */
 export const Board: React.FC<BoardProps> = ({ table }) => {
   const { width, length, wallHeight } = DEFAULT_BOARD_DIMENSIONS;
   const halfW = width / 2;
   const halfL = length / 2;
-  const wallThick = 0.45;
-  const dividerH = 0.4;
-  const dividerT = 0.22;
-  const gateWidth = 1.6; // center slot opening width
 
-  // Segment of divider on each side of the gate
-  const divSegW = (width - gateWidth) / 2;
+  // Rail / bumper thickness
+  const railThick  = 0.55;
+  const railH      = 0.65;
 
-  // Roughness/metalness by theme
-  const surfaceRoughness = table.theme === 'neon' || table.theme === 'cyber' ? 0.15 : 0.5;
-  const railMetalness = table.theme === 'cyber' ? 0.8 : table.theme === 'neon' ? 0.5 : 0.15;
-  const railRoughness = table.theme === 'cyber' ? 0.2 : table.theme === 'neon' ? 0.3 : 0.4;
-  const isCyberOrNeon = table.theme === 'cyber' || table.theme === 'neon';
+  // Center divider
+  const dividerH   = 0.50;
+  const dividerT   = 0.28;
+  const gateWidth  = 1.6;
+  const divSegW    = (width - gateWidth) / 2;
+
+  // Elastic band (strap) Z positions — 78% from center toward each end
+  const bandZ_A =  halfL * 0.76;   // Player A side (south)
+  const bandZ_B = -halfL * 0.76;   // Player B side (north)
+  const bandRadius = 0.045;
+  const pegRadius  = 0.09;
+  const pegH       = 0.52;
+
+  // Theme flags
+  const isCyber = table.theme === 'cyber';
+  const isNeon  = table.theme === 'neon';
+  const isGlow  = isCyber || isNeon;
+
+  // Surface brightness boost — make felt clearly visible regardless of theme
+  const feltEmissive    = isGlow ? table.feltColor : '#000000';
+  const feltEmissiveInt = isGlow ? 0.12 : 0.0;
+
+  const railEmissive    = isGlow ? table.boardColor : '#000000';
+  const railEmissiveInt = isGlow ? 0.15 : 0.0;
+
+  // Divider accent color
+  const dividerColor = isNeon ? '#22d3ee'
+    : isCyber ? '#a78bfa'
+    : table.theme === 'royal' ? '#fde047'
+    : table.borderColor;
 
   return (
     <group position={[0, 0, 0]}>
 
-      {/* ── 1. PLAYING SURFACE (felt / arena floor) ── */}
+      {/* ══════════════════════════════════════════════════════════
+          1. PLAYING SURFACE (felt / board floor)
+         ══════════════════════════════════════════════════════════ */}
       <RigidBody type="fixed" friction={table.friction} restitution={table.restitution}>
-        <mesh position={[0, -0.05, 0]} receiveShadow>
-          <boxGeometry args={[width, 0.1, length]} />
+        <mesh position={[0, -0.06, 0]} receiveShadow>
+          <boxGeometry args={[width, 0.12, length]} />
           <meshStandardMaterial
             color={table.feltColor}
-            roughness={surfaceRoughness}
-            metalness={table.theme === 'cyber' ? 0.35 : 0.0}
-            emissive={isCyberOrNeon ? table.feltColor : '#000000'}
-            emissiveIntensity={isCyberOrNeon ? 0.05 : 0}
+            roughness={isGlow ? 0.18 : 0.55}
+            metalness={isCyber ? 0.4 : 0.0}
+            emissive={feltEmissive}
+            emissiveIntensity={feltEmissiveInt}
           />
         </mesh>
       </RigidBody>
 
-      {/* ── 2. SURFACE DECORATIVE MARKINGS ── */}
-      <group position={[0, 0.005, 0]}>
-        {/* Elastic band anchor lines — Player A side (South) */}
-        <mesh position={[0, 0, halfL * 0.82]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[width * 0.88, 0.05]} />
-          <meshBasicMaterial color={table.borderColor} transparent opacity={0.45} />
+      {/* ══════════════════════════════════════════════════════════
+          2. SURFACE LANE MARKINGS (painted lines)
+         ══════════════════════════════════════════════════════════ */}
+      <group position={[0, 0.002, 0]}>
+        {/* Player A court boundary line */}
+        <mesh position={[0, 0, bandZ_A]} rotation={[-Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[width * 0.92, 0.06]} />
+          <meshBasicMaterial color={dividerColor} transparent opacity={0.55} />
         </mesh>
-
-        {/* Elastic band anchor lines — Player B side (North) */}
-        <mesh position={[0, 0, -halfL * 0.82]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[width * 0.88, 0.05]} />
-          <meshBasicMaterial color={table.borderColor} transparent opacity={0.45} />
+        {/* Player B court boundary line */}
+        <mesh position={[0, 0, bandZ_B]} rotation={[-Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[width * 0.92, 0.06]} />
+          <meshBasicMaterial color={dividerColor} transparent opacity={0.55} />
         </mesh>
-
-        {/* Mid-zone stripe (slight visible guide near center) */}
-        <mesh position={[0, 0, halfL * 0.42]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[width * 0.88, 0.03]} />
-          <meshBasicMaterial color={table.borderColor} transparent opacity={0.2} />
-        </mesh>
-        <mesh position={[0, 0, -halfL * 0.42]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[width * 0.88, 0.03]} />
-          <meshBasicMaterial color={table.borderColor} transparent opacity={0.2} />
-        </mesh>
-
-        {/* Gate highlight on surface */}
+        {/* Gate surface highlight */}
         <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[gateWidth * 0.9, 0.1]} />
-          <meshBasicMaterial color={table.goalGlowColor} transparent opacity={0.3} />
+          <planeGeometry args={[gateWidth * 0.85, 0.18]} />
+          <meshBasicMaterial color={table.goalGlowColor} transparent opacity={0.45} />
         </mesh>
       </group>
 
-      {/* ── 3. ELASTIC BAND PEG INDICATORS ── */}
-      {/* Player A pegs (South end) */}
-      {[-halfW + 0.15, halfW - 0.15].map((px, i) => (
-        <mesh key={`peg_a_${i}`} position={[px, 0.22, halfL * 0.82]} castShadow>
-          <cylinderGeometry args={[0.07, 0.07, 0.36, 14]} />
-          <meshStandardMaterial
-            color={table.borderColor}
-            roughness={0.2}
-            metalness={0.8}
-            emissive={table.borderColor}
-            emissiveIntensity={isCyberOrNeon ? 0.5 : 0.15}
-          />
-        </mesh>
-      ))}
-      {/* Player B pegs (North end) */}
-      {[-halfW + 0.15, halfW - 0.15].map((px, i) => (
-        <mesh key={`peg_b_${i}`} position={[px, 0.22, -halfL * 0.82]} castShadow>
-          <cylinderGeometry args={[0.07, 0.07, 0.36, 14]} />
-          <meshStandardMaterial
-            color={table.borderColor}
-            roughness={0.2}
-            metalness={0.8}
-            emissive={table.borderColor}
-            emissiveIntensity={isCyberOrNeon ? 0.5 : 0.15}
-          />
-        </mesh>
+      {/* ══════════════════════════════════════════════════════════
+          3. ELASTIC BANDS (3D stretched straps across each half)
+         ══════════════════════════════════════════════════════════ */}
+      {/* Band A — Player south side */}
+      <mesh position={[0, 0.16, bandZ_A]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[bandRadius, bandRadius, width * 0.88, 8]} />
+        <meshStandardMaterial
+          color={dividerColor}
+          roughness={0.55}
+          metalness={0.1}
+          emissive={dividerColor}
+          emissiveIntensity={isGlow ? 0.4 : 0.18}
+        />
+      </mesh>
+      {/* Band B — Player north side */}
+      <mesh position={[0, 0.16, bandZ_B]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[bandRadius, bandRadius, width * 0.88, 8]} />
+        <meshStandardMaterial
+          color={dividerColor}
+          roughness={0.55}
+          metalness={0.1}
+          emissive={dividerColor}
+          emissiveIntensity={isGlow ? 0.4 : 0.18}
+        />
+      </mesh>
+
+      {/* ══════════════════════════════════════════════════════════
+          4. METAL ANCHOR PEGS (where elastic band hooks to rail)
+         ══════════════════════════════════════════════════════════ */}
+      {([-halfW + 0.12, halfW - 0.12] as number[]).map((px, i) => (
+        <React.Fragment key={`pegs_${i}`}>
+          {/* Peg A (south band) */}
+          <mesh position={[px, pegH / 2, bandZ_A]} castShadow>
+            <cylinderGeometry args={[pegRadius, pegRadius * 0.8, pegH, 12]} />
+            <meshStandardMaterial
+              color={table.borderColor}
+              roughness={0.2}
+              metalness={0.85}
+              emissive={table.borderColor}
+              emissiveIntensity={isGlow ? 0.5 : 0.12}
+            />
+          </mesh>
+          {/* Peg cap A */}
+          <mesh position={[px, pegH, bandZ_A]}>
+            <sphereGeometry args={[pegRadius * 1.15, 10, 10]} />
+            <meshStandardMaterial color={table.borderColor} roughness={0.15} metalness={0.9} />
+          </mesh>
+
+          {/* Peg B (north band) */}
+          <mesh position={[px, pegH / 2, bandZ_B]} castShadow>
+            <cylinderGeometry args={[pegRadius, pegRadius * 0.8, pegH, 12]} />
+            <meshStandardMaterial
+              color={table.borderColor}
+              roughness={0.2}
+              metalness={0.85}
+              emissive={table.borderColor}
+              emissiveIntensity={isGlow ? 0.5 : 0.12}
+            />
+          </mesh>
+          {/* Peg cap B */}
+          <mesh position={[px, pegH, bandZ_B]}>
+            <sphereGeometry args={[pegRadius * 1.15, 10, 10]} />
+            <meshStandardMaterial color={table.borderColor} roughness={0.15} metalness={0.9} />
+          </mesh>
+        </React.Fragment>
       ))}
 
-      {/* ── 4. SIDE RAILS (Left & Right walls) ── */}
-      <RigidBody type="fixed" friction={table.friction * 0.7} restitution={table.restitution}>
-        <mesh position={[-halfW - wallThick / 2, wallHeight / 2, 0]} castShadow receiveShadow>
-          <boxGeometry args={[wallThick, wallHeight, length + wallThick * 2]} />
+      {/* ══════════════════════════════════════════════════════════
+          5. SIDE RAILS (Left & Right — thick wooden walls)
+         ══════════════════════════════════════════════════════════ */}
+      <RigidBody type="fixed" friction={table.friction * 0.6} restitution={table.restitution * 1.05}>
+        {/* Left rail */}
+        <mesh position={[-halfW - railThick / 2, railH / 2, 0]} castShadow receiveShadow>
+          <boxGeometry args={[railThick, railH, length + railThick * 2]} />
           <meshStandardMaterial
             color={table.boardColor}
-            roughness={railRoughness}
-            metalness={railMetalness}
-            emissive={isCyberOrNeon ? table.boardColor : '#000000'}
-            emissiveIntensity={isCyberOrNeon ? 0.12 : 0}
+            roughness={0.38}
+            metalness={isCyber ? 0.7 : isNeon ? 0.45 : 0.1}
+            emissive={railEmissive}
+            emissiveIntensity={railEmissiveInt}
           />
         </mesh>
       </RigidBody>
-      <RigidBody type="fixed" friction={table.friction * 0.7} restitution={table.restitution}>
-        <mesh position={[halfW + wallThick / 2, wallHeight / 2, 0]} castShadow receiveShadow>
-          <boxGeometry args={[wallThick, wallHeight, length + wallThick * 2]} />
+      <RigidBody type="fixed" friction={table.friction * 0.6} restitution={table.restitution * 1.05}>
+        {/* Right rail */}
+        <mesh position={[halfW + railThick / 2, railH / 2, 0]} castShadow receiveShadow>
+          <boxGeometry args={[railThick, railH, length + railThick * 2]} />
           <meshStandardMaterial
             color={table.boardColor}
-            roughness={railRoughness}
-            metalness={railMetalness}
-            emissive={isCyberOrNeon ? table.boardColor : '#000000'}
-            emissiveIntensity={isCyberOrNeon ? 0.12 : 0}
+            roughness={0.38}
+            metalness={isCyber ? 0.7 : isNeon ? 0.45 : 0.1}
+            emissive={railEmissive}
+            emissiveIntensity={railEmissiveInt}
           />
         </mesh>
       </RigidBody>
 
-      {/* ── 5. END WALLS (North & South) — solid bumpers ── */}
-      <RigidBody type="fixed" friction={table.friction * 0.8} restitution={table.restitution * 0.7}>
-        <mesh position={[0, wallHeight / 2, halfL + wallThick / 2]} castShadow receiveShadow>
-          <boxGeometry args={[width + wallThick * 2, wallHeight, wallThick]} />
-          <meshStandardMaterial color={table.boardColor} roughness={railRoughness} metalness={railMetalness} />
+      {/* ══════════════════════════════════════════════════════════
+          6. END BUMPERS (North & South solid walls)
+         ══════════════════════════════════════════════════════════ */}
+      <RigidBody type="fixed" friction={table.friction * 0.7} restitution={table.restitution * 0.85}>
+        <mesh position={[0, railH / 2, halfL + railThick / 2]} castShadow receiveShadow>
+          <boxGeometry args={[width + railThick * 2, railH, railThick]} />
+          <meshStandardMaterial
+            color={table.boardColor}
+            roughness={0.38}
+            metalness={isCyber ? 0.7 : 0.1}
+          />
         </mesh>
       </RigidBody>
-      <RigidBody type="fixed" friction={table.friction * 0.8} restitution={table.restitution * 0.7}>
-        <mesh position={[0, wallHeight / 2, -halfL - wallThick / 2]} castShadow receiveShadow>
-          <boxGeometry args={[width + wallThick * 2, wallHeight, wallThick]} />
-          <meshStandardMaterial color={table.boardColor} roughness={railRoughness} metalness={railMetalness} />
+      <RigidBody type="fixed" friction={table.friction * 0.7} restitution={table.restitution * 0.85}>
+        <mesh position={[0, railH / 2, -halfL - railThick / 2]} castShadow receiveShadow>
+          <boxGeometry args={[width + railThick * 2, railH, railThick]} />
+          <meshStandardMaterial
+            color={table.boardColor}
+            roughness={0.38}
+            metalness={isCyber ? 0.7 : 0.1}
+          />
         </mesh>
       </RigidBody>
 
-      {/* ── 6. CENTER DIVIDER — Left segment (solid wall left of gate) ── */}
-      <RigidBody type="fixed" friction={0.05} restitution={table.restitution * 0.9}>
+      {/* ══════════════════════════════════════════════════════════
+          7. CENTER DIVIDER — Left segment (solid, no gate here)
+         ══════════════════════════════════════════════════════════ */}
+      <RigidBody type="fixed" friction={0.04} restitution={table.restitution * 0.95}>
         <mesh
           position={[-(gateWidth / 2 + divSegW / 2), dividerH / 2, 0]}
-          castShadow
-          receiveShadow
+          castShadow receiveShadow
         >
           <boxGeometry args={[divSegW, dividerH, dividerT]} />
           <meshStandardMaterial
             color={table.boardColor}
-            roughness={railRoughness}
-            metalness={railMetalness + 0.1}
-            emissive={isCyberOrNeon ? table.borderColor : '#000000'}
-            emissiveIntensity={isCyberOrNeon ? 0.18 : 0}
+            roughness={0.32}
+            metalness={isCyber ? 0.75 : isNeon ? 0.5 : 0.15}
+            emissive={isGlow ? table.borderColor : '#000000'}
+            emissiveIntensity={isGlow ? 0.2 : 0}
           />
         </mesh>
-        <CuboidCollider args={[divSegW / 2, dividerH / 2, dividerT / 2]} position={[-(gateWidth / 2 + divSegW / 2), dividerH / 2, 0]} />
+        <CuboidCollider
+          args={[divSegW / 2, dividerH / 2, dividerT / 2]}
+          position={[-(gateWidth / 2 + divSegW / 2), dividerH / 2, 0]}
+        />
       </RigidBody>
 
-      {/* ── 6b. CENTER DIVIDER — Right segment (solid wall right of gate) ── */}
-      <RigidBody type="fixed" friction={0.05} restitution={table.restitution * 0.9}>
+      {/* CENTER DIVIDER — Right segment */}
+      <RigidBody type="fixed" friction={0.04} restitution={table.restitution * 0.95}>
         <mesh
           position={[(gateWidth / 2 + divSegW / 2), dividerH / 2, 0]}
-          castShadow
-          receiveShadow
+          castShadow receiveShadow
         >
           <boxGeometry args={[divSegW, dividerH, dividerT]} />
           <meshStandardMaterial
             color={table.boardColor}
-            roughness={railRoughness}
-            metalness={railMetalness + 0.1}
-            emissive={isCyberOrNeon ? table.borderColor : '#000000'}
-            emissiveIntensity={isCyberOrNeon ? 0.18 : 0}
+            roughness={0.32}
+            metalness={isCyber ? 0.75 : isNeon ? 0.5 : 0.15}
+            emissive={isGlow ? table.borderColor : '#000000'}
+            emissiveIntensity={isGlow ? 0.2 : 0}
           />
         </mesh>
-        <CuboidCollider args={[divSegW / 2, dividerH / 2, dividerT / 2]} position={[(gateWidth / 2 + divSegW / 2), dividerH / 2, 0]} />
+        <CuboidCollider
+          args={[divSegW / 2, dividerH / 2, dividerT / 2]}
+          position={[(gateWidth / 2 + divSegW / 2), dividerH / 2, 0]}
+        />
       </RigidBody>
 
-      {/* ── 7. GATE GLOW MARKER (decorative, no physics) ── */}
-      <mesh position={[0, dividerH * 0.5, 0]} rotation={[0, 0, 0]}>
-        <boxGeometry args={[gateWidth, dividerH * 0.6, dividerT * 0.4]} />
+      {/* ══════════════════════════════════════════════════════════
+          8. GATE GLOW MARKER + GATE PIN BALLS
+         ══════════════════════════════════════════════════════════ */}
+      {/* Glowing gate fill */}
+      <mesh position={[0, dividerH * 0.45, 0]}>
+        <boxGeometry args={[gateWidth, dividerH * 0.55, dividerT * 0.45]} />
         <meshStandardMaterial
           color={table.goalGlowColor}
           emissive={table.goalGlowColor}
-          emissiveIntensity={0.8}
+          emissiveIntensity={1.4}
           transparent
-          opacity={0.35}
+          opacity={0.45}
         />
       </mesh>
+      {/* Gate pin balls — mark the entry points */}
+      {([-gateWidth / 2, gateWidth / 2] as number[]).map((px, i) => (
+        <mesh key={`gatepin_${i}`} position={[px, dividerH + 0.06, 0]} castShadow>
+          <sphereGeometry args={[0.12, 10, 10]} />
+          <meshStandardMaterial
+            color={table.goalGlowColor}
+            emissive={table.goalGlowColor}
+            emissiveIntensity={2.0}
+            roughness={0.1}
+            metalness={0.6}
+          />
+        </mesh>
+      ))}
       {/* Gate glow point light */}
       <pointLight
-        position={[0, 0.8, 0]}
+        position={[0, 1.2, 0]}
         color={table.goalGlowColor}
-        intensity={isCyberOrNeon ? 2.5 : 1.2}
-        distance={5}
+        intensity={isGlow ? 4.0 : 2.2}
+        distance={6}
       />
 
-      {/* ── 8. TABLE BASE / PEDESTAL ── */}
-      <mesh position={[0, -0.85, 0]} receiveShadow>
-        <boxGeometry args={[width + wallThick * 3, 1.5, length + wallThick * 3]} />
+      {/* ══════════════════════════════════════════════════════════
+          9. OUTER TABLE BASE / FRAME (decorative pedestal)
+         ══════════════════════════════════════════════════════════ */}
+      <mesh position={[0, -0.75, 0]} receiveShadow>
+        <boxGeometry args={[width + railThick * 2.8, 1.35, length + railThick * 2.8]} />
         <meshStandardMaterial
           color={table.boardColor}
-          roughness={0.45}
-          metalness={table.theme === 'cyber' ? 0.55 : 0.18}
+          roughness={0.42}
+          metalness={isCyber ? 0.55 : 0.15}
         />
       </mesh>
+
+      {/* ══════════════════════════════════════════════════════════
+          10. RAIL TOP EDGE STRIPS (thin bright highlight on rail tops)
+         ══════════════════════════════════════════════════════════ */}
+      {([-halfW - railThick / 2, halfW + railThick / 2] as number[]).map((px, i) => (
+        <mesh key={`rail_top_${i}`} position={[px, railH + 0.015, 0]}>
+          <boxGeometry args={[railThick * 0.7, 0.03, length + railThick * 1.6]} />
+          <meshStandardMaterial
+            color={table.borderColor}
+            roughness={0.15}
+            metalness={0.9}
+            emissive={table.borderColor}
+            emissiveIntensity={isGlow ? 0.35 : 0.08}
+          />
+        </mesh>
+      ))}
     </group>
   );
 };

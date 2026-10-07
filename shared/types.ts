@@ -82,18 +82,18 @@ export interface TableConfig {
 
 export const GAME_TABLES: TableConfig[] = [
   {
-    // ── Classic Arena: Warm honey-maple wood, cream surface
+    // ── Classic Arena: Warm honey-maple wood, bright clean playing surface
     id: 'table_classic',
     name: 'Classic Arena',
-    tagline: 'Honey maple wood · Cream felt · Brass rails',
+    tagline: 'Natural birch wood · Ivory smooth surface · Brass elastic pegs',
     entryFee: 0,
     minCoinsRequired: 0,
     theme: 'classic',
-    boardColor: '#92400e',      // Rich amber-brown wood rails
-    feltColor: '#fef3c7',       // Warm cream/ivory playing surface
-    borderColor: '#b45309',
-    ambientLight: '#fff7ed',
-    pointLightColor: '#fbbf24',
+    boardColor: '#b45309',      // Warm golden-amber wood rails
+    feltColor: '#fffbeb',       // Bright ivory/cream playing surface (maximum clarity)
+    borderColor: '#d97706',
+    ambientLight: '#ffffff',
+    pointLightColor: '#fef3c7',
     goalGlowColor: '#f59e0b',
     friction: 0.12,
     restitution: 0.88,

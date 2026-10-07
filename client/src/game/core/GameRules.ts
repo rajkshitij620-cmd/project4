@@ -68,11 +68,19 @@ export class GameRulesEngine {
    * Randomly pick two distinct colors from the available palette
    */
   public static pickRandomColors(): { playerAColor: PlayerColor; playerBColor: PlayerColor } {
-    const allColors: PlayerColor[] = Object.keys(COLOR_PALETTE) as PlayerColor[];
-    const shuffled = [...allColors].sort(() => Math.random() - 0.5);
+    // Player A (You) = Cobalt Blue, Player B (Opponent/Bot) = Crimson Red by default for maximum contrast
+    // or pick distinct pairs from the palette
+    const pairs: Array<[PlayerColor, PlayerColor]> = [
+      ['blue', 'red'],
+      ['cyan', 'red'] as any,
+      ['blue', 'yellow'],
+      ['green', 'purple'],
+      ['orange', 'blue'],
+    ];
+    const pair = pairs[0]; // Always classic Blue vs Red for Sling Puck clarity
     return {
-      playerAColor: shuffled[0],
-      playerBColor: shuffled[1],
+      playerAColor: 'blue',
+      playerBColor: 'red',
     };
   }
 
@@ -89,14 +97,14 @@ export class GameRulesEngine {
     const pieces: PieceData[] = [];
     const r = DEFAULT_BOARD_DIMENSIONS.pieceRadius;
 
-    // Player A pucks — South side (Z > 0), scattered in a natural layout
-    // 5 pucks in a 2-2-1 triangular formation near Player A's end
+    // Player A pucks — South side (Z > 0), 2-2-1 formation near center divider
+    // Positions WITHIN camera view (not at the far edge of the board)
     const playerAPositions = [
-      { x: -1.5, z: 1.1 },   // Left front
-      { x:  1.5, z: 1.1 },   // Right front
-      { x: -0.7, z: 2.2 },   // Left mid
-      { x:  0.7, z: 2.2 },   // Right mid
-      { x:  0.0, z: 3.4 },   // Back center
+      { x: -1.6, z: 1.0 },   // Left front row
+      { x:  1.6, z: 1.0 },   // Right front row
+      { x: -0.8, z: 2.0 },   // Left mid row
+      { x:  0.8, z: 2.0 },   // Right mid row
+      { x:  0.0, z: 3.0 },   // Back center
     ];
 
     playerAPositions.forEach((pos, idx) => {
@@ -113,11 +121,11 @@ export class GameRulesEngine {
 
     // Player B pucks — North side (Z < 0), mirrored layout
     const playerBPositions = [
-      { x: -1.5, z: -1.1 },
-      { x:  1.5, z: -1.1 },
-      { x: -0.7, z: -2.2 },
-      { x:  0.7, z: -2.2 },
-      { x:  0.0, z: -3.4 },
+      { x: -1.6, z: -1.0 },
+      { x:  1.6, z: -1.0 },
+      { x: -0.8, z: -2.0 },
+      { x:  0.8, z: -2.0 },
+      { x:  0.0, z: -3.0 },
     ];
 
     playerBPositions.forEach((pos, idx) => {

@@ -184,7 +184,7 @@ export const Piece: React.FC<PieceProps> = ({
   }, [isPlayerOwned, gl, camera, raycaster, onShoot, onAimChange]);
 
   const radius = piece.radius;
-  const height = 0.18;
+  const height = 0.22;   // taller puck — more visible
 
   return (
     <RigidBody
@@ -210,39 +210,59 @@ export const Piece: React.FC<PieceProps> = ({
           receiveShadow
           onPointerDown={isPlayerOwned && canInteract ? handlePointerDown : undefined}
         >
-          <cylinderGeometry args={[radius, radius, height, 32]} />
+          <cylinderGeometry args={[radius, radius * 1.05, height, 36]} />
           <meshPhysicalMaterial
             color={colorDef.hex}
-            roughness={0.15}
-            metalness={0.3}
-            clearcoat={0.8}
-            clearcoatRoughness={0.1}
-            reflectivity={0.9}
+            roughness={0.08}
+            metalness={0.45}
+            clearcoat={1.0}
+            clearcoatRoughness={0.05}
+            reflectivity={1.0}
             emissive={colorDef.emissiveHex}
-            emissiveIntensity={isBeingDragged ? 0.55 : 0.15}
+            emissiveIntensity={isBeingDragged ? 0.9 : 0.45}
+          />
+        </mesh>
+
+        {/* Top face bright disc — glowing solid color */}
+        <mesh position={[0, height / 2 + 0.001, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <circleGeometry args={[radius * 0.92, 36]} />
+          <meshStandardMaterial
+            color={colorDef.hex}
+            emissive={colorDef.hex}
+            emissiveIntensity={0.6}
+            roughness={0.05}
+            metalness={0.6}
           />
         </mesh>
 
         {/* Top decorative ring */}
-        <mesh position={[0, height / 2 + 0.002, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[radius * 0.45, radius * 0.75, 24]} />
+        <mesh position={[0, height / 2 + 0.003, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[radius * 0.42, radius * 0.72, 28]} />
           <meshBasicMaterial color={colorDef.lightHex} />
         </mesh>
 
-        {/* Center gem */}
-        <mesh position={[0, height / 2 + 0.003, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <circleGeometry args={[radius * 0.25, 24]} />
+        {/* Center white gem */}
+        <mesh position={[0, height / 2 + 0.004, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <circleGeometry args={[radius * 0.22, 24]} />
           <meshBasicMaterial color="#ffffff" />
         </mesh>
 
-        {/* Drag/Sling indicator glow ring (only when player can interact) */}
+        {/* Owner indicator — small point light for glow effect */}
+        <pointLight
+          position={[0, 0.3, 0]}
+          color={colorDef.glowHex}
+          intensity={isBeingDragged ? 1.8 : 0.8}
+          distance={1.8}
+        />
+
+        {/* Drag/Sling indicator glow ring (player-owned pucks only) */}
         {isPlayerOwned && canInteract && (
-          <mesh position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-            <ringGeometry args={[radius * 1.1, radius * 1.32, 32]} />
+          <mesh position={[0, 0.008, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+            <ringGeometry args={[radius * 1.15, radius * 1.42, 36]} />
             <meshBasicMaterial
               color={isBeingDragged ? '#ffffff' : colorDef.glowHex}
               transparent
-              opacity={isBeingDragged ? 0.85 : 0.4}
+              opacity={isBeingDragged ? 0.95 : 0.55}
             />
           </mesh>
         )}

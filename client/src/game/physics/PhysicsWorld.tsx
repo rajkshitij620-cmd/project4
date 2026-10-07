@@ -150,18 +150,26 @@ export const PhysicsWorld: React.FC<PhysicsWorldProps> = ({
       <Canvas shadows gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}>
         <color attach="background" args={['#030712']} />
 
-        {/* Dynamic Lighting */}
-        <ambientLight intensity={0.7} color={table.ambientLight} />
+        {/* Dynamic Lighting — bright enough to see the board clearly */}
+        <ambientLight intensity={1.6} color={table.ambientLight} />
         <directionalLight
-          position={[6, 18, 8]}
-          intensity={1.2}
+          position={[0, 16, 6]}
+          intensity={2.8}
           castShadow
-          shadow-mapSize-width={1024}
-          shadow-mapSize-height={1024}
-          shadow-bias={-0.001}
+          shadow-mapSize-width={2048}
+          shadow-mapSize-height={2048}
+          shadow-bias={-0.0008}
+          shadow-camera-left={-10}
+          shadow-camera-right={10}
+          shadow-camera-top={12}
+          shadow-camera-bottom={-12}
         />
-        <pointLight position={[-4, 8, -4]} intensity={0.6} color={table.pointLightColor} />
-        <pointLight position={[4, 8, 4]} intensity={0.6} color={table.pointLightColor} />
+        {/* Fill lights — illuminate both sides of the board */}
+        <directionalLight position={[-8, 10, 0]} intensity={1.4} color={table.pointLightColor} />
+        <directionalLight position={[ 8, 10, 0]} intensity={1.4} color={table.pointLightColor} />
+        <pointLight position={[0, 8, 5]}  intensity={2.0} color={table.pointLightColor} distance={18} />
+        <pointLight position={[0, 8, -5]} intensity={2.0} color={table.pointLightColor} distance={18} />
+
 
         <GameCamera currentTurn={currentTurn} isSimulating={isSimulating} />
 
