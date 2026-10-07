@@ -57,14 +57,14 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenAuth }) => {
 
         {/* Coins Badge */}
         <div 
-          className="flex items-center gap-1 px-2.5 py-1 rounded-xl border border-[#b9e3c6] text-emerald-950 font-black text-xs shadow-sm"
+          className="flex items-center gap-1 px-2.5 py-1 rounded-xl border border-[#f8edeb] text-rose-950 font-black text-xs shadow-sm"
           style={{
-            background: 'rgba(185, 227, 198, 0.70)',
+            background: 'rgba(248, 237, 235, 0.70)',
             backdropFilter: 'blur(10px)',
             WebkitBackdropFilter: 'blur(10px)'
           }}
         >
-          <Coins size={14} className="text-emerald-800" />
+          <Coins size={14} className="text-amber-700" />
           <span>{user?.coins.toLocaleString() || '1,000'}</span>
         </div>
 
@@ -72,11 +72,11 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenAuth }) => {
         {user && (
           <div
             onClick={isGuest ? onOpenAuth : undefined}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border border-[#b9e3c6] shadow-sm ${
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border border-[#f8edeb] shadow-sm ${
               isGuest ? 'cursor-pointer active:scale-95' : ''
             }`}
             style={{
-              background: 'rgba(185, 227, 198, 0.70)',
+              background: 'rgba(248, 237, 235, 0.70)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}

@@ -47,9 +47,9 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
   return (
     <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 select-none">
       <div 
-        className="border border-[#b9e3c6] rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl relative overflow-hidden animate-in fade-in zoom-in duration-300"
+        className="border border-[#f8edeb] rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl relative overflow-hidden animate-in fade-in zoom-in duration-300"
         style={{
-          background: 'rgba(185, 227, 198, 0.70)',
+          background: 'rgba(248, 237, 235, 0.70)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)'
         }}
@@ -57,7 +57,7 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
         {/* Glow Header Accent */}
         <div
           className={`absolute -top-24 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full blur-3xl pointer-events-none ${
-            isWinner ? 'bg-emerald-400/30' : 'bg-red-400/20'
+            isWinner ? 'bg-rose-400/30' : 'bg-red-400/20'
           }`}
         />
 
@@ -66,7 +66,7 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
           <div
             className={`w-20 h-20 rounded-2xl flex items-center justify-center border-2 shadow-xl ${
               isWinner
-                ? 'bg-gradient-to-tr from-emerald-500 to-teal-300 border-[#b9e3c6] text-slate-950 shadow-emerald-500/30'
+                ? 'bg-gradient-to-tr from-rose-400 to-amber-300 border-[#f8edeb] text-slate-950 shadow-rose-500/30'
                 : 'bg-gradient-to-tr from-slate-300 to-slate-200 border-slate-400 text-slate-800'
             }`}
           >
@@ -86,8 +86,8 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
 
         {/* Coin Reward Banner */}
         {rewardCoins > 0 && (
-          <div className="mb-6 py-2.5 px-4 rounded-xl bg-emerald-200/80 border border-emerald-400 flex items-center justify-center gap-2 text-emerald-950 font-black text-base shadow-sm">
-            <Coins size={18} className="text-emerald-800" />
+          <div className="mb-6 py-2.5 px-4 rounded-xl bg-rose-100/80 border border-rose-300 flex items-center justify-center gap-2 text-rose-950 font-black text-base shadow-sm">
+            <Coins size={18} className="text-amber-700" />
             <span>+{rewardCoins} Coins Earned!</span>
           </div>
         )}
@@ -95,9 +95,9 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-3 mb-8">
           <div 
-            className="border border-[#b9e3c6]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            className="border border-[#f8edeb]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(185, 227, 198, 0.50)',
+              background: 'rgba(248, 237, 235, 0.50)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}
@@ -110,24 +110,24 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
           </div>
 
           <div 
-            className="border border-[#b9e3c6]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            className="border border-[#f8edeb]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(185, 227, 198, 0.50)',
+              background: 'rgba(248, 237, 235, 0.50)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}
           >
             <div className="flex items-center gap-1.5 text-xs text-slate-600 font-bold mb-1">
-              <Award size={13} className="text-emerald-700" />
+              <Award size={13} className="text-rose-700" />
               <span>Accuracy</span>
             </div>
             <span className="text-lg font-black text-slate-950">{accuracy}%</span>
           </div>
 
           <div 
-            className="border border-[#b9e3c6]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            className="border border-[#f8edeb]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(185, 227, 198, 0.50)',
+              background: 'rgba(248, 237, 235, 0.50)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}
@@ -140,9 +140,9 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
           </div>
 
           <div 
-            className="border border-[#b9e3c6]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            className="border border-[#f8edeb]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(185, 227, 198, 0.50)',
+              background: 'rgba(248, 237, 235, 0.50)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}

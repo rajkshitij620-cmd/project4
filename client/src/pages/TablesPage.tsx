@@ -34,9 +34,9 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
               className={`rounded-3xl border p-5 transition-all relative overflow-hidden flex flex-col justify-between shadow-xl ${
                 isLocked
                   ? 'border-slate-300 opacity-60'
-                  : 'border-[#b9e3c6]/80'
+                  : 'border-[#f8edeb]/80'
               }`}
-              style={{ background: 'rgba(185, 227, 198, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+              style={{ background: 'rgba(248, 237, 235, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
             >
               {/* Background Theme Glow */}
               <div
@@ -60,7 +60,7 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
                   <span className="text-[10px] text-slate-700 font-bold uppercase tracking-wider block">
                     Entry Fee
                   </span>
-                  <span className="text-sm font-black text-emerald-950">
+                  <span className="text-sm font-black text-rose-950">
                     {table.entryFee === 0 ? 'FREE' : `🪙 ${table.entryFee.toLocaleString()}`}
                   </span>
                 </div>
@@ -68,8 +68,8 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
 
               {/* Table Attributes / Physics */}
               <div 
-                className="relative z-10 grid grid-cols-2 gap-2 mb-4 py-2 px-3 rounded-xl border border-[#b9e3c6]/60 text-[11px] shadow-inner"
-                style={{ background: 'rgba(185, 227, 198, 0.35)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
+                className="relative z-10 grid grid-cols-2 gap-2 mb-4 py-2 px-3 rounded-xl border border-[#f8edeb]/60 text-[11px] shadow-inner"
+                style={{ background: 'rgba(248, 237, 235, 0.35)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
               >
                 <div className="flex justify-between text-slate-600 font-medium">
                   <span>Surface Glide:</span>

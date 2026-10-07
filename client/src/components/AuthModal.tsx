@@ -66,9 +66,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 select-none overflow-y-auto">
       {/* Vertical Mobile Game Card */}
       <div 
-        className="relative w-full max-w-sm border border-[#b9e3c6]/80 rounded-3xl p-5 shadow-2xl flex flex-col justify-between items-center min-h-[580px] overflow-hidden"
+        className="relative w-full max-w-sm border border-[#f8edeb]/80 rounded-3xl p-5 shadow-2xl flex flex-col justify-between items-center min-h-[580px] overflow-hidden"
         style={{
-          background: 'rgba(185, 227, 198, 0.70)',
+          background: 'rgba(248, 237, 235, 0.70)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)'
         }}
@@ -79,7 +79,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <div 
             className="w-full h-full"
             style={{
-              background: 'radial-gradient(circle at 50% 25%, rgba(185, 227, 198, 0.5) 0%, rgba(110, 200, 150, 0.2) 45%, transparent 75%)'
+              background: 'radial-gradient(circle at 50% 25%, rgba(248, 237, 235, 0.5) 0%, rgba(240, 210, 210, 0.2) 45%, transparent 75%)'
             }}
           />
         </div>
@@ -90,7 +90,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             soundEffects.playClick();
             onClose();
           }}
-          className="absolute top-4 right-4 z-20 p-2 rounded-xl bg-emerald-200/70 border border-[#b9e3c6] text-slate-800 hover:text-black active:scale-90 transition-all"
+          className="absolute top-4 right-4 z-20 p-2 rounded-xl bg-rose-100/70 border border-[#f8edeb] text-slate-800 hover:text-black active:scale-90 transition-all"
           title="Close"
         >
           <X size={18} />
@@ -100,8 +100,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         <div className="w-full flex flex-col items-center text-center mt-2 relative z-10">
           {/* Glowing Emblem */}
           <div className="relative mb-2">
-            <div className="absolute -inset-3 bg-emerald-400/40 rounded-full blur-xl pointer-events-none" />
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-400 p-[2px] shadow-xl relative z-10 flex items-center justify-center">
+            <div className="absolute -inset-3 bg-rose-400/30 rounded-full blur-xl pointer-events-none" />
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-rose-400 via-pink-400 to-amber-300 p-[2px] shadow-xl relative z-10 flex items-center justify-center">
               <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-3xl">
                 ⚡
               </div>
@@ -112,26 +112,26 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <h1 className="font-display text-3xl font-black tracking-wider text-slate-950 drop-shadow-sm leading-none">
             DISK SLAM 3D
           </h1>
-          <p className="text-[10px] font-bold tracking-widest text-emerald-950 uppercase mt-1">
+          <p className="text-[10px] font-bold tracking-widest text-rose-950 uppercase mt-1">
             MULTIPLAYER ARENA
           </p>
         </div>
 
         {/* ── MIDDLE SECTION: 8-BALL POOL STYLE REWARD CARD ── */}
         <div 
-          className="w-full relative z-10 my-4 p-4 rounded-2xl border border-[#b9e3c6]/80 shadow-md flex flex-col items-center text-center"
+          className="w-full relative z-10 my-4 p-4 rounded-2xl border border-[#f8edeb]/80 shadow-md flex flex-col items-center text-center"
           style={{
-            background: 'rgba(185, 227, 198, 0.55)',
+            background: 'rgba(248, 237, 235, 0.55)',
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)'
           }}
         >
           {/* Floating gifts & rewards illustrations */}
           <div className="flex items-center justify-center gap-6 mb-2">
-            <div className="p-2.5 rounded-2xl bg-emerald-200/70 border border-emerald-400/60 text-emerald-900 shadow-md animate-bounce">
+            <div className="p-2.5 rounded-2xl bg-rose-100/80 border border-rose-300 text-rose-900 shadow-md animate-bounce">
               <Gift size={26} />
             </div>
-            <div className="p-2.5 rounded-2xl bg-teal-200/70 border border-teal-400/60 text-teal-800 shadow-md">
+            <div className="p-2.5 rounded-2xl bg-amber-100/80 border border-amber-300 text-amber-800 shadow-md">
               <Coins size={26} />
             </div>
           </div>
@@ -140,11 +140,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             Play with your friends!
           </h2>
           <p className="text-xs text-slate-700 font-semibold mt-0.5">
-            Claim <span className="text-emerald-900 font-black">1,000 FREE coins</span> &amp; online rewards!
+            Claim <span className="text-rose-900 font-black">1,000 FREE coins</span> &amp; online rewards!
           </p>
 
-          <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-200/70 border border-emerald-400/60 text-[10px] font-black text-emerald-950">
-            <Sparkles size={12} className="text-emerald-700" />
+          <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100/70 border border-rose-300 text-[10px] font-black text-rose-950">
+            <Sparkles size={12} className="text-rose-700" />
             <span>REAL-TIME 1v1 MATCHMAKING</span>
           </div>
         </div>
@@ -159,9 +159,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         {/* ── GOOGLE SIGN-IN PROMPT POPUP (If clicked Google) ── */}
         {showGooglePrompt ? (
           <div 
-            className="w-full relative z-10 p-4 rounded-2xl border border-[#b9e3c6] shadow-xl flex flex-col gap-3 my-2"
+            className="w-full relative z-10 p-4 rounded-2xl border border-[#f8edeb] shadow-xl flex flex-col gap-3 my-2"
             style={{
-              background: 'rgba(185, 227, 198, 0.85)',
+              background: 'rgba(248, 237, 235, 0.85)',
               backdropFilter: 'blur(16px)',
               WebkitBackdropFilter: 'blur(16px)'
             }}
