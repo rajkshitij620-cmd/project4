@@ -32,12 +32,9 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenAuth }) => {
           </div>
         </div>
         <div>
-          <h1 className="font-display text-base font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-white leading-none">
+          <h1 className="font-display text-sm sm:text-base font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-white leading-none whitespace-nowrap">
             DISK SLAM 3D
           </h1>
-          <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-widest">
-            Physics Arena
-          </span>
         </div>
       </div>
 

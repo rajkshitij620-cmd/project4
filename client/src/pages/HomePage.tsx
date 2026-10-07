@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Play, Users, Bot, Layers, Gift, Sparkles, ChevronRight } from 'lucide-react';
+import { Play, Users, Bot, Layers, Gift, ChevronRight } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useGameStore } from '../store/gameStore';
 import { GAME_TABLES } from '@shared/types';
@@ -50,10 +50,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartOffline, onNavigateTa
         <div className="absolute -top-8 -right-8 w-36 h-36 bg-yellow-400/15 rounded-full blur-2xl pointer-events-none" />
         <div className="absolute -bottom-8 -left-8 w-28 h-28 bg-amber-400/20 rounded-full blur-2xl pointer-events-none" />
         <div className="relative z-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow-400/20 border border-yellow-400/40 text-yellow-300 text-xs font-bold tracking-wider mb-3 shadow-sm">
-            <Sparkles size={13} className="text-yellow-400" />
-            <span>3D PHYSICS MULTIPLAYER</span>
-          </div>
           <h2 className="font-display text-3xl font-black text-white tracking-wide leading-tight mb-2">
             SLING, BOUNCE &amp; WIN
           </h2>
@@ -79,17 +75,16 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartOffline, onNavigateTa
             soundEffects.playClick();
             onNavigateTab('friends');
           }}
-          className="p-5 rounded-2xl border border-[#361D2E] cursor-pointer transition-all active:scale-95 flex flex-col justify-between group shadow-lg"
+          className="p-5 rounded-2xl border border-[#361D2E] cursor-pointer transition-all active:scale-95 flex flex-col justify-between group shadow-lg min-h-[140px]"
           style={{ background: '#361D2E' }}
         >
           <div className="w-12 h-12 rounded-xl bg-yellow-400/20 text-yellow-300 flex items-center justify-center mb-4 group-active:scale-110 transition-transform border border-yellow-400/40">
             <Users size={24} />
           </div>
           <div>
-            <h3 className="font-display text-base font-black text-white tracking-wide">
+            <h3 className="font-display text-base font-black text-white tracking-wide leading-tight">
               PLAY WITH FRIEND
             </h3>
-            <p className="text-xs text-amber-100 font-bold mt-0.5">Online Real-time 1v1</p>
           </div>
         </div>
 
@@ -99,17 +94,16 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartOffline, onNavigateTa
             soundEffects.playClick();
             onStartOffline();
           }}
-          className="p-5 rounded-2xl border border-[#361D2E] cursor-pointer transition-all active:scale-95 flex flex-col justify-between group shadow-lg"
+          className="p-5 rounded-2xl border border-[#361D2E] cursor-pointer transition-all active:scale-95 flex flex-col justify-between group shadow-lg min-h-[140px]"
           style={{ background: '#361D2E' }}
         >
           <div className="w-12 h-12 rounded-xl bg-yellow-400/20 text-yellow-300 flex items-center justify-center mb-4 group-active:scale-110 transition-transform border border-yellow-400/40">
             <Bot size={24} />
           </div>
           <div>
-            <h3 className="font-display text-base font-black text-white tracking-wide">
+            <h3 className="font-display text-base font-black text-white tracking-wide leading-tight">
               OFFLINE VS AI
             </h3>
-            <p className="text-xs text-amber-100 font-bold mt-0.5">No Internet Needed</p>
           </div>
         </div>
 
@@ -128,7 +122,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartOffline, onNavigateTa
             </div>
             <div>
               <h4 className="text-sm font-black text-white">ARENA TABLES</h4>
-              <p className="text-xs text-amber-100 font-bold">Classic, Neon, Royal &amp; Cyber Tables</p>
             </div>
           </div>
           <ChevronRight size={18} className="text-yellow-300" />
