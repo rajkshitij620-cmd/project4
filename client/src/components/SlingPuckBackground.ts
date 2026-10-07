@@ -312,8 +312,8 @@ export class SlingPuckBackground {
   }
 
   private buildBoard(): void {
-    const wood = this.track(new THREE.MeshStandardMaterial({ color: 0xd49b55, roughness: 0.55, metalness: 0.02 }));
-    const darkWood = this.track(new THREE.MeshStandardMaterial({ color: 0x8a5420, roughness: 0.5 }));
+    const wood = this.track(new THREE.MeshStandardMaterial({ color: 0xfff1e6, roughness: 0.55, metalness: 0.02 }));
+    const darkWood = this.track(new THREE.MeshStandardMaterial({ color: 0xe8c9aa, roughness: 0.5 }));
     const goldPegMat = this.track(new THREE.MeshStandardMaterial({ color: 0xffd700, roughness: 0.25, metalness: 0.85 }));
 
     // Base slab
@@ -383,9 +383,9 @@ export class SlingPuckBackground {
 
     // Base color gradient
     const g = ctx.createLinearGradient(0, 0, W, H);
-    g.addColorStop(0, '#e2bd85');
-    g.addColorStop(0.5, '#d3a96c');
-    g.addColorStop(1, '#dfb77c');
+    g.addColorStop(0, '#fff1e6');
+    g.addColorStop(0.5, '#f8e0c8');
+    g.addColorStop(1, '#fce8d5');
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
 
@@ -427,7 +427,7 @@ export class SlingPuckBackground {
       ctx.beginPath();
       ctx.ellipse(0, 0, 150, 105, 0, 0, Math.PI * 2);
       ctx.stroke();
-      ctx.fillStyle = '#dec08a';
+      ctx.fillStyle = '#fff1e6';
       ctx.beginPath();
       ctx.ellipse(0, 0, 138, 94, 0, 0, Math.PI * 2);
       ctx.fill();
