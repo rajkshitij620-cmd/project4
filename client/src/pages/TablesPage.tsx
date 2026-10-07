@@ -1,5 +1,5 @@
 import React from 'react';
-import { Lock, Play, Zap, Droplets, Layers } from 'lucide-react';
+import { Lock, Play, Layers } from 'lucide-react';
 import { GAME_TABLES, TableConfig } from '@shared/types';
 import { useAuthStore } from '../store/authStore';
 import { useGameStore } from '../store/gameStore';
@@ -164,17 +164,6 @@ const BoardPreview: React.FC<{ table: TableConfig; size?: number }> = ({ table, 
   );
 };
 
-/* ─── Stat Pill ────────────────────────────────────────────────────────────── */
-const StatPill: React.FC<{ icon: React.ElementType; label: string; value: string; color: string }> = ({
-  icon: Icon, label, value, color
-}) => (
-  <div className="flex items-center gap-1.5">
-    <Icon size={11} style={{ color }} />
-    <span className="text-[10px] text-amber-100 font-semibold">{label}</span>
-    <span className="text-[10px] font-black" style={{ color }}>{value}</span>
-  </div>
-);
-
 /* ─── Main Page ────────────────────────────────────────────────────────────── */
 export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => {
   const { user } = useAuthStore();
@@ -189,9 +178,6 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
           <Layers size={18} className="text-cyan-400" />
           ARENA TABLES
         </h2>
-        <p className="text-xs text-slate-400 mt-0.5">
-          Swipe left/right · Each arena has unique physics, board colours &amp; lighting
-        </p>
       </div>
 
       {/* Horizontal snap-scroll carousel */}
@@ -242,13 +228,10 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
               <div className="flex flex-col gap-3 px-4 pt-3 pb-4 relative z-10">
 
                 {/* Name + Entry Fee */}
-                <div className="flex items-start justify-between">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: table.borderColor }} />
-                      <h3 className="font-display text-base font-black text-white">{table.name}</h3>
-                    </div>
-                    <p className="text-xs text-amber-100 font-semibold mt-0.5 leading-snug">{table.tagline}</p>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: table.borderColor }} />
+                    <h3 className="font-display text-base font-black text-white">{table.name}</h3>
                   </div>
                   <div className="text-right flex-shrink-0 ml-2">
                     <span className="text-[9px] text-yellow-300 font-bold uppercase tracking-wider block">Entry</span>
@@ -258,25 +241,6 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
                       {table.entryFee === 0 ? '🆓 FREE' : `🪙 ${table.entryFee.toLocaleString()}`}
                     </span>
                   </div>
-                </div>
-
-                {/* Physics stats */}
-                <div
-                  className="rounded-xl border border-yellow-400/20 px-3 py-2 flex flex-col gap-1.5"
-                  style={{ background: '#2d1626' }}
-                >
-                  <StatPill
-                    icon={Droplets}
-                    label="Surface Glide:"
-                    value={table.friction <= 0.06 ? 'Ultra Smooth ⚡' : table.friction <= 0.08 ? 'Very Slick' : 'Standard Felt'}
-                    color={table.borderColor}
-                  />
-                  <StatPill
-                    icon={Zap}
-                    label="Cushion Bounce:"
-                    value={`${Math.round(table.restitution * 100)}%`}
-                    color={table.borderColor}
-                  />
                 </div>
 
                 {/* CTA Button */}
