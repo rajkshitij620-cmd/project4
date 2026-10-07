@@ -185,8 +185,8 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
     {
       id: 'EASY',
       name: 'Easy',
-      desc: 'Casual & Beginner Friendly',
-      detail: 'Bot makes wider angle errors, shoots with less power and accuracy.',
+      desc: 'Casual & Relaxed Pacing',
+      detail: 'Bot shoots slowly (~3.5s delay), makes wide angle misses with gentle power. Perfect for practice!',
       icon: Shield,
       color: 'text-emerald-700',
       bg: 'bg-emerald-100',
@@ -196,8 +196,8 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
     {
       id: 'MEDIUM',
       name: 'Medium',
-      desc: 'Balanced & Tactical',
-      detail: 'Bot aims with moderate precision, mixes power shots with strategic angles.',
+      desc: 'Realistic Human Speed',
+      detail: 'Bot shoots at a balanced pace (~2.2s delay) with moderate accuracy and tactical power.',
       icon: Zap,
       color: 'text-amber-700',
       bg: 'bg-amber-100',
@@ -207,8 +207,8 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
     {
       id: 'HARD',
       name: 'Hard',
-      desc: 'Precise & Aggressive',
-      detail: 'Bot shoots with near-perfect accuracy and high power. Good luck!',
+      desc: 'Fast & Competitive',
+      detail: 'Bot shoots rapidly (~1.4s delay) with sharp aim right through the center gate slot.',
       icon: Flame,
       color: 'text-rose-700',
       bg: 'bg-rose-100',

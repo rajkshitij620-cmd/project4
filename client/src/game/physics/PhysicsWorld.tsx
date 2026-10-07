@@ -141,8 +141,8 @@ export const PhysicsWorld: React.FC<PhysicsWorldProps> = ({
     }
   }, [pendingExternalShot, onClearExternalShot]);
 
-  // Player (playerA) can interact when game is in PLAYING phase and not simulating
-  const playerCanInteract = isMyTurn && !isSimulating;
+  // In Sling Puck, play is simultaneous and continuous — player can interact throughout
+  const playerCanInteract = isMyTurn;
   const currentPlayerColor = currentTurn === 'playerA' ? playerAColor : playerBColor;
 
   return (

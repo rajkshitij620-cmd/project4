@@ -123,7 +123,17 @@ console.log('--- RUNNING DISK SLAM 3D VALIDATION SUITE ---');
   assert.ok(shotHard.power >= 0.25 && shotHard.power <= 1.0);
   assert.ok(Number.isFinite(shotHard.dirX) && Number.isFinite(shotHard.dirZ));
   assert.ok(shotHard.targetPieceId, 'Hard AI should target a specific candidate piece');
-  console.log(`✓ Physics-aware AI passed: Strategy '${shotHard.strategy}', power ${shotHard.power.toFixed(2)}`);
+
+  // Verify Mode-Wise Shot Delays (Easy is relaxed, Hard is fast)
+  const delayEasy = DiskSlamAI.getNextShotDelay('EASY');
+  const delayMedium = DiskSlamAI.getNextShotDelay('MEDIUM');
+  const delayHard = DiskSlamAI.getNextShotDelay('HARD');
+  assert.ok(delayEasy >= 3000, 'Easy shot delay must be relaxed (>= 3000ms)');
+  assert.ok(delayMedium >= 1800 && delayMedium <= 3000, 'Medium shot delay must be balanced (~2000-2700ms)');
+  assert.ok(delayHard >= 1100 && delayHard <= 1800, 'Hard shot delay must be fast (~1200-1600ms)');
+  assert.ok(delayEasy > delayHard, 'Easy AI must wait noticeably longer between shots than Hard AI');
+
+  console.log(`✓ Physics-aware AI passed: Strategy '${shotHard.strategy}', power ${shotHard.power.toFixed(2)}, delays: Easy ~${Math.round(delayEasy)}ms, Med ~${Math.round(delayMedium)}ms, Hard ~${Math.round(delayHard)}ms`);
 }
 
 // 6. TEST: Arena Tables Configuration

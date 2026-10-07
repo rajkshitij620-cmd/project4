@@ -59,6 +59,15 @@ interface GameStoreState {
   resetGame: () => void;
 }
 
+let aiTimer: ReturnType<typeof setTimeout> | null = null;
+
+function clearAITimer() {
+  if (aiTimer) {
+    clearTimeout(aiTimer);
+    aiTimer = null;
+  }
+}
+
 export const useGameStore = create<GameStoreState>((set, get) => ({
   mode: 'OFFLINE',
   phase: 'LOBBY',
@@ -97,6 +106,8 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   clearPendingExternalShot: () => set({ pendingExternalShot: null }),
 
   startOfflineMatch: (selectedTable, selectedDiff) => {
+    clearAITimer();
+
     const table = selectedTable || get().table;
     const diff = selectedDiff || get().aiDifficulty;
 
@@ -137,6 +148,12 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     });
 
     soundEffects.playTurnNotification(true);
+
+    // Schedule AI's initial shot with mode-wise comfortable delay
+    const initialDelay = DiskSlamAI.getInitialDelay(diff);
+    aiTimer = setTimeout(() => {
+      get().triggerAITurn();
+    }, initialDelay);
   },
 
   startOnlineMatch: (roomData) => {
@@ -200,6 +217,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
 
     const winEval = GameRulesEngine.evaluateWinCondition(updatedPieces);
     if (winEval.isGameOver && winEval.winner) {
+      clearAITimer();
       const duration = Math.round((Date.now() - matchStats.startTime) / 1000);
       set({
         phase: 'GAME_OVER',
@@ -222,6 +240,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
 
     const winEval = GameRulesEngine.evaluateWinCondition(state.pieces);
     if (winEval.isGameOver && winEval.winner) {
+      clearAITimer();
       const duration = Math.round((Date.now() - state.matchStats.startTime) / 1000);
       set({
         phase: 'GAME_OVER',
@@ -236,27 +255,29 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       return;
     }
 
-    // REAL SLING PUCK: No turn alternation — both players shoot simultaneously.
-    // After physics settles, immediately allow playerA to shoot again.
+    // REAL SLING PUCK: play is continuous — allow playerA to shoot without restriction
     set({ phase: 'PLAYING', currentTurn: 'playerA' });
     soundEffects.playTurnNotification(true);
-
-    // AI (Player B) also takes its next shot quickly after settle
-    if (state.mode === 'OFFLINE') {
-      setTimeout(() => {
-        get().triggerAITurn();
-      }, 550);
-    }
   },
 
   triggerAITurn: () => {
     const state = get();
-    // AI can act whenever game is PLAYING (not necessarily its "turn")
-    if (state.mode !== 'OFFLINE' || state.phase !== 'PLAYING') {
+    // Only fire if game is active in OFFLINE mode
+    if (state.mode !== 'OFFLINE' || state.phase === 'GAME_OVER' || state.phase === 'LOBBY') {
+      clearAITimer();
       return;
     }
 
-    // AI picks a puck on its own side (Z < 0) and slings it toward center gate
+    // AI checks its own remaining pucks on North side (Z < 0.2)
+    const myPucks = state.pieces.filter(
+      (p) => p.owner === 'playerB' && !p.isPocketed && p.z < 0.2
+    );
+    if (myPucks.length === 0) {
+      clearAITimer();
+      return;
+    }
+
+    // AI calculates shot with difficulty-based precision, power, and aim
     const strikerPos = { x: 0, z: -3.4 };
     const shot = DiskSlamAI.calculateShot(
       strikerPos,
@@ -265,14 +286,28 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       state.aiDifficulty,
     );
 
-    set({
-      phase: 'SIMULATING',
-      pendingExternalShot: { dirX: shot.dirX, dirZ: shot.dirZ, power: shot.power, targetPieceId: shot.targetPieceId },
-      matchStats: { ...state.matchStats, shotsB: state.matchStats.shotsB + 1 },
-    });
+    if (shot.targetPieceId) {
+      set({
+        pendingExternalShot: {
+          dirX: shot.dirX,
+          dirZ: shot.dirZ,
+          power: shot.power,
+          targetPieceId: shot.targetPieceId,
+        },
+        matchStats: { ...state.matchStats, shotsB: state.matchStats.shotsB + 1 },
+      });
+    }
+
+    // Schedule next AI shot based on difficulty (Easy: ~3.5s, Medium: ~2.3s, Hard: ~1.4s)
+    clearAITimer();
+    const nextDelay = DiskSlamAI.getNextShotDelay(state.aiDifficulty);
+    aiTimer = setTimeout(() => {
+      get().triggerAITurn();
+    }, nextDelay);
   },
 
   resetGame: () => {
+    clearAITimer();
     set({
       phase: 'LOBBY',
       winner: null,

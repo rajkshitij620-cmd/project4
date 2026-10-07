@@ -127,6 +127,10 @@ export const Piece: React.FC<PieceProps> = ({
     e.stopPropagation();
     if (!isPlayerOwned || !canInteract || !rigidBodyRef.current || piece.isPocketed) return;
 
+    const pos = rigidBodyRef.current.translation();
+    // Only allow slinging pucks located on player's side of the court
+    if (pos.z < -0.2) return;
+
     isDraggingRef.current = true;
     setIsBeingDragged(true);
     // Freeze puck in place while aiming
@@ -134,7 +138,6 @@ export const Piece: React.FC<PieceProps> = ({
       rigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
       rigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
     } catch {}
-    const pos = rigidBodyRef.current.translation();
     dragOriginRef.current.set(pos.x, pos.y, pos.z);
     currentDragRef.current.copy(dragOriginRef.current);
     soundEffects.playClick();

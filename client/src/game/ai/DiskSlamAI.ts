@@ -56,24 +56,24 @@ export class DiskSlamAI {
 
     switch (difficulty) {
       case 'EASY':
-        // Wide random misses — sometimes doesn't even aim through gate
-        angleErrorRad = (Math.random() - 0.5) * 0.55; // ±16°
-        powerBase = 0.45 + Math.random() * 0.35;
-        powerVariance = 0.75 + Math.random() * 0.35;
+        // Casual, slow, beginner-friendly: wide misses, gentle power
+        angleErrorRad = (Math.random() - 0.5) * 0.68; // ±19.5°
+        powerBase = 0.40 + Math.random() * 0.16;      // 0.40 - 0.56
+        powerVariance = 0.85 + Math.random() * 0.20;
         break;
 
       case 'MEDIUM':
-        // Moderate accuracy — usually through gate, varying power
-        angleErrorRad = (Math.random() - 0.5) * 0.16; // ±5°
-        powerBase = 0.65 + Math.random() * 0.25;
-        powerVariance = 0.90 + Math.random() * 0.18;
+        // Balanced, realistic human speed: good accuracy with occasional misses
+        angleErrorRad = (Math.random() - 0.5) * 0.18; // ±5.1°
+        powerBase = 0.65 + Math.random() * 0.18;      // 0.65 - 0.83
+        powerVariance = 0.90 + Math.random() * 0.15;
         break;
 
       case 'HARD':
-        // Near-surgical precision through the gate slot
-        angleErrorRad = (Math.random() - 0.5) * 0.03; // ±1°
-        powerBase = 0.82 + Math.random() * 0.18;
-        powerVariance = 0.97 + Math.random() * 0.05;
+        // Fast, tournament precision: near-perfect aim through gate slot
+        angleErrorRad = (Math.random() - 0.5) * 0.04; // ±1.1°
+        powerBase = 0.85 + Math.random() * 0.15;      // 0.85 - 1.00
+        powerVariance = 0.98 + Math.random() * 0.04;
         break;
     }
 
@@ -93,17 +93,17 @@ export class DiskSlamAI {
     }
 
     // ── Aim through the gate ──────────────────────────────────────────────
-    // Gate target: aim at a random point inside the gate opening (X from -GATE_X_HALF to +GATE_X_HALF)
+    // Gate target: aim at a point inside the gate opening (X from -GATE_X_HALF to +GATE_X_HALF)
     let gateTargetX: number;
     if (difficulty === 'HARD') {
-      // Hard: aim at center of gate with slight random offset
-      gateTargetX = (Math.random() - 0.5) * GATE_X_HALF * 0.6;
+      // Hard: aim at center of gate with slight variance
+      gateTargetX = (Math.random() - 0.5) * GATE_X_HALF * 0.55;
     } else if (difficulty === 'MEDIUM') {
-      // Medium: aim within 70% of gate opening
-      gateTargetX = (Math.random() - 0.5) * GATE_X_HALF * 1.3;
+      // Medium: aim generally within the gate opening
+      gateTargetX = (Math.random() - 0.5) * GATE_X_HALF * 1.15;
     } else {
-      // Easy: aim anywhere (might miss the gate)
-      gateTargetX = (Math.random() - 0.5) * GATE_X_HALF * 2.8;
+      // Easy: wide aim, often hitting the solid divider wall next to the gate
+      gateTargetX = (Math.random() - 0.5) * GATE_X_HALF * 3.0;
     }
 
     // Direction vector from target puck to gate target point
@@ -129,7 +129,7 @@ export class DiskSlamAI {
 
     // Power scales with distance to gate (farther pucks need more force)
     const distanceFactor = Math.min(distToGate / 4.0, 1.0);
-    const finalPower = Math.min(Math.max(powerBase * powerVariance * (0.7 + distanceFactor * 0.45), 0.2), 1.0);
+    const finalPower = Math.min(Math.max(powerBase * powerVariance * (0.7 + distanceFactor * 0.45), 0.28), 1.0);
 
     return {
       dirX,
@@ -138,6 +138,43 @@ export class DiskSlamAI {
       targetPieceId: targetPuck.id,
       strategy: 'THROUGH_GATE',
     };
+  }
+
+  /**
+   * Time in milliseconds the AI waits before taking its NEXT shot.
+   * Mode-wise pacing:
+   * - EASY:   3200ms - 4400ms (slow, casual, gives player plenty of time)
+   * - MEDIUM: 2000ms - 2700ms (balanced, natural human reaction)
+   * - HARD:   1200ms - 1600ms (fast, competitive, challenging)
+   */
+  public static getNextShotDelay(difficulty: AIDifficulty): number {
+    switch (difficulty) {
+      case 'EASY':
+        return 3200 + Math.random() * 1200;
+      case 'MEDIUM':
+        return 2000 + Math.random() * 700;
+      case 'HARD':
+        return 1200 + Math.random() * 400;
+      default:
+        return 2200;
+    }
+  }
+
+  /**
+   * Initial delay in milliseconds when match starts before AI shoots.
+   * Gives the human player comfortable preparation time.
+   */
+  public static getInitialDelay(difficulty: AIDifficulty): number {
+    switch (difficulty) {
+      case 'EASY':
+        return 3000 + Math.random() * 800; // ~3.4s
+      case 'MEDIUM':
+        return 1800 + Math.random() * 500; // ~2.0s
+      case 'HARD':
+        return 1000 + Math.random() * 300; // ~1.1s
+      default:
+        return 2000;
+    }
   }
 
   /**
