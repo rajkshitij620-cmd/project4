@@ -1,0 +1,29 @@
+{
+  "name": "disk-slam-3d-multiplayer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "3D Multiplayer Physics Board Game",
+  "scripts": {
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"blue.bold,cyan.bold\" \"npm run dev:server\" \"npm run dev:client\"",
+    "start": "concurrently -n \"SERVER,CLIENT\" -c \"blue.bold,cyan.bold\" \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
+    "test": "./server/node_modules/.bin/tsx test/game-validation.test.ts"
+  },
+  "keywords": [
+    "game",
+    "threejs",
+    "rapier",
+    "multiplayer",
+    "socket.io",
+    "react"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
