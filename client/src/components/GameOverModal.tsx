@@ -47,9 +47,9 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
   return (
     <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 select-none">
       <div 
-        className="border border-[#f8edeb] rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl relative overflow-hidden animate-in fade-in zoom-in duration-300"
+        className="border border-[#361D2E] rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl relative overflow-hidden animate-in fade-in zoom-in duration-300"
         style={{
-          background: 'rgba(248, 237, 235, 0.70)',
+          background: 'rgba(54, 29, 46, 0.70)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)'
         }}
@@ -66,7 +66,7 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
           <div
             className={`w-20 h-20 rounded-2xl flex items-center justify-center border-2 shadow-xl ${
               isWinner
-                ? 'bg-gradient-to-tr from-rose-400 to-amber-300 border-[#f8edeb] text-slate-950 shadow-rose-500/30'
+                ? 'bg-gradient-to-tr from-rose-400 to-amber-300 border-[#361D2E] text-slate-950 shadow-rose-500/30'
                 : 'bg-gradient-to-tr from-slate-300 to-slate-200 border-slate-400 text-slate-800'
             }`}
           >
@@ -75,10 +75,10 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
         </div>
 
         {/* Title */}
-        <h2 className="font-display text-3xl font-black uppercase tracking-wider mb-1 text-slate-950">
+        <h2 className="font-display text-3xl font-black uppercase tracking-wider mb-1 text-white">
           {isWinner ? 'VICTORY!' : 'DEFEAT'}
         </h2>
-        <p className="text-sm font-semibold text-slate-700 mb-6">
+        <p className="text-sm font-semibold text-slate-200 mb-6">
           {isWinner
             ? `You cleared all your pieces into ${loserPlayer.name}'s goal!`
             : `${winnerPlayer.name} pocketed all pieces first.`}
@@ -86,8 +86,8 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
 
         {/* Coin Reward Banner */}
         {rewardCoins > 0 && (
-          <div className="mb-6 py-2.5 px-4 rounded-xl bg-rose-100/80 border border-rose-300 flex items-center justify-center gap-2 text-rose-950 font-black text-base shadow-sm">
-            <Coins size={18} className="text-amber-700" />
+          <div className="mb-6 py-2.5 px-4 rounded-xl bg-[#361D2E]/80 border border-[#361D2E] flex items-center justify-center gap-2 text-amber-300 font-black text-base shadow-sm">
+            <Coins size={18} className="text-amber-400" />
             <span>+{rewardCoins} Coins Earned!</span>
           </div>
         )}
@@ -95,63 +95,63 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-3 mb-8">
           <div 
-            className="border border-[#f8edeb]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            className="border border-[#361D2E]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(248, 237, 235, 0.50)',
+              background: 'rgba(54, 29, 46, 0.50)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}
           >
-            <div className="flex items-center gap-1.5 text-xs text-slate-600 font-bold mb-1">
-              <Crosshair size={13} className="text-blue-700" />
+            <div className="flex items-center gap-1.5 text-xs text-slate-300 font-bold mb-1">
+              <Crosshair size={13} className="text-cyan-400" />
               <span>Pieces Pocketed</span>
             </div>
-            <span className="text-lg font-black text-slate-950">{pocketedCount} / 4</span>
+            <span className="text-lg font-black text-white">{pocketedCount} / 4</span>
           </div>
 
           <div 
-            className="border border-[#f8edeb]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            className="border border-[#361D2E]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(248, 237, 235, 0.50)',
+              background: 'rgba(54, 29, 46, 0.50)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}
           >
-            <div className="flex items-center gap-1.5 text-xs text-slate-600 font-bold mb-1">
-              <Award size={13} className="text-rose-700" />
+            <div className="flex items-center gap-1.5 text-xs text-slate-300 font-bold mb-1">
+              <Award size={13} className="text-rose-400" />
               <span>Accuracy</span>
             </div>
-            <span className="text-lg font-black text-slate-950">{accuracy}%</span>
+            <span className="text-lg font-black text-white">{accuracy}%</span>
           </div>
 
           <div 
-            className="border border-[#f8edeb]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            className="border border-[#361D2E]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(248, 237, 235, 0.50)',
+              background: 'rgba(54, 29, 46, 0.50)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}
           >
-            <div className="flex items-center gap-1.5 text-xs text-slate-600 font-bold mb-1">
-              <Trophy size={13} className="text-purple-700" />
+            <div className="flex items-center gap-1.5 text-xs text-slate-300 font-bold mb-1">
+              <Trophy size={13} className="text-amber-400" />
               <span>Total Shots</span>
             </div>
-            <span className="text-lg font-black text-slate-950">{shotsCount}</span>
+            <span className="text-lg font-black text-white">{shotsCount}</span>
           </div>
 
           <div 
-            className="border border-[#f8edeb]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            className="border border-[#361D2E]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(248, 237, 235, 0.50)',
+              background: 'rgba(54, 29, 46, 0.50)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}
           >
-            <div className="flex items-center gap-1.5 text-xs text-slate-600 font-bold mb-1">
-              <Clock size={13} className="text-emerald-700" />
+            <div className="flex items-center gap-1.5 text-xs text-slate-300 font-bold mb-1">
+              <Clock size={13} className="text-emerald-400" />
               <span>Duration</span>
             </div>
-            <span className="text-lg font-black text-slate-950">{matchStats.durationSeconds}s</span>
+            <span className="text-lg font-black text-white">{matchStats.durationSeconds}s</span>
           </div>
         </div>
 

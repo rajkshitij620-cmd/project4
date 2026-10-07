@@ -27,21 +27,21 @@ export const IncomingInviteModal: React.FC = () => {
   return (
     <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 select-none">
       <div 
-        className="border border-[#f8edeb] rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl shadow-rose-400/20 animate-in fade-in zoom-in duration-200"
+        className="border border-[#361D2E] rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl shadow-rose-950/40 animate-in fade-in zoom-in duration-200"
         style={{
-          background: 'rgba(248, 237, 235, 0.70)',
+          background: 'rgba(54, 29, 46, 0.70)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)'
         }}
       >
-        <div className="w-16 h-16 rounded-2xl bg-rose-100/80 border border-[#f8edeb] text-rose-950 mx-auto flex items-center justify-center mb-4 shadow-sm">
+        <div className="w-16 h-16 rounded-2xl bg-[#361D2E]/80 border border-[#361D2E] text-rose-300 mx-auto flex items-center justify-center mb-4 shadow-sm">
           <Gamepad2 size={32} />
         </div>
 
-        <h3 className="font-display text-xl font-black text-slate-950 mb-1">GAME INVITATION</h3>
-        <p className="text-xs text-slate-700 font-medium mb-4">
-          <span className="font-black text-blue-700">{incomingInvite.fromUsername}</span> invited you to a match in{' '}
-          <span className="font-black text-rose-950">{table.name}</span>!
+        <h3 className="font-display text-xl font-black text-white mb-1">GAME INVITATION</h3>
+        <p className="text-xs text-slate-200 font-medium mb-4">
+          <span className="font-black text-cyan-400">{incomingInvite.fromUsername}</span> invited you to a match in{' '}
+          <span className="font-black text-rose-300">{table.name}</span>!
         </p>
 
         <div className="flex gap-3">

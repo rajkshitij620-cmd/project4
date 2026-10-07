@@ -210,7 +210,7 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
               }`}
               style={{
                 borderColor: isLocked ? 'rgba(200,190,190,0.5)' : table.borderColor + 'aa',
-                background: 'rgba(248, 237, 235, 0.42)',
+                background: 'rgba(54, 29, 46, 0.42)',
                 backdropFilter: 'blur(14px)',
                 WebkitBackdropFilter: 'blur(14px)',
               }}
@@ -248,14 +248,14 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: table.borderColor }} />
-                      <h3 className="font-display text-base font-black text-slate-950">{table.name}</h3>
+                      <h3 className="font-display text-base font-black text-white">{table.name}</h3>
                     </div>
-                    <p className="text-[11px] text-slate-600 font-semibold mt-0.5 leading-snug">{table.tagline}</p>
+                    <p className="text-[11px] text-slate-300 font-semibold mt-0.5 leading-snug">{table.tagline}</p>
                   </div>
                   <div className="text-right flex-shrink-0 ml-2">
-                    <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider block">Entry</span>
+                    <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Entry</span>
                     <span
-                      className={`text-sm font-black ${table.entryFee === 0 ? 'text-emerald-700' : 'text-rose-800'}`}
+                      className={`text-sm font-black ${table.entryFee === 0 ? 'text-emerald-400' : 'text-amber-300'}`}
                     >
                       {table.entryFee === 0 ? '🆓 FREE' : `🪙 ${table.entryFee.toLocaleString()}`}
                     </span>
@@ -264,8 +264,8 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
 
                 {/* Physics stats */}
                 <div
-                  className="rounded-xl border border-[#f8edeb]/60 px-3 py-2 flex flex-col gap-1.5"
-                  style={{ background: 'rgba(248,237,235,0.35)', backdropFilter: 'blur(6px)' }}
+                  className="rounded-xl border border-[#361D2E]/60 px-3 py-2 flex flex-col gap-1.5"
+                  style={{ background: 'rgba(54, 29, 46, 0.35)', backdropFilter: 'blur(6px)' }}
                 >
                   <StatPill
                     icon={Droplets}

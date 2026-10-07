@@ -66,9 +66,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 select-none overflow-y-auto">
       {/* Vertical Mobile Game Card */}
       <div 
-        className="relative w-full max-w-sm border border-[#f8edeb]/80 rounded-3xl p-5 shadow-2xl flex flex-col justify-between items-center min-h-[580px] overflow-hidden"
+        className="relative w-full max-w-sm border border-[#361D2E]/80 rounded-3xl p-5 shadow-2xl flex flex-col justify-between items-center min-h-[580px] overflow-hidden"
         style={{
-          background: 'rgba(248, 237, 235, 0.70)',
+          background: 'rgba(54, 29, 46, 0.70)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)'
         }}
@@ -79,7 +79,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <div 
             className="w-full h-full"
             style={{
-              background: 'radial-gradient(circle at 50% 25%, rgba(248, 237, 235, 0.5) 0%, rgba(240, 210, 210, 0.2) 45%, transparent 75%)'
+              background: 'radial-gradient(circle at 50% 25%, rgba(54, 29, 46, 0.5) 0%, rgba(80, 40, 70, 0.2) 45%, transparent 75%)'
             }}
           />
         </div>
@@ -90,7 +90,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             soundEffects.playClick();
             onClose();
           }}
-          className="absolute top-4 right-4 z-20 p-2 rounded-xl bg-rose-100/70 border border-[#f8edeb] text-slate-800 hover:text-black active:scale-90 transition-all"
+          className="absolute top-4 right-4 z-20 p-2 rounded-xl bg-[#361D2E]/80 border border-[#361D2E] text-rose-200 hover:text-white active:scale-90 transition-all"
           title="Close"
         >
           <X size={18} />
@@ -109,42 +109,42 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           </div>
 
           {/* Game Title with 3D Fiery Style */}
-          <h1 className="font-display text-3xl font-black tracking-wider text-slate-950 drop-shadow-sm leading-none">
+          <h1 className="font-display text-3xl font-black tracking-wider text-white drop-shadow-sm leading-none">
             DISK SLAM 3D
           </h1>
-          <p className="text-[10px] font-bold tracking-widest text-rose-950 uppercase mt-1">
+          <p className="text-[10px] font-bold tracking-widest text-rose-300 uppercase mt-1">
             MULTIPLAYER ARENA
           </p>
         </div>
 
         {/* ── MIDDLE SECTION: 8-BALL POOL STYLE REWARD CARD ── */}
         <div 
-          className="w-full relative z-10 my-4 p-4 rounded-2xl border border-[#f8edeb]/80 shadow-md flex flex-col items-center text-center"
+          className="w-full relative z-10 my-4 p-4 rounded-2xl border border-[#361D2E]/80 shadow-md flex flex-col items-center text-center"
           style={{
-            background: 'rgba(248, 237, 235, 0.55)',
+            background: 'rgba(54, 29, 46, 0.55)',
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)'
           }}
         >
           {/* Floating gifts & rewards illustrations */}
           <div className="flex items-center justify-center gap-6 mb-2">
-            <div className="p-2.5 rounded-2xl bg-rose-100/80 border border-rose-300 text-rose-900 shadow-md animate-bounce">
+            <div className="p-2.5 rounded-2xl bg-rose-900/60 border border-rose-700/60 text-rose-200 shadow-md animate-bounce">
               <Gift size={26} />
             </div>
-            <div className="p-2.5 rounded-2xl bg-amber-100/80 border border-amber-300 text-amber-800 shadow-md">
+            <div className="p-2.5 rounded-2xl bg-amber-900/60 border border-amber-700/60 text-amber-300 shadow-md">
               <Coins size={26} />
             </div>
           </div>
 
-          <h2 className="font-display text-lg font-black text-slate-950 tracking-wide leading-tight">
+          <h2 className="font-display text-lg font-black text-white tracking-wide leading-tight">
             Play with your friends!
           </h2>
-          <p className="text-xs text-slate-700 font-semibold mt-0.5">
-            Claim <span className="text-rose-900 font-black">1,000 FREE coins</span> &amp; online rewards!
+          <p className="text-xs text-slate-200 font-semibold mt-0.5">
+            Claim <span className="text-amber-400 font-black">1,000 FREE coins</span> &amp; online rewards!
           </p>
 
-          <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100/70 border border-rose-300 text-[10px] font-black text-rose-950">
-            <Sparkles size={12} className="text-rose-700" />
+          <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#361D2E]/80 border border-rose-900/60 text-[10px] font-black text-rose-200">
+            <Sparkles size={12} className="text-rose-400" />
             <span>REAL-TIME 1v1 MATCHMAKING</span>
           </div>
         </div>
@@ -159,15 +159,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         {/* ── GOOGLE SIGN-IN PROMPT POPUP (If clicked Google) ── */}
         {showGooglePrompt ? (
           <div 
-            className="w-full relative z-10 p-4 rounded-2xl border border-[#f8edeb] shadow-xl flex flex-col gap-3 my-2"
+            className="w-full relative z-10 p-4 rounded-2xl border border-[#361D2E] shadow-xl flex flex-col gap-3 my-2"
             style={{
-              background: 'rgba(248, 237, 235, 0.85)',
+              background: 'rgba(54, 29, 46, 0.85)',
               backdropFilter: 'blur(16px)',
               WebkitBackdropFilter: 'blur(16px)'
             }}
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-black text-slate-900 flex items-center gap-1.5">
+              <span className="text-xs font-black text-white flex items-center gap-1.5">
                 <svg className="w-4 h-4" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                   <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -179,7 +179,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
               <button
                 type="button"
                 onClick={() => setShowGooglePrompt(false)}
-                className="text-slate-600 hover:text-black text-xs font-bold"
+                className="text-slate-300 hover:text-white text-xs font-bold"
               >
                 Cancel
               </button>
@@ -252,9 +252,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
 
         {/* ── BOTTOM DISCLAIMER (MATCHING 8-BALL POOL DISCLAIMER) ── */}
         <div className="w-full mt-4 text-center relative z-10 px-1">
-          <p className="text-[10px] text-slate-700 font-medium leading-relaxed">
+          <p className="text-[10px] text-slate-300 font-medium leading-relaxed">
             Guest users have progress stored locally and you can lose it if the game is cleared.
-            You can use <span className="text-amber-800 font-bold">Google login</span> to prevent this.
+            You can use <span className="text-amber-400 font-bold">Google login</span> to prevent this.
           </p>
         </div>
 

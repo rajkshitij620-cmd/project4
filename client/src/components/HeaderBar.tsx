@@ -57,14 +57,14 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenAuth }) => {
 
         {/* Coins Badge */}
         <div 
-          className="flex items-center gap-1 px-2.5 py-1 rounded-xl border border-[#f8edeb] text-rose-950 font-black text-xs shadow-sm"
+          className="flex items-center gap-1 px-2.5 py-1 rounded-xl border border-[#361D2E] text-amber-300 font-black text-xs shadow-sm"
           style={{
-            background: 'rgba(248, 237, 235, 0.70)',
+            background: 'rgba(54, 29, 46, 0.70)',
             backdropFilter: 'blur(10px)',
             WebkitBackdropFilter: 'blur(10px)'
           }}
         >
-          <Coins size={14} className="text-amber-700" />
+          <Coins size={14} className="text-amber-400" />
           <span>{user?.coins.toLocaleString() || '1,000'}</span>
         </div>
 
@@ -72,28 +72,28 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenAuth }) => {
         {user && (
           <div
             onClick={isGuest ? onOpenAuth : undefined}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border border-[#f8edeb] shadow-sm ${
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border border-[#361D2E] shadow-sm ${
               isGuest ? 'cursor-pointer active:scale-95' : ''
             }`}
             style={{
-              background: 'rgba(248, 237, 235, 0.70)',
+              background: 'rgba(54, 29, 46, 0.70)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}
           >
             <div className="text-base">{user.avatar}</div>
             <div className="flex flex-col text-left">
-              <span className="text-[11px] font-black text-slate-950 leading-tight">
+              <span className="text-[11px] font-black text-white leading-tight">
                 {user.username.length > 8 ? user.username.slice(0, 8) + '…' : user.username}
               </span>
-              <div className="flex items-center gap-1 text-[10px] text-amber-900 font-mono font-bold">
+              <div className="flex items-center gap-1 text-[10px] text-amber-300 font-mono font-bold">
                 <span>{user.playerId}</span>
                 <button
                   onClick={handleCopyId}
-                  className="active:scale-90 transition-transform text-slate-700 hover:text-black"
+                  className="active:scale-90 transition-transform text-slate-300 hover:text-white"
                   title="Copy Player ID"
                 >
-                  {copied ? <Check size={10} className="text-emerald-700" /> : <Copy size={10} />}
+                  {copied ? <Check size={10} className="text-emerald-400" /> : <Copy size={10} />}
                 </button>
               </div>
             </div>

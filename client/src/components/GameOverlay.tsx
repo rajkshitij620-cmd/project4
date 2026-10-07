@@ -52,9 +52,9 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
 
           {/* Players HUD */}
           <div 
-            className="flex items-center gap-3 border border-[#f8edeb]/90 px-4 py-2 rounded-2xl shadow-xl"
+            className="flex items-center gap-3 border border-[#361D2E]/90 px-4 py-2 rounded-2xl shadow-xl"
             style={{
-              background: 'rgba(248, 237, 235, 0.75)',
+              background: 'rgba(54, 29, 46, 0.75)',
               backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)'
             }}
@@ -65,40 +65,40 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
                 className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md border-2"
                 style={{
                   backgroundColor: colorDefA?.hex || '#2563eb',
-                  borderColor: currentTurn === 'playerA' ? '#000000' : 'transparent'
+                  borderColor: currentTurn === 'playerA' ? '#ffffff' : 'transparent'
                 }}
               >
                 {playerA.avatar}
               </div>
               <div className="flex flex-col text-left">
-                <span className="text-xs font-black text-slate-950">{playerA.name}</span>
+                <span className="text-xs font-black text-white">{playerA.name}</span>
                 <div className="flex items-center gap-1">
-                  <Target size={11} className="text-slate-600" />
-                  <span className="text-[11px] font-black text-blue-700">
+                  <Target size={11} className="text-slate-300" />
+                  <span className="text-[11px] font-black text-cyan-400">
                     {remainingA} left
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="text-xs font-black text-rose-950 tracking-widest px-1">VS</div>
+            <div className="text-xs font-black text-rose-300 tracking-widest px-1">VS</div>
 
             {/* Player B (Opponent / Bot) */}
             <div className="flex items-center gap-2">
               <div className="flex flex-col text-right">
-                <span className="text-xs font-black text-slate-950">{playerB.name}</span>
+                <span className="text-xs font-black text-white">{playerB.name}</span>
                 <div className="flex items-center justify-end gap-1">
-                  <span className="text-[11px] font-black text-red-700">
+                  <span className="text-[11px] font-black text-red-400">
                     {remainingB} left
                   </span>
-                  <Target size={11} className="text-slate-600" />
+                  <Target size={11} className="text-slate-300" />
                 </div>
               </div>
               <div
                 className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md border-2"
                 style={{
                   backgroundColor: colorDefB?.hex || '#dc2626',
-                  borderColor: currentTurn === 'playerB' ? '#000000' : 'transparent'
+                  borderColor: currentTurn === 'playerB' ? '#ffffff' : 'transparent'
                 }}
               >
                 {playerB.avatar}
@@ -108,9 +108,9 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
 
           {/* Table pill */}
           <div 
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#f8edeb] text-xs font-black text-slate-950 shadow-sm"
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#361D2E] text-xs font-black text-white shadow-sm"
             style={{
-              background: 'rgba(248, 237, 235, 0.75)',
+              background: 'rgba(54, 29, 46, 0.75)',
               backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)'
             }}
@@ -149,15 +149,15 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
       {showExitConfirm && (
         <div className="fixed inset-0 pointer-events-auto bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div 
-            className="border border-[#f8edeb] rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl"
+            className="border border-[#361D2E] rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl"
             style={{
-              background: 'rgba(248, 237, 235, 0.70)',
+              background: 'rgba(54, 29, 46, 0.70)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)'
             }}
           >
-            <h3 className="text-lg font-black text-slate-950 mb-2">Leave Match?</h3>
-            <p className="text-sm font-semibold text-slate-700 mb-6">
+            <h3 className="text-lg font-black text-white mb-2">Leave Match?</h3>
+            <p className="text-sm font-semibold text-slate-200 mb-6">
               Leaving the current game will forfeit the match. Are you sure?
             </p>
             <div className="flex gap-3">

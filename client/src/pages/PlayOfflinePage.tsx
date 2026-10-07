@@ -242,7 +242,7 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
         className="rounded-3xl border overflow-hidden shadow-2xl"
         style={{
           borderColor: OFFLINE_TABLE.borderColor + 'aa',
-          background: 'rgba(248, 237, 235, 0.50)',
+          background: 'rgba(54, 29, 46, 0.50)',
           backdropFilter: 'blur(14px)',
           WebkitBackdropFilter: 'blur(14px)',
         }}
@@ -265,11 +265,11 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
           <div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full" style={{ backgroundColor: OFFLINE_TABLE.borderColor }} />
-              <h3 className="font-display text-base font-black text-slate-950">{OFFLINE_TABLE.name}</h3>
-              <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 border border-emerald-300 px-1.5 py-0.5 rounded-full">FREE</span>
+              <h3 className="font-display text-base font-black text-white">{OFFLINE_TABLE.name}</h3>
+              <span className="text-[10px] font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-600 px-1.5 py-0.5 rounded-full">FREE</span>
             </div>
-            <p className="text-[11px] text-slate-600 font-semibold mt-0.5">{OFFLINE_TABLE.tagline}</p>
-            <div className="flex items-center gap-3 mt-1.5 text-[10px] text-slate-500 font-bold">
+            <p className="text-[11px] text-slate-300 font-semibold mt-0.5">{OFFLINE_TABLE.tagline}</p>
+            <div className="flex items-center gap-3 mt-1.5 text-[10px] text-slate-400 font-bold">
               <span>🎯 5 pucks per side</span>
               <span>⚡ Simultaneous play</span>
               <span>🏆 Clear your side to win</span>
@@ -296,9 +296,9 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
                   setSelectedDifficulty(diff.id);
                 }}
                 className={`p-4 rounded-2xl border-2 transition-all cursor-pointer shadow-md active:scale-98 ${
-                  isSelected ? `${diff.border} ring-2 ring-blue-500/30` : 'border-[#f8edeb]/80'
+                  isSelected ? `${diff.border} ring-2 ring-blue-500/30` : 'border-[#361D2E]/80'
                 }`}
-                style={{ background: 'rgba(248, 237, 235, 0.50)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+                style={{ background: 'rgba(54, 29, 46, 0.50)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
               >
                 <div className="flex items-center gap-3">
                   {/* Icon */}
@@ -310,9 +310,9 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <h4 className={`text-sm font-black ${diff.color}`}>{diff.name}</h4>
-                      <span className="text-[10px] text-slate-700 font-semibold">{diff.desc}</span>
+                      <span className="text-[10px] text-slate-300 font-semibold">{diff.desc}</span>
                     </div>
-                    <p className="text-[11px] text-slate-600 mt-0.5 leading-snug">{diff.detail}</p>
+                    <p className="text-[11px] text-slate-300 mt-0.5 leading-snug">{diff.detail}</p>
                   </div>
 
                   {/* Radio indicator */}
