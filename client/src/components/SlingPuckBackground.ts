@@ -114,7 +114,7 @@ export class SlingPuckBackground {
 
   // camera & parallax
   private readonly camTarget = new THREE.Vector3(0, 0, 0.4);
-  private camDist = 14;
+  private camDist = 10.8;
   private pointer = new THREE.Vector2(0, 0);
   private pointerSmooth = new THREE.Vector2(0, 0);
   private gyro = new THREE.Vector2(0, 0);
@@ -974,9 +974,9 @@ export class SlingPuckBackground {
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
 
-    // Pull camera back on narrow phone screens so the 3D board remains fully in view
+    // Zoomed in closer: pull camera back proportionally on narrow screens
     const aspect = clamp(w / h, 0.4, 2);
-    this.camDist = aspect >= 1.2 ? 14 : 14 + (1.2 - aspect) * 11;
+    this.camDist = aspect >= 1.2 ? 10.8 : 10.8 + (1.2 - aspect) * 8.5;
     this.camera.updateProjectionMatrix();
     if (!this.running) this.renderer.render(this.scene, this.camera);
   };
