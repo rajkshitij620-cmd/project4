@@ -113,8 +113,8 @@ export class SlingPuckBackground {
   private resizeObserver: ResizeObserver;
 
   // camera & parallax
-  private readonly camTarget = new THREE.Vector3(0, 0, 0.4);
-  private camDist = 10.8;
+  private readonly camTarget = new THREE.Vector3(0, 0, 0.1);
+  private camDist = 6.2;
   private pointer = new THREE.Vector2(0, 0);
   private pointerSmooth = new THREE.Vector2(0, 0);
   private gyro = new THREE.Vector2(0, 0);
@@ -189,7 +189,7 @@ export class SlingPuckBackground {
     /* Scene */
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x060c18);
-    this.scene.fog = new THREE.FogExp2(0x060c18, 0.024);
+    this.scene.fog = new THREE.FogExp2(0x060c18, 0.010);
 
     this.camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
 
@@ -941,8 +941,8 @@ export class SlingPuckBackground {
     this.pointerSmooth.y = THREE.MathUtils.lerp(this.pointerSmooth.y, targetY, 1 - Math.exp(-4 * dt));
 
     const t = this.elapsed;
-    const yaw = Math.sin(t * 0.15) * 0.16 * sway + this.pointerSmooth.x * 0.22;
-    const pitch = 0.82 + Math.sin(t * 0.11) * 0.05 * sway - this.pointerSmooth.y * 0.08;
+    const yaw = Math.sin(t * 0.12) * 0.10 * sway + this.pointerSmooth.x * 0.14;
+    const pitch = 0.90 + Math.sin(t * 0.10) * 0.04 * sway - this.pointerSmooth.y * 0.06;
 
     this._camDir.set(
       Math.sin(yaw) * Math.cos(pitch),
@@ -974,9 +974,9 @@ export class SlingPuckBackground {
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
 
-    // Zoomed in closer: pull camera back proportionally on narrow screens
+    // Zoom in tightly so the Sling Puck board fills the entire background view
     const aspect = clamp(w / h, 0.4, 2);
-    this.camDist = aspect >= 1.2 ? 10.8 : 10.8 + (1.2 - aspect) * 8.5;
+    this.camDist = aspect >= 1.2 ? 5.8 : 5.8 + (1.2 - aspect) * 3.2;
     this.camera.updateProjectionMatrix();
     if (!this.running) this.renderer.render(this.scene, this.camera);
   };
