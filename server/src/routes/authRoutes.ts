@@ -169,6 +169,99 @@ router.post('/login', async (req, res: Response): Promise<void> => {
   }
 });
 
+// Google Sign-In / One-Tap Auth (No password, auto-registers or logs in)
+router.post('/google', async (req, res: Response): Promise<void> => {
+  try {
+    const { email, name, avatar } = req.body;
+
+    if (!email) {
+      res.status(400).json({ message: 'Google email is required' });
+      return;
+    }
+
+    const cleanEmail = String(email).toLowerCase().trim();
+    let user = await User.findOne({ email: cleanEmail });
+
+    if (!user) {
+      // New user with Google
+      const playerId = await generateUniquePlayerId();
+      const salt = await bcrypt.genSalt(10);
+      const randomSecret = Math.random().toString(36).slice(-10) + Date.now().toString(36);
+      const passwordHash = await bcrypt.hash(randomSecret, salt);
+
+      const username = (name || cleanEmail.split('@')[0] || 'Player').slice(0, 15).trim();
+
+      user = new User({
+        username,
+        email: cleanEmail,
+        passwordHash,
+        playerId,
+        avatar: avatar || '🎮',
+        coins: 1000
+      });
+      await user.save();
+
+      // Initialize Wallet
+      const newWallet = new Wallet({
+        user: user._id,
+        balance: 1000,
+        transactions: [
+          {
+            type: 'BONUS',
+            amount: 1000,
+            description: 'Welcome Google login bonus'
+          }
+        ]
+      });
+      await newWallet.save();
+
+      // Initialize Stats
+      const newStats = new PlayerStats({
+        user: user._id,
+        matches: 0,
+        wins: 0,
+        losses: 0,
+        winRate: 0,
+        bestScore: 0
+      });
+      await newStats.save();
+    }
+
+    const stats = (await PlayerStats.findOne({ user: user._id })) || {
+      matches: 0,
+      wins: 0,
+      losses: 0,
+      winRate: 0,
+      bestScore: 0
+    };
+
+    const secret = process.env.JWT_SECRET || 'diskslam_secret_key';
+    const token = jwt.sign({ userId: user._id }, secret, { expiresIn: '30d' });
+
+    res.json({
+      user: {
+        id: user._id.toString(),
+        playerId: user.playerId,
+        username: user.username,
+        email: user.email,
+        avatar: user.avatar,
+        coins: user.coins,
+        stats: {
+          matches: stats.matches,
+          wins: stats.wins,
+          losses: stats.losses,
+          winRate: stats.winRate,
+          bestScore: stats.bestScore
+        }
+      },
+      token
+    });
+  } catch (err: any) {
+    console.error('Google login error:', err);
+    res.status(500).json({ message: 'Server error during Google login' });
+  }
+});
+
 // Current User Profile
 router.get('/me', authenticateToken, async (req: AuthRequest, res: Response): Promise<void> => {
   try {

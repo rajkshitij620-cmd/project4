@@ -53,6 +53,17 @@ class ApiService {
     });
   }
 
+  public async googleLogin(payload: {
+    email: string;
+    name?: string;
+    avatar?: string;
+  }): Promise<{ user: UserProfile; token: string }> {
+    return this.request('/auth/google', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+  }
+
   public async getMe(): Promise<{ user: UserProfile }> {
     return this.request('/auth/me');
   }

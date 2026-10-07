@@ -38,7 +38,11 @@ export const App: React.FC = () => {
   } = useGameStore();
 
   const [activeTab, setActiveTab] = useState<NavTab>('home');
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(() => {
+    // Show login screen on initial launch if no existing user/token saved
+    const hasUser = localStorage.getItem('diskslam_token') || localStorage.getItem('diskslam_guest_user');
+    return !hasUser;
+  });
   const [isOfflineLauncherOpen, setIsOfflineLauncherOpen] = useState(false);
 
   useEffect(() => {

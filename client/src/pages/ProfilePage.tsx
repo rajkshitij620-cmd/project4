@@ -99,7 +99,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onOpenAuth }) => {
             className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-cyan-500/20 active:scale-95 transition-all flex items-center justify-center gap-2"
           >
             <LogIn size={16} />
-            <span>SIGN UP / LOG IN TO SAVE PROGRESS</span>
+            <span>LOG IN WITH GOOGLE TO SAVE PROGRESS</span>
           </button>
         ) : (
           <button
