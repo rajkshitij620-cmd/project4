@@ -53,11 +53,7 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
           {/* Players HUD */}
           <div 
             className="flex items-center gap-3 border border-[#361D2E] px-4 py-2 rounded-2xl shadow-xl"
-            style={{
-              background: 'rgba(54, 29, 46, 1)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)'
-            }}
+            style={{ background: '#361D2E' }}
           >
             {/* Player A (You) */}
             <div className="flex items-center gap-2">
@@ -73,15 +69,15 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
               <div className="flex flex-col text-left">
                 <span className="text-xs font-black text-white">{playerA.name}</span>
                 <div className="flex items-center gap-1">
-                  <Target size={11} className="text-slate-300" />
-                  <span className="text-[11px] font-black text-cyan-400">
+                  <Target size={11} className="text-amber-200" />
+                  <span className="text-[11px] font-black text-yellow-300">
                     {remainingA} left
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="text-xs font-black text-rose-300 tracking-widest px-1">VS</div>
+            <div className="text-xs font-black text-yellow-300 tracking-widest px-1">VS</div>
 
             {/* Player B (Opponent / Bot) */}
             <div className="flex items-center gap-2">
@@ -91,7 +87,7 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
                   <span className="text-[11px] font-black text-red-400">
                     {remainingB} left
                   </span>
-                  <Target size={11} className="text-slate-300" />
+                  <Target size={11} className="text-amber-200" />
                 </div>
               </div>
               <div
@@ -109,26 +105,22 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
           {/* Table pill */}
           <div 
             className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#361D2E] text-xs font-black text-white shadow-sm"
-            style={{
-              background: 'rgba(54, 29, 46, 1)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)'
-            }}
+            style={{ background: '#361D2E' }}
           >
             <span className="w-2 h-2 rounded-full" style={{ backgroundColor: table.borderColor }} />
             <span>{table.name}</span>
           </div>
         </div>
 
-        {/* Compact Action Badge (below HUD, keeping center gate completely open) */}
+        {/* Compact Action Badge */}
         <div className="flex items-center justify-center">
           {isSimulating ? (
-            <div className="px-3.5 py-1 rounded-full bg-slate-900/85 backdrop-blur-md border border-cyan-500/40 text-cyan-300 text-[11px] font-bold tracking-wider uppercase flex items-center gap-1.5 shadow-lg">
-              <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+            <div className="px-3.5 py-1 rounded-full bg-slate-900/90 border border-yellow-400/40 text-yellow-300 text-[11px] font-bold tracking-wider uppercase flex items-center gap-1.5 shadow-lg">
+              <div className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-ping" />
               Physics in motion...
             </div>
           ) : (
-            <div className="px-3.5 py-1 rounded-full bg-blue-600/85 backdrop-blur-md border border-blue-400/50 text-white text-[11px] font-black tracking-wider uppercase shadow-lg flex items-center gap-1.5">
+            <div className="px-3.5 py-1 rounded-full bg-yellow-400 text-slate-900 text-[11px] font-black tracking-wider uppercase shadow-lg flex items-center gap-1.5 border border-yellow-300">
               <Target size={12} />
               SLING YOUR PUCKS!
             </div>
@@ -138,8 +130,8 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
 
       {/* Bottom Hint Indicator */}
       <div className="flex flex-col items-center pb-2">
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/70 backdrop-blur-md border border-slate-800/60 text-[11px] text-slate-400">
-          <Info size={13} className="text-cyan-400" />
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] text-amber-100">
+          <Info size={13} className="text-yellow-400" />
           <span>Sling Puck: Clear your side first — sling all 5 pucks through the gate to WIN! 🏆</span>
         </div>
       </div>
@@ -150,14 +142,10 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
         <div className="fixed inset-0 pointer-events-auto bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div 
             className="border border-[#361D2E] rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl"
-            style={{
-              background: 'rgba(54, 29, 46, 1)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)'
-            }}
+            style={{ background: '#361D2E' }}
           >
             <h3 className="text-lg font-black text-white mb-2">Leave Match?</h3>
-            <p className="text-sm font-semibold text-slate-200 mb-6">
+            <p className="text-sm font-semibold text-amber-100 mb-6">
               Leaving the current game will forfeit the match. Are you sure?
             </p>
             <div className="flex gap-3">
@@ -166,7 +154,7 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
                   soundEffects.playClick();
                   setShowExitConfirm(false);
                 }}
-                className="flex-1 py-2.5 rounded-xl bg-amber-200 hover:bg-amber-300 text-slate-900 font-black active:scale-95 border border-amber-300"
+                className="flex-1 py-2.5 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-black active:scale-95 shadow-md shadow-yellow-400/20"
               >
                 Resume
               </button>

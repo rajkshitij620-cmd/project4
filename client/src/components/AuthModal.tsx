@@ -67,19 +67,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
       {/* Vertical Mobile Game Card */}
       <div 
         className="relative w-full max-w-sm border border-[#361D2E] rounded-3xl p-5 shadow-2xl flex flex-col justify-between items-center min-h-[580px] overflow-hidden"
-        style={{
-          background: 'rgba(54, 29, 46, 1)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)'
-        }}
+        style={{ background: '#361D2E' }}
       >
         
-        {/* Subtle sunburst background effect */}
-        <div className="absolute inset-0 pointer-events-none opacity-30">
+        {/* Subtle glow background effect */}
+        <div className="absolute inset-0 pointer-events-none opacity-20">
           <div 
             className="w-full h-full"
             style={{
-              background: 'radial-gradient(circle at 50% 25%, rgba(54, 29, 46, 1) 0%, rgba(80, 40, 70, 0.3) 45%, transparent 75%)'
+              background: 'radial-gradient(circle at 50% 25%, #4a2640 0%, #361D2E 65%, transparent 100%)'
             }}
           />
         </div>
@@ -90,7 +86,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             soundEffects.playClick();
             onClose();
           }}
-          className="absolute top-4 right-4 z-20 p-2 rounded-xl bg-[#361D2E] border border-[#361D2E] text-rose-200 hover:text-white active:scale-90 transition-all"
+          className="absolute top-4 right-4 z-20 p-2 rounded-xl bg-[#261220] border border-yellow-400/30 text-yellow-300 hover:text-white active:scale-90 transition-all"
           title="Close"
         >
           <X size={18} />
@@ -100,38 +96,34 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         <div className="w-full flex flex-col items-center text-center mt-2 relative z-10">
           {/* Glowing Emblem */}
           <div className="relative mb-2">
-            <div className="absolute -inset-3 bg-rose-400/30 rounded-full blur-xl pointer-events-none" />
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-rose-400 via-pink-400 to-amber-300 p-[2px] shadow-xl relative z-10 flex items-center justify-center">
+            <div className="absolute -inset-3 bg-yellow-400/20 rounded-full blur-xl pointer-events-none" />
+            <div className="w-16 h-16 rounded-2xl bg-yellow-400 p-[2px] shadow-xl relative z-10 flex items-center justify-center">
               <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-3xl">
                 ⚡
               </div>
             </div>
           </div>
 
-          {/* Game Title with 3D Fiery Style */}
+          {/* Game Title with 3D Style */}
           <h1 className="font-display text-3xl font-black tracking-wider text-white drop-shadow-sm leading-none">
             DISK SLAM 3D
           </h1>
-          <p className="text-[10px] font-bold tracking-widest text-rose-300 uppercase mt-1">
+          <p className="text-[10px] font-bold tracking-widest text-yellow-300 uppercase mt-1">
             MULTIPLAYER ARENA
           </p>
         </div>
 
-        {/* ── MIDDLE SECTION: 8-BALL POOL STYLE REWARD CARD ── */}
+        {/* ── MIDDLE SECTION: REWARD CARD ── */}
         <div 
-          className="w-full relative z-10 my-4 p-4 rounded-2xl border border-[#361D2E] shadow-md flex flex-col items-center text-center"
-          style={{
-            background: 'rgba(54, 29, 46, 1)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)'
-          }}
+          className="w-full relative z-10 my-4 p-4 rounded-2xl border border-yellow-400/30 shadow-md flex flex-col items-center text-center"
+          style={{ background: '#261220' }}
         >
           {/* Floating gifts & rewards illustrations */}
           <div className="flex items-center justify-center gap-6 mb-2">
-            <div className="p-2.5 rounded-2xl bg-rose-900/60 border border-rose-700/60 text-rose-200 shadow-md animate-bounce">
+            <div className="p-2.5 rounded-2xl bg-yellow-400/20 border border-yellow-400/40 text-yellow-300 shadow-md animate-bounce">
               <Gift size={26} />
             </div>
-            <div className="p-2.5 rounded-2xl bg-amber-900/60 border border-amber-700/60 text-amber-300 shadow-md">
+            <div className="p-2.5 rounded-2xl bg-yellow-400/20 border border-yellow-400/40 text-yellow-300 shadow-md">
               <Coins size={26} />
             </div>
           </div>
@@ -139,19 +131,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <h2 className="font-display text-lg font-black text-white tracking-wide leading-tight">
             Play with your friends!
           </h2>
-          <p className="text-xs text-slate-200 font-semibold mt-0.5">
-            Claim <span className="text-amber-400 font-black">1,000 FREE coins</span> &amp; online rewards!
+          <p className="text-xs text-amber-100 font-semibold mt-0.5">
+            Claim <span className="text-yellow-400 font-black">1,000 FREE coins</span> &amp; online rewards!
           </p>
 
-          <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#361D2E] border border-rose-900/60 text-[10px] font-black text-rose-200">
-            <Sparkles size={12} className="text-rose-400" />
+          <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#361D2E] border border-yellow-400/30 text-[10px] font-black text-yellow-300">
+            <Sparkles size={12} className="text-yellow-400" />
             <span>REAL-TIME 1v1 MATCHMAKING</span>
           </div>
         </div>
 
         {/* Error notification if any */}
         {error && (
-          <div className="w-full mb-3 p-2.5 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs text-center font-semibold">
+          <div className="w-full mb-3 p-2.5 rounded-xl bg-red-500/20 border border-red-500/40 text-red-200 text-xs text-center font-semibold">
             {error}
           </div>
         )}
@@ -159,12 +151,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         {/* ── GOOGLE SIGN-IN PROMPT POPUP (If clicked Google) ── */}
         {showGooglePrompt ? (
           <div 
-            className="w-full relative z-10 p-4 rounded-2xl border border-[#361D2E] shadow-xl flex flex-col gap-3 my-2"
-            style={{
-              background: 'rgba(54, 29, 46, 1)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)'
-            }}
+            className="w-full relative z-10 p-4 rounded-2xl border border-yellow-400/30 shadow-xl flex flex-col gap-3 my-2"
+            style={{ background: '#261220' }}
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-black text-white flex items-center gap-1.5">
@@ -179,7 +167,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
               <button
                 type="button"
                 onClick={() => setShowGooglePrompt(false)}
-                className="text-slate-300 hover:text-white text-xs font-bold"
+                className="text-amber-100 hover:text-white text-xs font-bold"
               >
                 Cancel
               </button>
@@ -191,7 +179,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                 value={googleEmail}
                 onChange={(e) => setGoogleEmail(e.target.value)}
                 placeholder="Enter your Gmail address"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-amber-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 shadow-sm"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-yellow-400 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-yellow-500 shadow-sm"
                 autoFocus
               />
               <input
@@ -199,16 +187,16 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                 value={googleName}
                 onChange={(e) => setGoogleName(e.target.value)}
                 placeholder="Display Name (optional)"
-                className="w-full px-3.5 py-2 rounded-xl bg-white border border-amber-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 shadow-sm"
+                className="w-full px-3.5 py-2 rounded-xl bg-white border border-yellow-400 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-yellow-500 shadow-sm"
               />
 
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold text-xs uppercase tracking-wider shadow-md transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-1.5"
+                className="w-full py-2.5 rounded-xl bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-500 text-slate-900 font-black text-xs uppercase tracking-wider shadow-md shadow-yellow-400/30 transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-1.5"
               >
                 {isLoading ? (
-                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span className="w-4 h-4 border-2 border-slate-900/30 border-t-slate-900 rounded-full animate-spin" />
                 ) : (
                   <>
                     <CheckCircle2 size={15} />
@@ -219,13 +207,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             </form>
           </div>
         ) : (
-          /* ── ACTION BUTTONS (VERTICAL STACK: GOOGLE & GUEST ONLY) ── */
+          /* ── ACTION BUTTONS ── */
           <div className="w-full flex flex-col gap-3 relative z-10">
             {/* BUTTON 1: GOOGLE LOGIN */}
             <button
               onClick={handleGoogleClick}
               disabled={isLoading}
-              className="w-full py-3.5 px-4 rounded-2xl bg-white hover:bg-slate-50 active:bg-slate-100 text-slate-900 font-black text-sm tracking-wide shadow-lg active:scale-95 transition-all flex items-center justify-center gap-3 border border-amber-300"
+              className="w-full py-3.5 px-4 rounded-2xl bg-white hover:bg-slate-50 active:bg-slate-100 text-slate-900 font-black text-sm tracking-wide shadow-lg active:scale-95 transition-all flex items-center justify-center gap-3 border border-yellow-400/40"
             >
               {/* Google SVG Logo */}
               <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
@@ -237,24 +225,24 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
               <span>Login with Google</span>
             </button>
 
-            {/* BUTTON 2: PLAY AS GUEST (Inspired by orange 8-Ball Pool button) */}
+            {/* BUTTON 2: PLAY AS GUEST */}
             <button
               onClick={handlePlayAsGuest}
-              className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-500 text-white font-black text-sm tracking-wide shadow-lg shadow-orange-500/30 active:scale-95 transition-all flex items-center justify-center gap-2.5 border-t border-amber-200/50"
+              className="w-full py-3.5 px-4 rounded-2xl bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-500 text-slate-900 font-black text-sm tracking-wide shadow-lg shadow-yellow-400/30 active:scale-95 transition-all flex items-center justify-center gap-2.5 border border-yellow-300"
             >
-              <div className="w-5 h-5 rounded-full bg-white/25 flex items-center justify-center flex-shrink-0">
-                <UserIcon size={13} className="text-white" />
+              <div className="w-5 h-5 rounded-full bg-slate-900/10 flex items-center justify-center flex-shrink-0">
+                <UserIcon size={13} className="text-slate-900" />
               </div>
               <span>Play as Guest</span>
             </button>
           </div>
         )}
 
-        {/* ── BOTTOM DISCLAIMER (MATCHING 8-BALL POOL DISCLAIMER) ── */}
+        {/* ── BOTTOM DISCLAIMER ── */}
         <div className="w-full mt-4 text-center relative z-10 px-1">
-          <p className="text-[10px] text-slate-300 font-medium leading-relaxed">
+          <p className="text-[10px] text-amber-100/80 font-medium leading-relaxed">
             Guest users have progress stored locally and you can lose it if the game is cleared.
-            You can use <span className="text-amber-400 font-bold">Google login</span> to prevent this.
+            You can use <span className="text-yellow-400 font-bold">Google login</span> to prevent this.
           </p>
         </div>
 

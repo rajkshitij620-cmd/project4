@@ -57,14 +57,10 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenAuth }) => {
 
         {/* Coins Badge */}
         <div 
-          className="flex items-center gap-1 px-2.5 py-1 rounded-xl border border-[#361D2E] text-amber-300 font-black text-xs shadow-sm"
-          style={{
-            background: 'rgba(54, 29, 46, 1)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)'
-          }}
+          className="flex items-center gap-1 px-2.5 py-1 rounded-xl border border-yellow-400/30 text-yellow-300 font-black text-xs shadow-sm"
+          style={{ background: '#361D2E' }}
         >
-          <Coins size={14} className="text-amber-400" />
+          <Coins size={14} className="text-yellow-400" />
           <span>{user?.coins.toLocaleString() || '1,000'}</span>
         </div>
 
@@ -72,25 +68,21 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenAuth }) => {
         {user && (
           <div
             onClick={isGuest ? onOpenAuth : undefined}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border border-[#361D2E] shadow-sm ${
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border border-yellow-400/30 shadow-sm ${
               isGuest ? 'cursor-pointer active:scale-95' : ''
             }`}
-            style={{
-              background: 'rgba(54, 29, 46, 1)',
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)'
-            }}
+            style={{ background: '#361D2E' }}
           >
             <div className="text-base">{user.avatar}</div>
             <div className="flex flex-col text-left">
               <span className="text-[11px] font-black text-white leading-tight">
                 {user.username.length > 8 ? user.username.slice(0, 8) + '…' : user.username}
               </span>
-              <div className="flex items-center gap-1 text-[10px] text-amber-300 font-mono font-bold">
+              <div className="flex items-center gap-1 text-[10px] text-yellow-300 font-mono font-bold">
                 <span>{user.playerId}</span>
                 <button
                   onClick={handleCopyId}
-                  className="active:scale-90 transition-transform text-slate-300 hover:text-white"
+                  className="active:scale-90 transition-transform text-amber-100 hover:text-white"
                   title="Copy Player ID"
                 >
                   {copied ? <Check size={10} className="text-emerald-400" /> : <Copy size={10} />}
@@ -99,7 +91,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenAuth }) => {
             </div>
 
             {isGuest && (
-              <span className="text-[9px] uppercase font-black px-1.5 py-0.5 rounded bg-amber-200 text-amber-900 border border-amber-400">
+              <span className="text-[9px] uppercase font-black px-1.5 py-0.5 rounded bg-yellow-400 text-slate-900 border border-yellow-300">
                 Login
               </span>
             )}

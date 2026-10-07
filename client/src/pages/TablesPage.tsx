@@ -170,7 +170,7 @@ const StatPill: React.FC<{ icon: React.ElementType; label: string; value: string
 }) => (
   <div className="flex items-center gap-1.5">
     <Icon size={11} style={{ color }} />
-    <span className="text-[10px] text-slate-600 font-medium">{label}</span>
+    <span className="text-[10px] text-amber-100 font-semibold">{label}</span>
     <span className="text-[10px] font-black" style={{ color }}>{value}</span>
   </div>
 );
@@ -209,10 +209,8 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
                 isLocked ? 'opacity-70' : ''
               }`}
               style={{
-                borderColor: isLocked ? 'rgba(200,190,190,0.5)' : table.borderColor + 'aa',
-                background: 'rgba(54, 29, 46, 1)',
-                backdropFilter: 'blur(14px)',
-                WebkitBackdropFilter: 'blur(14px)',
+                borderColor: isLocked ? 'rgba(200,190,190,0.5)' : table.borderColor,
+                background: '#361D2E',
               }}
             >
               {/* Theme glow blob */}
@@ -231,10 +229,10 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
                 {isLocked && (
                   <div
                     className="absolute inset-0 flex flex-col items-center justify-center gap-1 rounded-t-3xl"
-                    style={{ background: 'rgba(10,10,15,0.60)', backdropFilter: 'blur(4px)' }}
+                    style={{ background: 'rgba(10,10,15,0.70)', backdropFilter: 'blur(4px)' }}
                   >
-                    <Lock size={28} className="text-amber-400" />
-                    <span className="text-[11px] font-black text-amber-300 tracking-wider">LOCKED</span>
+                    <Lock size={28} className="text-yellow-400" />
+                    <span className="text-[11px] font-black text-yellow-300 tracking-wider">LOCKED</span>
                     <span className="text-[10px] text-amber-200 font-semibold">🪙 {table.minCoinsRequired.toLocaleString()} coins needed</span>
                   </div>
                 )}
@@ -250,10 +248,10 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
                       <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: table.borderColor }} />
                       <h3 className="font-display text-base font-black text-white">{table.name}</h3>
                     </div>
-                    <p className="text-[11px] text-slate-300 font-semibold mt-0.5 leading-snug">{table.tagline}</p>
+                    <p className="text-xs text-amber-100 font-semibold mt-0.5 leading-snug">{table.tagline}</p>
                   </div>
                   <div className="text-right flex-shrink-0 ml-2">
-                    <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Entry</span>
+                    <span className="text-[9px] text-yellow-300 font-bold uppercase tracking-wider block">Entry</span>
                     <span
                       className={`text-sm font-black ${table.entryFee === 0 ? 'text-emerald-400' : 'text-amber-300'}`}
                     >
@@ -264,8 +262,8 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
 
                 {/* Physics stats */}
                 <div
-                  className="rounded-xl border border-[#361D2E]/60 px-3 py-2 flex flex-col gap-1.5"
-                  style={{ background: 'rgba(54, 29, 46, 1)', backdropFilter: 'blur(6px)' }}
+                  className="rounded-xl border border-yellow-400/20 px-3 py-2 flex flex-col gap-1.5"
+                  style={{ background: '#2d1626' }}
                 >
                   <StatPill
                     icon={Droplets}
@@ -291,17 +289,9 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
                   disabled={isLocked}
                   className={`w-full py-3 rounded-xl font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
                     isLocked
-                      ? 'bg-amber-100 text-amber-700 cursor-not-allowed border border-amber-300'
-                      : 'text-white shadow-lg active:scale-98'
+                      ? 'bg-yellow-200/20 text-yellow-500 cursor-not-allowed border border-yellow-500/30'
+                      : 'bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-500 text-slate-900 shadow-lg shadow-yellow-400/30 active:scale-98'
                   }`}
-                  style={
-                    !isLocked
-                      ? {
-                          background: `linear-gradient(135deg, ${table.boardColor}, ${table.borderColor})`,
-                          boxShadow: `0 4px 20px ${table.borderColor}55`,
-                        }
-                      : undefined
-                  }
                 >
                   {isLocked ? (
                     <>

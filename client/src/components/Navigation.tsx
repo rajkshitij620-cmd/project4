@@ -32,12 +32,12 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onChangeTab }
               onChangeTab(tab.id);
             }}
             className={`flex flex-col items-center justify-center gap-1 transition-all ${
-              isActive ? 'text-cyan-400 scale-105' : 'text-slate-400 hover:text-slate-200'
+              isActive ? 'text-yellow-400 scale-105' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
             <div
               className={`p-1.5 rounded-xl transition-all ${
-                isActive ? 'bg-cyan-500/20 text-cyan-300 shadow-lg shadow-cyan-500/20' : ''
+                isActive ? 'bg-yellow-400/20 text-yellow-300 shadow-lg shadow-yellow-400/20' : ''
               }`}
             >
               <Icon size={20} />

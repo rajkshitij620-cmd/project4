@@ -241,10 +241,8 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
       <div
         className="rounded-3xl border overflow-hidden shadow-2xl"
         style={{
-          borderColor: OFFLINE_TABLE.borderColor + 'aa',
-          background: 'rgba(54, 29, 46, 1)',
-          backdropFilter: 'blur(14px)',
-          WebkitBackdropFilter: 'blur(14px)',
+          borderColor: OFFLINE_TABLE.borderColor,
+          background: '#361D2E',
         }}
       >
         {/* Board preview area */}
@@ -266,10 +264,10 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full" style={{ backgroundColor: OFFLINE_TABLE.borderColor }} />
               <h3 className="font-display text-base font-black text-white">{OFFLINE_TABLE.name}</h3>
-              <span className="text-[10px] font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-600 px-1.5 py-0.5 rounded-full">FREE</span>
+              <span className="text-[10px] font-bold text-slate-900 bg-yellow-400 border border-yellow-300 px-2 py-0.5 rounded-full">FREE</span>
             </div>
-            <p className="text-[11px] text-slate-300 font-semibold mt-0.5">{OFFLINE_TABLE.tagline}</p>
-            <div className="flex items-center gap-3 mt-1.5 text-[10px] text-slate-400 font-bold">
+            <p className="text-xs text-amber-100 font-semibold mt-0.5">{OFFLINE_TABLE.tagline}</p>
+            <div className="flex items-center gap-3 mt-1.5 text-[10px] text-amber-200 font-bold">
               <span>🎯 5 pucks per side</span>
               <span>⚡ Simultaneous play</span>
               <span>🏆 Clear your side to win</span>
@@ -280,7 +278,7 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
 
       {/* ── AI Difficulty Selection ─────────────────────────────────────── */}
       <div>
-        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
+        <h3 className="text-xs font-bold text-yellow-300 uppercase tracking-wider mb-3">
           SELECT AI DIFFICULTY
         </h3>
         <div className="flex flex-col gap-3">
@@ -296,9 +294,9 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
                   setSelectedDifficulty(diff.id);
                 }}
                 className={`p-4 rounded-2xl border-2 transition-all cursor-pointer shadow-md active:scale-98 ${
-                  isSelected ? `${diff.border} ring-2 ring-blue-500/30` : 'border-[#361D2E]/80'
+                  isSelected ? `${diff.border} ring-2 ring-yellow-400/40` : 'border-[#361D2E]'
                 }`}
-                style={{ background: 'rgba(54, 29, 46, 1)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+                style={{ background: '#361D2E' }}
               >
                 <div className="flex items-center gap-3">
                   {/* Icon */}
@@ -310,18 +308,18 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <h4 className={`text-sm font-black ${diff.color}`}>{diff.name}</h4>
-                      <span className="text-[10px] text-slate-300 font-semibold">{diff.desc}</span>
+                      <span className="text-xs text-yellow-200 font-semibold">{diff.desc}</span>
                     </div>
-                    <p className="text-[11px] text-slate-300 mt-0.5 leading-snug">{diff.detail}</p>
+                    <p className="text-xs text-amber-100 mt-0.5 leading-snug">{diff.detail}</p>
                   </div>
 
                   {/* Radio indicator */}
                   <div
                     className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-                      isSelected ? 'border-blue-600 bg-blue-600' : 'border-slate-400 bg-transparent'
+                      isSelected ? 'border-yellow-400 bg-yellow-400' : 'border-amber-200/60 bg-transparent'
                     }`}
                   >
-                    {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
+                    {isSelected && <div className="w-2 h-2 rounded-full bg-slate-900" />}
                   </div>
                 </div>
               </div>
@@ -333,19 +331,7 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
       {/* ── Start Button ──────────────────────────────────────────────────── */}
       <button
         onClick={handleStart}
-        className="mt-1 w-full py-4 rounded-2xl text-white font-black text-sm uppercase tracking-wider shadow-xl active:scale-95 transition-all flex items-center justify-center gap-2"
-        style={{
-          background: selectedDifficulty === 'EASY'
-            ? 'linear-gradient(135deg, #10b981, #0d9488)'
-            : selectedDifficulty === 'HARD'
-            ? 'linear-gradient(135deg, #f43f5e, #b91c1c)'
-            : 'linear-gradient(135deg, #2563eb, #6366f1, #06b6d4)',
-          boxShadow: selectedDifficulty === 'EASY'
-            ? '0 4px 20px #10b98144'
-            : selectedDifficulty === 'HARD'
-            ? '0 4px 20px #f43f5e44'
-            : '0 4px 20px #6366f144',
-        }}
+        className="mt-1 w-full py-4 rounded-2xl bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-500 text-slate-900 font-black text-sm uppercase tracking-wider shadow-xl shadow-yellow-400/30 active:scale-95 transition-all flex items-center justify-center gap-2"
       >
         <Play size={18} fill="currentColor" />
         <span>START — {selectedDifficulty} MODE</span>

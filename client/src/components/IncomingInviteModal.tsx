@@ -27,34 +27,30 @@ export const IncomingInviteModal: React.FC = () => {
   return (
     <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 select-none">
       <div 
-        className="border border-[#361D2E] rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl shadow-rose-950/40 animate-in fade-in zoom-in duration-200"
-        style={{
-          background: 'rgba(54, 29, 46, 1)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)'
-        }}
+        className="border border-[#361D2E] rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl animate-in fade-in zoom-in duration-200"
+        style={{ background: '#361D2E' }}
       >
-        <div className="w-16 h-16 rounded-2xl bg-[#361D2E] border border-[#361D2E] text-rose-300 mx-auto flex items-center justify-center mb-4 shadow-sm">
+        <div className="w-16 h-16 rounded-2xl bg-[#261220] border border-yellow-400/30 text-yellow-300 mx-auto flex items-center justify-center mb-4 shadow-sm">
           <Gamepad2 size={32} />
         </div>
 
         <h3 className="font-display text-xl font-black text-white mb-1">GAME INVITATION</h3>
-        <p className="text-xs text-slate-200 font-medium mb-4">
-          <span className="font-black text-cyan-400">{incomingInvite.fromUsername}</span> invited you to a match in{' '}
-          <span className="font-black text-rose-300">{table.name}</span>!
+        <p className="text-xs text-amber-100 font-medium mb-4">
+          <span className="font-black text-yellow-300">{incomingInvite.fromUsername}</span> invited you to a match in{' '}
+          <span className="font-black text-yellow-200">{table.name}</span>!
         </p>
 
         <div className="flex gap-3">
           <button
             onClick={handleDecline}
-            className="flex-1 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold hover:bg-slate-700 flex items-center justify-center gap-1.5 active:scale-95 transition-all"
+            className="flex-1 py-2.5 rounded-xl bg-yellow-400/20 text-yellow-300 font-bold hover:bg-yellow-400/30 border border-yellow-400/30 flex items-center justify-center gap-1.5 active:scale-95 transition-all"
           >
             <X size={16} />
             <span>DECLINE</span>
           </button>
           <button
             onClick={handleAccept}
-            className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold hover:from-blue-500 hover:to-cyan-400 flex items-center justify-center gap-1.5 shadow-lg shadow-cyan-500/25 active:scale-95 transition-all"
+            className="flex-1 py-2.5 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-black flex items-center justify-center gap-1.5 shadow-lg shadow-yellow-400/30 active:scale-95 transition-all"
           >
             <Check size={16} />
             <span>ACCEPT</span>
