@@ -14,8 +14,8 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
   const coins = user?.coins || 1000;
 
   return (
-    <div className="w-full h-full overflow-y-auto pb-24 px-4 pt-4 max-w-xl mx-auto flex flex-col gap-4 select-none">
-      <div>
+    <div className="w-full h-full flex flex-col px-4 pt-4 pb-24 max-w-xl mx-auto gap-4 select-none overflow-hidden">
+      <div className="flex-shrink-0">
         <h2 className="font-display text-xl font-bold text-white tracking-wide">
           ARENA TABLES
         </h2>
@@ -24,14 +24,18 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
         </p>
       </div>
 
-      <div className="flex flex-col gap-4">
+      {/* Horizontal snap scroll container */}
+      <div
+        className="flex flex-row gap-4 overflow-x-auto snap-x snap-mandatory flex-1 pb-2 scrollbar-hide"
+        style={{ WebkitOverflowScrolling: 'touch' }}
+      >
         {GAME_TABLES.map((table) => {
           const isLocked = !table.unlockedByDefault && coins < table.minCoinsRequired;
 
           return (
             <div
               key={table.id}
-              className={`rounded-3xl border p-5 transition-all relative overflow-hidden flex flex-col justify-between shadow-xl ${
+              className={`min-w-[85%] snap-center rounded-3xl border p-5 transition-all relative overflow-hidden flex flex-col justify-between shadow-xl ${
                 isLocked
                   ? 'border-slate-300 opacity-60'
                   : 'border-[#f8edeb]/80'
