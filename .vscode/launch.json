@@ -1,0 +1,51 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    // ─── Debug Client (Vite) in Chrome ────────────────────────────────
+    {
+      "name": "🎮 Client — Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/client/src",
+      "sourceMapPathOverrides": {
+        "webpack:///./src/*": "${webRoot}/*"
+      }
+    },
+
+    // ─── Debug Server (Node.js) ────────────────────────────────────────
+    {
+      "name": "🚀 Server — Node",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--loader", "ts-node/esm"],
+      "args": ["src/index.ts"],
+      "cwd": "${workspaceFolder}/server",
+      "env": {
+        "NODE_ENV": "development",
+        "TS_NODE_PROJECT": "${workspaceFolder}/server/tsconfig.json"
+      },
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/server/dist/**/*.js"],
+      "skipFiles": ["<node_internals>/**"]
+    },
+
+    // ─── Attach to running server ─────────────────────────────────────
+    {
+      "name": "🔗 Attach to Server",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "localRoot": "${workspaceFolder}/server/src",
+      "remoteRoot": "${workspaceFolder}/server/src"
+    }
+  ],
+
+  "compounds": [
+    {
+      "name": "🎯 Full Stack (Client + Server)",
+      "configurations": ["🎮 Client — Chrome", "🚀 Server — Node"]
+    }
+  ]
+}

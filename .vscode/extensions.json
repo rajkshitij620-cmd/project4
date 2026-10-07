@@ -1,0 +1,44 @@
+{
+  "recommendations": [
+    // ─── TypeScript / React ────────────────────────────────────────────
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-typescript-next",
+
+    // ─── Tailwind CSS ─────────────────────────────────────────────────
+    "bradlc.vscode-tailwindcss",
+
+    // ─── Three.js / GLSL ──────────────────────────────────────────────
+    "slevesque.shader",
+
+    // ─── MongoDB ──────────────────────────────────────────────────────
+    "mongodb.mongodb-vscode",
+
+    // ─── Dotenv ───────────────────────────────────────────────────────
+    "mikestead.dotenv",
+
+    // ─── Git ──────────────────────────────────────────────────────────
+    "eamodio.gitlens",
+    "mhutchie.git-graph",
+
+    // ─── Icons & Theme ────────────────────────────────────────────────
+    "pkief.material-icon-theme",
+    "zhuangtongfa.material-theme",
+
+    // ─── Code Quality ─────────────────────────────────────────────────
+    "streetsidesoftware.code-spell-checker",
+    "usernamehw.errorlens",
+
+    // ─── REST API testing ────────────────────────────────────────────
+    "rangav.vscode-thunder-client",
+
+    // ─── JSON ─────────────────────────────────────────────────────────
+    "zainchen.json",
+
+    // ─── Auto Rename Tag ─────────────────────────────────────────────
+    "formulahendry.auto-rename-tag",
+
+    // ─── Path Intellisense ────────────────────────────────────────────
+    "christian-kohler.path-intellisense"
+  ]
+}
