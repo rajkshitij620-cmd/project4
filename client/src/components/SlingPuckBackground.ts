@@ -1,13 +1,17 @@
 /**
  * SlingPuckBackground.ts
  * ---------------------------------------------------------------------------
- * A self-playing 3D "sling puck" board game used as an animated app background.
- * Two invisible players take turns pulling an elastic band, slinging pucks
- * through the center gate, with real 2D physics (friction, wall bounce,
- * puck-to-puck collisions). The camera gently sways and reacts to the pointer.
+ * A self-playing 3D "sling puck" (Super Winner) board game used as an animated
+ * app background.
  *
- * Optimized for 60-120fps with zero per-frame allocations (GC free),
- * robust WebGL resource cleanup, and responsive layout.
+ * UPGRADED FEATURES:
+ * 1. Neon Glowing Pucks: Arctic White with Cyan core vs Midnight Obsidian with Magenta core.
+ * 2. Glowing Elastic Sling Band: Dynamic energetic tension glow that reacts to pull force.
+ * 3. Collision Sparks & Gate Passing Flash: Spark bursts on impacts and gate crossing.
+ * 4. Mobile Tilt / Gyroscope Parallax: Responsive tilting on smartphones & tablets.
+ * 5. Interactive Touch / Click to Fling: Tap near any puck to sling it towards the gate.
+ *
+ * Performance: Zero garbage collection in render loops (reusable vectors & pools).
  */
 
 import * as THREE from 'three';
@@ -19,27 +23,41 @@ import * as THREE from 'three';
 export interface SlingPuckOptions {
   /** Start animating immediately. Default: true */
   autoStart?: boolean;
-  /** Camera reacts to mouse/touch movement. Default: true */
+  /** Camera reacts to mouse/touch and gyroscope movement. Default: true */
   parallax?: boolean;
   /** 'low' disables soft shadows and reduces particles. Default: 'high' */
   quality?: 'low' | 'high';
   /** Pucks per player. Default: 5 */
   pucksPerSide?: number;
-  /** Seconds between shots (approx). Default: 1.4 */
+  /** Seconds between shots (approx). Default: 1.3 */
   turnDelay?: number;
   /** Max device pixel ratio, caps GPU cost on retina screens. Default: 1.75 */
   maxPixelRatio?: number;
+  /** Allow clicking/tapping on background to fling pucks. Default: true */
+  interactive?: boolean;
 }
 
-type Side = 1 | -1; // +1 = near/white player (z > 0), -1 = far/black player (z < 0)
+type Side = 1 | -1; // +1 = near/cyan player (z > 0), -1 = far/magenta player (z < 0)
 
 interface Puck {
-  mesh: THREE.Mesh;
+  group: THREE.Group;
+  baseMesh: THREE.Mesh;
+  glowRing: THREE.Mesh;
   owner: Side;
   pos: THREE.Vector2; // x, z on the board
+  lastPos: THREE.Vector2;
   vel: THREE.Vector2;
-  held: boolean; // true while a "hand" is aiming it (kinematic)
+  held: boolean; // true while aiming
   scale: number;
+}
+
+interface Spark {
+  pos: THREE.Vector3;
+  vel: THREE.Vector3;
+  color: THREE.Color;
+  life: number;
+  maxLife: number;
+  active: boolean;
 }
 
 type Phase = 'wait' | 'aim' | 'resetOut' | 'resetIn';
@@ -54,11 +72,12 @@ const PUCK_R = 0.28;
 const PUCK_H = 0.14;
 const GATE_W = 1.15; // opening in the center divider
 const DIVIDER_T = 0.12; // divider thickness
-const ANCHOR_Z = 4.1; // where the elastic band is anchored (per side)
-const PULL_DIST = 0.55; // how far the puck is pulled back
+const ANCHOR_Z = 4.1; // where the elastic band is anchored
+const PULL_DIST = 0.55; // how far puck is pulled back
 const FRICTION = 1.1; // exponential velocity damping
-const WALL_BOUNCE = 0.7;
+const WALL_BOUNCE = 0.72;
 const PUCK_BOUNCE = 0.88;
+const MAX_SPARKS = 80;
 
 const rand = (a: number, b: number): number => a + Math.random() * (b - a);
 const clamp = (v: number, a: number, b: number): number => Math.min(b, Math.max(a, v));
@@ -77,8 +96,15 @@ export class SlingPuckBackground {
   private camera: THREE.PerspectiveCamera;
   private particles: THREE.Points;
   private band: THREE.Line;
+  private bandMaterial: THREE.LineBasicMaterial;
+  private gateLight: THREE.PointLight;
   private pucks: Puck[] = [];
   private disposables: Array<{ dispose(): void }> = [];
+
+  // Spark Particle Pool
+  private sparks: Spark[] = [];
+  private sparkPoints: THREE.Points;
+  private sparkGeo: THREE.BufferGeometry;
 
   private rafId = 0;
   private running = false;
@@ -86,12 +112,18 @@ export class SlingPuckBackground {
   private elapsed = 0;
   private resizeObserver: ResizeObserver;
 
-  // camera control
+  // camera & parallax
   private readonly camTarget = new THREE.Vector3(0, 0, 0.4);
   private camDist = 14;
   private pointer = new THREE.Vector2(0, 0);
   private pointerSmooth = new THREE.Vector2(0, 0);
+  private gyro = new THREE.Vector2(0, 0);
   private readonly reducedMotion: boolean;
+
+  // interaction raycasting
+  private raycaster = new THREE.Raycaster();
+  private groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+  private rayHit = new THREE.Vector3();
 
   // game state
   private phase: Phase = 'wait';
@@ -110,6 +142,7 @@ export class SlingPuckBackground {
   private readonly _diff = new THREE.Vector2();
   private readonly _shootDir = new THREE.Vector2();
   private readonly _camDir = new THREE.Vector3();
+  private readonly _tempColor = new THREE.Color();
 
   constructor(container: HTMLElement, options: SlingPuckOptions = {}) {
     this.container = container;
@@ -118,8 +151,9 @@ export class SlingPuckBackground {
       parallax: options.parallax ?? true,
       quality: options.quality ?? 'high',
       pucksPerSide: options.pucksPerSide ?? 5,
-      turnDelay: options.turnDelay ?? 1.4,
+      turnDelay: options.turnDelay ?? 1.3,
       maxPixelRatio: options.maxPixelRatio ?? 1.75,
+      interactive: options.interactive ?? true,
     };
     this.reducedMotion =
       typeof window !== 'undefined' &&
@@ -137,7 +171,7 @@ export class SlingPuckBackground {
     });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.opts.maxPixelRatio));
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.1;
+    this.renderer.toneMappingExposure = 1.15;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = high ? THREE.PCFSoftShadowMap : THREE.BasicShadowMap;
 
@@ -160,10 +194,16 @@ export class SlingPuckBackground {
     this.camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
 
     this.buildLights(high);
+    this.gateLight = this.buildGateLight();
     this.buildTable();
     this.buildBoard();
-    this.band = this.buildBand();
+    const { line, mat } = this.buildBand();
+    this.band = line;
+    this.bandMaterial = mat;
     this.particles = this.buildParticles(high ? 130 : 45);
+    const { points, geo } = this.buildSparkSystem();
+    this.sparkPoints = points;
+    this.sparkGeo = geo;
     this.spawnPucks();
 
     /* Events */
@@ -173,6 +213,10 @@ export class SlingPuckBackground {
 
     if (this.opts.parallax && !this.reducedMotion) {
       window.addEventListener('pointermove', this.onPointerMove, { passive: true });
+      window.addEventListener('deviceorientation', this.onDeviceOrientation, { passive: true });
+    }
+    if (this.opts.interactive) {
+      window.addEventListener('pointerdown', this.onPointerDown, { passive: true });
     }
     document.addEventListener('visibilitychange', this.onVisibility);
 
@@ -198,6 +242,8 @@ export class SlingPuckBackground {
     this.stop();
     this.resizeObserver.disconnect();
     window.removeEventListener('pointermove', this.onPointerMove);
+    window.removeEventListener('deviceorientation', this.onDeviceOrientation);
+    window.removeEventListener('pointerdown', this.onPointerDown);
     document.removeEventListener('visibilitychange', this.onVisibility);
 
     this.scene.traverse((obj) => {
@@ -223,9 +269,9 @@ export class SlingPuckBackground {
   }
 
   private buildLights(high: boolean): void {
-    this.scene.add(new THREE.HemisphereLight(0xdfeaff, 0x1b2b3d, 0.85));
+    this.scene.add(new THREE.HemisphereLight(0xdfeaff, 0x1b2b3d, 0.9));
 
-    const sun = new THREE.DirectionalLight(0xfff1d6, 2.2);
+    const sun = new THREE.DirectionalLight(0xfff1d6, 2.4);
     sun.position.set(4, 11, 6);
     sun.castShadow = true;
     sun.shadow.mapSize.set(high ? 2048 : 1024, high ? 2048 : 1024);
@@ -240,17 +286,24 @@ export class SlingPuckBackground {
     sun.shadow.normalBias = 0.02;
     this.scene.add(sun);
 
-    // Dynamic glowing rim lights (cyan & pink-magenta gaming glow)
-    const cyan = new THREE.PointLight(0x00f0ff, 35, 24, 1.8);
+    // Dynamic glowing rim lights (cyan & hot magenta neon gaming glow)
+    const cyan = new THREE.PointLight(0x00f0ff, 42, 25, 1.8);
     cyan.position.set(-7, 3.8, -3);
-    const magenta = new THREE.PointLight(0xff1493, 35, 24, 1.8);
+    const magenta = new THREE.PointLight(0xff007f, 42, 25, 1.8);
     magenta.position.set(7, 3.8, 4);
     this.scene.add(cyan, magenta);
   }
 
+  private buildGateLight(): THREE.PointLight {
+    const light = new THREE.PointLight(0x00ffff, 0, 8, 1.5);
+    light.position.set(0, 0.45, 0);
+    this.scene.add(light);
+    return light;
+  }
+
   private buildTable(): void {
     const geo = this.track(new THREE.PlaneGeometry(80, 80));
-    const mat = this.track(new THREE.MeshStandardMaterial({ color: 0x0a1c2e, roughness: 0.94, metalness: 0.05 }));
+    const mat = this.track(new THREE.MeshStandardMaterial({ color: 0x071524, roughness: 0.92, metalness: 0.05 }));
     const floor = new THREE.Mesh(geo, mat);
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = -0.2;
@@ -260,7 +313,8 @@ export class SlingPuckBackground {
 
   private buildBoard(): void {
     const wood = this.track(new THREE.MeshStandardMaterial({ color: 0xd49b55, roughness: 0.55, metalness: 0.02 }));
-    const darkWood = this.track(new THREE.MeshStandardMaterial({ color: 0x935e29, roughness: 0.5 }));
+    const darkWood = this.track(new THREE.MeshStandardMaterial({ color: 0x8a5420, roughness: 0.5 }));
+    const goldPegMat = this.track(new THREE.MeshStandardMaterial({ color: 0xffd700, roughness: 0.25, metalness: 0.85 }));
 
     // Base slab
     const slab = new THREE.Mesh(this.track(new THREE.BoxGeometry(BOARD_W + 0.6, 0.2, BOARD_L + 0.6)), wood);
@@ -293,6 +347,17 @@ export class SlingPuckBackground {
     addRail(railT, BOARD_L + railT * 2, BOARD_W / 2 + railT / 2, 0);
     addRail(BOARD_W, railT, 0, -(BOARD_L / 2 + railT / 2));
     addRail(BOARD_W, railT, 0, BOARD_L / 2 + railT / 2);
+
+    // Anchor Pegs on rails where the elastic band connects
+    const pegGeo = this.track(new THREE.CylinderGeometry(0.06, 0.06, 0.38, 16));
+    for (const sx of [-1, 1]) {
+      for (const sz of [-1, 1]) {
+        const peg = new THREE.Mesh(pegGeo, goldPegMat);
+        peg.position.set(sx * (BOARD_W / 2 - 0.04), railH / 2 + 0.04, sz * ANCHOR_Z);
+        peg.castShadow = true;
+        this.scene.add(peg);
+      }
+    }
 
     // Center divider with a gate opening
     const segW = (BOARD_W - GATE_W) / 2;
@@ -399,15 +464,15 @@ export class SlingPuckBackground {
     return this.track(tex);
   }
 
-  private buildBand(): THREE.Line {
+  private buildBand(): { line: THREE.Line; mat: THREE.LineBasicMaterial } {
     const geo = this.track(new THREE.BufferGeometry());
     geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(9), 3));
-    const mat = this.track(new THREE.LineBasicMaterial({ color: 0x120d0a, linewidth: 2 }));
+    const mat = this.track(new THREE.LineBasicMaterial({ color: 0x00f0ff, linewidth: 2 }));
     const line = new THREE.Line(geo, mat);
     line.frustumCulled = false;
     line.visible = false;
     this.scene.add(line);
-    return line;
+    return { line, mat };
   }
 
   private buildParticles(count: number): THREE.Points {
@@ -434,23 +499,149 @@ export class SlingPuckBackground {
     return pts;
   }
 
+  /* -------------------------- Spark System ------------------------------ */
+
+  private buildSparkSystem(): { points: THREE.Points; geo: THREE.BufferGeometry } {
+    const positions = new Float32Array(MAX_SPARKS * 3);
+    const colors = new Float32Array(MAX_SPARKS * 3);
+
+    for (let i = 0; i < MAX_SPARKS; i++) {
+      this.sparks.push({
+        pos: new THREE.Vector3(0, -10, 0),
+        vel: new THREE.Vector3(),
+        color: new THREE.Color(0x00ffff),
+        life: 0,
+        maxLife: 1,
+        active: false,
+      });
+      positions[i * 3 + 1] = -10; // hidden initially
+    }
+
+    const geo = this.track(new THREE.BufferGeometry());
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const mat = this.track(
+      new THREE.PointsMaterial({
+        size: 0.12,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.95,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      }),
+    );
+
+    const points = new THREE.Points(geo, mat);
+    this.scene.add(points);
+    return { points, geo };
+  }
+
+  private emitSparks(x: number, y: number, z: number, count: number, colorHex: number, speedScale = 1.0): void {
+    let emitted = 0;
+    for (const spark of this.sparks) {
+      if (!spark.active) {
+        spark.active = true;
+        spark.pos.set(x, Math.max(0.08, y), z);
+        const angle = Math.random() * Math.PI * 2;
+        const spd = rand(1.5, 4.5) * speedScale;
+        spark.vel.set(Math.cos(angle) * spd, rand(1.0, 3.2), Math.sin(angle) * spd);
+        spark.color.setHex(colorHex);
+        spark.life = 0;
+        spark.maxLife = rand(0.3, 0.65);
+        emitted++;
+        if (emitted >= count) break;
+      }
+    }
+  }
+
+  private updateSparks(dt: number): void {
+    const posAttr = this.sparkGeo.getAttribute('position') as THREE.BufferAttribute;
+    const colAttr = this.sparkGeo.getAttribute('color') as THREE.BufferAttribute;
+    let anyActive = false;
+
+    for (let i = 0; i < MAX_SPARKS; i++) {
+      const s = this.sparks[i];
+      if (!s.active) {
+        posAttr.setXYZ(i, 0, -10, 0);
+        continue;
+      }
+
+      anyActive = true;
+      s.life += dt;
+      if (s.life >= s.maxLife) {
+        s.active = false;
+        posAttr.setXYZ(i, 0, -10, 0);
+        continue;
+      }
+
+      s.vel.y -= 9.8 * dt; // gravity
+      s.pos.addScaledVector(s.vel, dt);
+      if (s.pos.y < 0.04) {
+        s.pos.y = 0.04;
+        s.vel.y = -s.vel.y * 0.45; // bounce
+      }
+
+      const alpha = 1 - s.life / s.maxLife;
+      posAttr.setXYZ(i, s.pos.x, s.pos.y, s.pos.z);
+      colAttr.setXYZ(i, s.color.r * alpha, s.color.g * alpha, s.color.b * alpha);
+    }
+
+    if (anyActive) {
+      posAttr.needsUpdate = true;
+      colAttr.needsUpdate = true;
+    }
+  }
+
   /* ------------------------------- pucks -------------------------------- */
 
   private spawnPucks(): void {
     const geo = this.track(new THREE.CylinderGeometry(PUCK_R, PUCK_R, PUCK_H, 32));
-    const white = this.track(new THREE.MeshStandardMaterial({ color: 0xfbf8f1, roughness: 0.35 }));
-    const black = this.track(new THREE.MeshStandardMaterial({ color: 0x181820, roughness: 0.3, metalness: 0.15 }));
+    const ringGeo = this.track(new THREE.CylinderGeometry(PUCK_R * 0.72, PUCK_R * 0.72, PUCK_H + 0.006, 24));
+
+    // Player 1: Arctic White base with glowing Cyan neon core
+    const whiteMat = this.track(new THREE.MeshStandardMaterial({ color: 0xf5f7fb, roughness: 0.25, metalness: 0.35 }));
+    const cyanCoreMat = this.track(
+      new THREE.MeshStandardMaterial({
+        color: 0x00f0ff,
+        emissive: 0x00d0ff,
+        emissiveIntensity: 1.1,
+        roughness: 0.2,
+      }),
+    );
+
+    // Player 2: Midnight Obsidian base with glowing Hot Pink/Magenta neon core
+    const blackMat = this.track(new THREE.MeshStandardMaterial({ color: 0x10121a, roughness: 0.25, metalness: 0.6 }));
+    const magentaCoreMat = this.track(
+      new THREE.MeshStandardMaterial({
+        color: 0xff007f,
+        emissive: 0xff007f,
+        emissiveIntensity: 1.1,
+        roughness: 0.2,
+      }),
+    );
 
     for (const side of [1, -1] as Side[]) {
       for (let i = 0; i < this.opts.pucksPerSide; i++) {
-        const mesh = new THREE.Mesh(geo, side === 1 ? white : black);
-        mesh.castShadow = true;
-        mesh.receiveShadow = true;
-        this.scene.add(mesh);
+        const group = new THREE.Group();
+
+        const baseMesh = new THREE.Mesh(geo, side === 1 ? whiteMat : blackMat);
+        baseMesh.castShadow = true;
+        baseMesh.receiveShadow = true;
+        group.add(baseMesh);
+
+        // Neon Glow Ring on top of the puck
+        const glowRing = new THREE.Mesh(ringGeo, side === 1 ? cyanCoreMat : magentaCoreMat);
+        group.add(glowRing);
+
+        this.scene.add(group);
         this.pucks.push({
-          mesh,
+          group,
+          baseMesh,
+          glowRing,
           owner: side,
           pos: new THREE.Vector2(),
+          lastPos: new THREE.Vector2(),
           vel: new THREE.Vector2(),
           held: false,
           scale: 1,
@@ -472,6 +663,7 @@ export class SlingPuckBackground {
         tries++;
       } while (tries < 60 && placed.some((q) => q.distanceTo(candidate) < PUCK_R * 2.3));
       p.pos.copy(candidate);
+      p.lastPos.copy(candidate);
       p.vel.set(0, 0);
       p.held = false;
       placed.push(candidate.clone());
@@ -480,8 +672,8 @@ export class SlingPuckBackground {
 
   private syncMeshes(): void {
     for (const p of this.pucks) {
-      p.mesh.position.set(p.pos.x, (PUCK_H / 2) * p.scale + 0.004, p.pos.y);
-      p.mesh.scale.setScalar(Math.max(0.0001, p.scale));
+      p.group.position.set(p.pos.x, (PUCK_H / 2) * p.scale + 0.004, p.pos.y);
+      p.group.scale.setScalar(Math.max(0.0001, p.scale));
     }
   }
 
@@ -493,15 +685,30 @@ export class SlingPuckBackground {
 
     for (const p of this.pucks) {
       if (p.held) continue;
+      p.lastPos.copy(p.pos);
       p.pos.addScaledVector(p.vel, dt);
       p.vel.multiplyScalar(Math.exp(-FRICTION * dt));
       if (p.vel.lengthSq() < 0.0016) p.vel.set(0, 0);
 
-      // outer walls
-      if (p.pos.x < -limX) { p.pos.x = -limX; p.vel.x = Math.abs(p.vel.x) * WALL_BOUNCE; }
-      if (p.pos.x > limX) { p.pos.x = limX; p.vel.x = -Math.abs(p.vel.x) * WALL_BOUNCE; }
-      if (p.pos.y < -limZ) { p.pos.y = -limZ; p.vel.y = Math.abs(p.vel.y) * WALL_BOUNCE; }
-      if (p.pos.y > limZ) { p.pos.y = limZ; p.vel.y = -Math.abs(p.vel.y) * WALL_BOUNCE; }
+      // outer walls with spark burst on fast bounce
+      if (p.pos.x < -limX) {
+        p.pos.x = -limX;
+        if (Math.abs(p.vel.x) > 4.5) this.emitSparks(-limX, 0.1, p.pos.y, 4, p.owner === 1 ? 0x00f0ff : 0xff007f);
+        p.vel.x = Math.abs(p.vel.x) * WALL_BOUNCE;
+      }
+      if (p.pos.x > limX) {
+        p.pos.x = limX;
+        if (Math.abs(p.vel.x) > 4.5) this.emitSparks(limX, 0.1, p.pos.y, 4, p.owner === 1 ? 0x00f0ff : 0xff007f);
+        p.vel.x = -Math.abs(p.vel.x) * WALL_BOUNCE;
+      }
+      if (p.pos.y < -limZ) {
+        p.pos.y = -limZ;
+        p.vel.y = Math.abs(p.vel.y) * WALL_BOUNCE;
+      }
+      if (p.pos.y > limZ) {
+        p.pos.y = limZ;
+        p.vel.y = -Math.abs(p.vel.y) * WALL_BOUNCE;
+      }
 
       // center divider (solid except for the gate)
       const half = PUCK_R + DIVIDER_T / 2;
@@ -509,6 +716,20 @@ export class SlingPuckBackground {
         const s = p.pos.y >= 0 ? 1 : -1;
         p.pos.y = s * half;
         p.vel.y = s * Math.abs(p.vel.y) * WALL_BOUNCE;
+        if (Math.abs(p.vel.y) > 3.0) {
+          this.emitSparks(p.pos.x, 0.15, p.pos.y, 5, 0xffd700);
+        }
+      }
+
+      // Check Gate Crossing Flash (puck sailed through center slot)
+      if (
+        Math.abs(p.pos.x) < GATE_W / 2 &&
+        Math.sign(p.pos.y) !== Math.sign(p.lastPos.y) &&
+        p.lastPos.y !== 0
+      ) {
+        this.gateLight.intensity = 24;
+        this.gateLight.color.setHex(p.owner === 1 ? 0x00f0ff : 0xff007f);
+        this.emitSparks(p.pos.x, 0.18, 0, 10, p.owner === 1 ? 0x00f0ff : 0xff007f, 1.4);
       }
     }
 
@@ -544,6 +765,13 @@ export class SlingPuckBackground {
             const imp = (-(1 + PUCK_BOUNCE) * rel) / 2;
             a.vel.addScaledVector(this._diff, -imp);
             b.vel.addScaledVector(this._diff, imp);
+
+            // Emit collision sparks on hard hits
+            if (-rel > 3.5) {
+              const cx = (a.pos.x + b.pos.x) / 2;
+              const cz = (a.pos.y + b.pos.y) / 2;
+              this.emitSparks(cx, 0.12, cz, 6, -rel > 6.0 ? 0xffffff : 0x00f0ff);
+            }
           }
         }
       }
@@ -564,6 +792,11 @@ export class SlingPuckBackground {
   }
 
   private updateGame(dt: number): void {
+    // Fade out gate light flash
+    if (this.gateLight.intensity > 0.1) {
+      this.gateLight.intensity = Math.max(0, this.gateLight.intensity - dt * 38);
+    }
+
     switch (this.phase) {
       case 'wait': {
         this.timer -= dt;
@@ -592,7 +825,7 @@ export class SlingPuckBackground {
         this.aimRest.set(rx, this.shooter * ANCHOR_Z);
         this.aimPull.set(rx, this.shooter * (ANCHOR_Z + PULL_DIST));
         this.aimTarget.set(rand(-0.28, 0.28), 0);
-        this.aimSpeed = rand(8.2, 10.8);
+        this.aimSpeed = rand(8.5, 11.2);
         this.phase = 'aim';
         return;
       }
@@ -613,25 +846,37 @@ export class SlingPuckBackground {
           p.pos.lerpVectors(this.aimRest, this.aimPull, easeInOut(pull));
         }
 
-        // elastic band (V shape from both rails to puck)
+        // Elastic band (V shape from rails to puck with tension glow)
         if (move >= 1) {
           const attr = this.band.geometry.getAttribute('position') as THREE.BufferAttribute;
-          attr.setXYZ(0, -BOARD_W / 2, 0.06, this.shooter * ANCHOR_Z);
-          attr.setXYZ(1, p.pos.x, 0.06, p.pos.y);
-          attr.setXYZ(2, BOARD_W / 2, 0.06, this.shooter * ANCHOR_Z);
+          attr.setXYZ(0, -BOARD_W / 2 + 0.04, 0.07, this.shooter * ANCHOR_Z);
+          attr.setXYZ(1, p.pos.x, 0.07, p.pos.y);
+          attr.setXYZ(2, BOARD_W / 2 - 0.04, 0.07, this.shooter * ANCHOR_Z);
           attr.needsUpdate = true;
+
+          // Tension color shift: base neon to bright hot energy
+          if (this.shooter === 1) {
+            this._tempColor.setHex(0x00f0ff).lerp(new THREE.Color(0xffffff), pull * 0.7);
+          } else {
+            this._tempColor.setHex(0xff007f).lerp(new THREE.Color(0xffaa00), pull * 0.7);
+          }
+          this.bandMaterial.color.copy(this._tempColor);
           this.band.visible = true;
         }
 
         if (this.aimT >= 1.08) {
-          // release!
+          // Release & sling!
           this.band.visible = false;
           this._shootDir.subVectors(this.aimTarget, p.pos).normalize();
           p.vel.copy(this._shootDir).multiplyScalar(this.aimSpeed);
           p.held = false;
+
+          // Release spark burst at elastic release point
+          this.emitSparks(p.pos.x, 0.1, p.pos.y, 6, this.shooter === 1 ? 0x00f0ff : 0xff007f, 1.2);
+
           this.active = null;
           this.shooter = (-this.shooter) as Side;
-          this.timer = this.opts.turnDelay + rand(0, 0.5);
+          this.timer = this.opts.turnDelay + rand(0, 0.45);
           this.phase = 'wait';
         }
         return;
@@ -682,15 +927,21 @@ export class SlingPuckBackground {
 
     this.updateCamera(dt);
     this.updateParticles(dt);
+    this.updateSparks(dt);
     this.renderer.render(this.scene, this.camera);
   };
 
   private updateCamera(dt: number): void {
     const sway = this.reducedMotion ? 0 : 1;
-    this.pointerSmooth.lerp(this.pointer, 1 - Math.exp(-3 * dt));
+
+    // Smoothly blend mouse pointer + mobile gyroscope tilt
+    const targetX = this.pointer.x * 0.7 + this.gyro.x * 0.8;
+    const targetY = this.pointer.y * 0.7 + this.gyro.y * 0.8;
+    this.pointerSmooth.x = THREE.MathUtils.lerp(this.pointerSmooth.x, targetX, 1 - Math.exp(-4 * dt));
+    this.pointerSmooth.y = THREE.MathUtils.lerp(this.pointerSmooth.y, targetY, 1 - Math.exp(-4 * dt));
 
     const t = this.elapsed;
-    const yaw = Math.sin(t * 0.15) * 0.18 * sway + this.pointerSmooth.x * 0.2;
+    const yaw = Math.sin(t * 0.15) * 0.16 * sway + this.pointerSmooth.x * 0.22;
     const pitch = 0.82 + Math.sin(t * 0.11) * 0.05 * sway - this.pointerSmooth.y * 0.08;
 
     this._camDir.set(
@@ -732,6 +983,53 @@ export class SlingPuckBackground {
 
   private onPointerMove = (e: PointerEvent): void => {
     this.pointer.set((e.clientX / window.innerWidth) * 2 - 1, (e.clientY / window.innerHeight) * 2 - 1);
+  };
+
+  private onDeviceOrientation = (e: DeviceOrientationEvent): void => {
+    if (e.gamma === null || e.beta === null) return;
+    // gamma is left-to-right [-90, 90], beta is front-to-back [-180, 180]
+    const gx = clamp(e.gamma / 32, -1, 1);
+    const gy = clamp((e.beta - 45) / 32, -1, 1);
+    this.gyro.set(gx, gy);
+  };
+
+  /** User Tap / Click to sling or fling nearby puck */
+  private onPointerDown = (e: PointerEvent): void => {
+    const ndcX = (e.clientX / window.innerWidth) * 2 - 1;
+    const ndcY = -(e.clientY / window.innerHeight) * 2 + 1;
+
+    this.raycaster.setFromCamera(new THREE.Vector2(ndcX, ndcY), this.camera);
+    const hit = this.raycaster.ray.intersectPlane(this.groundPlane, this.rayHit);
+    if (!hit) return;
+
+    // Check if clicked near any resting puck
+    let closestPuck: Puck | null = null;
+    let closestDist = 1.6;
+
+    for (const p of this.pucks) {
+      if (p.held) continue;
+      const d = Math.hypot(p.pos.x - hit.x, p.pos.y - hit.z);
+      if (d < closestDist) {
+        closestDist = d;
+        closestPuck = p;
+      }
+    }
+
+    if (closestPuck) {
+      // Fling towards center gate
+      const target = new THREE.Vector2(rand(-0.2, 0.2), 0);
+      const impulseDir = target.clone().sub(closestPuck.pos).normalize();
+      const speed = rand(8.5, 11.5);
+      closestPuck.vel.copy(impulseDir).multiplyScalar(speed);
+      this.emitSparks(
+        closestPuck.pos.x,
+        0.12,
+        closestPuck.pos.y,
+        8,
+        closestPuck.owner === 1 ? 0x00f0ff : 0xff007f,
+        1.3,
+      );
+    }
   };
 
   private onVisibility = (): void => {
