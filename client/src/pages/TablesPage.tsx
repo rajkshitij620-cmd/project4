@@ -173,19 +173,19 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
   const coins = user?.coins || 1000;
 
   return (
-    <div className="w-full h-full flex flex-col px-4 pt-4 pb-24 max-w-xl mx-auto gap-3 select-none overflow-hidden">
+    <div className="w-full h-full flex flex-col pt-4 pb-24 gap-3 select-none overflow-hidden">
 
-      {/* Header */}
-      <div className="flex-shrink-0">
+      {/* Header — keeps its own padding */}
+      <div className="flex-shrink-0 px-4">
         <h2 className="font-display text-xl font-bold text-white tracking-wide flex items-center gap-2">
           <Layers size={18} className="text-cyan-400" />
           ARENA TABLES
         </h2>
       </div>
 
-      {/* Horizontal snap-scroll carousel */}
+      {/* Horizontal snap-scroll carousel — edge to edge, no side padding */}
       <div
-        className="flex flex-row gap-5 overflow-x-auto snap-x snap-mandatory flex-1 items-center pb-2 scrollbar-hide px-2"
+        className="flex flex-row overflow-x-auto snap-x snap-mandatory flex-1 items-stretch pb-2 scrollbar-hide"
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
         {GAME_TABLES.map((table) => {
@@ -194,18 +194,21 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
           return (
             <div
               key={table.id}
-              className={`snap-center flex-shrink-0 relative rounded-[24px] overflow-hidden flex flex-col justify-between shadow-2xl transition-all ${
+              className={`snap-center flex-shrink-0 relative overflow-hidden flex flex-col justify-between transition-all ${
                 isLocked ? 'opacity-85' : ''
               }`}
               style={{
-                width: '280px',
-                maxWidth: '82vw',
+                width: '100vw',
+                maxWidth: '100vw',
                 height: '100%',
-                maxHeight: '460px',
-                aspectRatio: '280 / 460',
-                boxShadow: `0 16px 36px rgba(0,0,0,0.6), 0 0 24px ${table.borderColor}40`,
+                padding: '0 12px',
               }}
             >
+              {/* Inner card — rounded, shadow */}
+              <div
+                className="relative w-full h-full rounded-[24px] overflow-hidden flex flex-col justify-between shadow-2xl"
+                style={{ boxShadow: `0 16px 36px rgba(0,0,0,0.6), 0 0 24px ${table.borderColor}40` }}
+              >
               {/* ── The Game Board (entire card body) ── */}
               <BoardPreview table={table} />
 
@@ -277,6 +280,7 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
                   )}
                 </button>
               </div>
+              </div>{/* end inner card */}
             </div>
           );
         })}
