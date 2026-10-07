@@ -27,13 +27,13 @@ console.log('--- RUNNING DISK SLAM 3D VALIDATION SUITE ---');
   const piecesA = pieces.filter(p => p.owner === 'playerA');
   const piecesB = pieces.filter(p => p.owner === 'playerB');
 
-  assert.strictEqual(piecesA.length, 4, 'Player A must have 4 starting pieces');
-  assert.strictEqual(piecesB.length, 4, 'Player B must have 4 starting pieces');
-  assert.strictEqual(piecesA.length, piecesB.length, 'Both players must receive an equal number of pieces');
+  assert.strictEqual(piecesA.length, 5, 'Player A must have 5 starting pucks');
+  assert.strictEqual(piecesB.length, 5, 'Player B must have 5 starting pucks');
+  assert.strictEqual(piecesA.length, piecesB.length, 'Both players must receive an equal number of pucks (5 vs 5)');
 
   piecesA.forEach(p => assert.strictEqual(p.color, playerAColor));
   piecesB.forEach(p => assert.strictEqual(p.color, playerBColor));
-  console.log('✓ Initial Pieces Setup passed: Equal pieces and correct color assignment');
+  console.log('✓ Initial Pieces Setup passed: 5 pucks per side with correct color assignment');
 }
 
 // 3. TEST: Win Condition Rules
@@ -46,59 +46,64 @@ console.log('--- RUNNING DISK SLAM 3D VALIDATION SUITE ---');
   let winState = GameRulesEngine.evaluateWinCondition(pieces);
   assert.strictEqual(winState.isGameOver, false);
   assert.strictEqual(winState.winner, null);
-  assert.strictEqual(winState.remainingA, 4);
-  assert.strictEqual(winState.remainingB, 4);
+  assert.strictEqual(winState.remainingA, 5);
+  assert.strictEqual(winState.remainingB, 5);
 
-  // Case: Player A pockets 2 of their own pieces
+  // Case: Player A slings 2 of their own pieces through gate
   pieces[0].isPocketed = true;
   pieces[1].isPocketed = true;
   winState = GameRulesEngine.evaluateWinCondition(pieces);
   assert.strictEqual(winState.isGameOver, false);
-  assert.strictEqual(winState.remainingA, 2);
+  assert.strictEqual(winState.remainingA, 3);
 
   // Case: Opponent pieces get pocketed (should NOT make opponent win)
   pieces.filter(p => p.owner === 'playerB')[0].isPocketed = true;
   winState = GameRulesEngine.evaluateWinCondition(pieces);
   assert.strictEqual(winState.isGameOver, false);
-  assert.strictEqual(winState.remainingB, 3);
+  assert.strictEqual(winState.remainingB, 4);
 
-  // Case: Player A pockets all remaining pieces -> Player A WINS
+  // Case: Player A clears all 5 pieces -> Player A WINS
   pieces[2].isPocketed = true;
   pieces[3].isPocketed = true;
+  pieces[4].isPocketed = true;
   winState = GameRulesEngine.evaluateWinCondition(pieces);
   assert.strictEqual(winState.isGameOver, true);
   assert.strictEqual(winState.winner, 'playerA');
   assert.strictEqual(winState.remainingA, 0);
-  console.log('✓ Win Condition Engine passed: Player wins only when all own pieces are pocketed');
+  console.log('✓ Win Condition Engine passed: Player wins when all 5 own pucks are slung to opponent side');
 }
 
-// 4. TEST: Pocket Entry Geometry
+// 4. TEST: Gate Entry Geometry
 {
-  console.log('Testing: Pocket Entry Detection...');
+  console.log('Testing: Gate Entry Crossing Detection...');
   const mockPieceA: PieceData = {
     id: 'test_a',
     owner: 'playerA',
     color: 'blue',
     x: 0,
-    z: 0,
-    radius: 0.4,
+    z: 2.0,
+    radius: 0.38,
     isPocketed: false
   };
 
-  // Center of board - not pocketed
-  let res = GameRulesEngine.checkPocketEntry(mockPieceA, 0, 0);
+  // Center of Player A's own side (z = 2.0) - not scored
+  let res = GameRulesEngine.checkPocketEntry(mockPieceA, 0, 2.0);
   assert.strictEqual(res.pocketed, false);
 
-  // Inside Player B Goal (North, Z = -5.6) -> Player A's objective!
-  res = GameRulesEngine.checkPocketEntry(mockPieceA, 0, -5.6);
+  // Passing through the center gate slot (x = 0, z = -0.5) into Player B side -> Scored!
+  res = GameRulesEngine.checkPocketEntry(mockPieceA, 0, -0.5);
   assert.strictEqual(res.pocketed, true);
   assert.strictEqual(res.intoOpponentGoal, true);
 
-  // Inside Player A Goal (South, Z = +5.6) -> Own goal!
-  res = GameRulesEngine.checkPocketEntry(mockPieceA, 0, 5.6);
+  // Hitting the divider wall away from the gate (x = 2.5, z = -0.5) -> NOT through gate!
+  res = GameRulesEngine.checkPocketEntry(mockPieceA, 2.5, -0.5);
+  assert.strictEqual(res.pocketed, false);
+
+  // Out of bounds off the back edge
+  res = GameRulesEngine.checkPocketEntry(mockPieceA, 0, 7.5);
   assert.strictEqual(res.pocketed, true);
   assert.strictEqual(res.intoOpponentGoal, false);
-  console.log('✓ Pocket Entry Detection passed: Accurately identifies opponent goal vs own goal');
+  console.log('✓ Gate Entry Detection passed: Accurately detects crossing through center gate slot');
 }
 
 // 5. TEST: Physics-aware AI

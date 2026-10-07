@@ -173,7 +173,7 @@ export const PhysicsWorld: React.FC<PhysicsWorldProps> = ({
 
         <GameCamera currentTurn={currentTurn} isSimulating={isSimulating} />
 
-        <Physics gravity={[0, -25, 0]} timeStep="vary">
+        <Physics gravity={[0, 0, 0]} timeStep="vary">
           {/* Table Arena & Borders */}
           <Board table={table} />
 

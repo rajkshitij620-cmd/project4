@@ -65,7 +65,7 @@ export const Board: React.FC<BoardProps> = ({ table }) => {
       {/* ══════════════════════════════════════════════════════════
           1. PLAYING SURFACE (felt / board floor)
          ══════════════════════════════════════════════════════════ */}
-      <RigidBody type="fixed" friction={table.friction} restitution={table.restitution}>
+      <RigidBody type="fixed" colliders={false} friction={table.friction} restitution={table.restitution}>
         <mesh position={[0, -0.06, 0]} receiveShadow>
           <boxGeometry args={[width, 0.12, length]} />
           <meshStandardMaterial
@@ -76,6 +76,7 @@ export const Board: React.FC<BoardProps> = ({ table }) => {
             emissiveIntensity={feltEmissiveInt}
           />
         </mesh>
+        <CuboidCollider args={[width / 2 + 0.5, 0.5, length / 2 + 0.5]} position={[0, -0.5, 0]} />
       </RigidBody>
 
       {/* ══════════════════════════════════════════════════════════
@@ -169,7 +170,7 @@ export const Board: React.FC<BoardProps> = ({ table }) => {
       {/* ══════════════════════════════════════════════════════════
           5. SIDE RAILS (Left & Right — thick wooden walls)
          ══════════════════════════════════════════════════════════ */}
-      <RigidBody type="fixed" friction={table.friction * 0.6} restitution={table.restitution * 1.05}>
+      <RigidBody type="fixed" colliders={false} friction={table.friction * 0.6} restitution={table.restitution * 1.05}>
         {/* Left rail */}
         <mesh position={[-halfW - railThick / 2, railH / 2, 0]} castShadow receiveShadow>
           <boxGeometry args={[railThick, railH, length + railThick * 2]} />
@@ -181,8 +182,12 @@ export const Board: React.FC<BoardProps> = ({ table }) => {
             emissiveIntensity={railEmissiveInt}
           />
         </mesh>
+        <CuboidCollider
+          args={[railThick / 2, railH / 2, (length + railThick * 2) / 2]}
+          position={[-halfW - railThick / 2, railH / 2, 0]}
+        />
       </RigidBody>
-      <RigidBody type="fixed" friction={table.friction * 0.6} restitution={table.restitution * 1.05}>
+      <RigidBody type="fixed" colliders={false} friction={table.friction * 0.6} restitution={table.restitution * 1.05}>
         {/* Right rail */}
         <mesh position={[halfW + railThick / 2, railH / 2, 0]} castShadow receiveShadow>
           <boxGeometry args={[railThick, railH, length + railThick * 2]} />
@@ -194,12 +199,16 @@ export const Board: React.FC<BoardProps> = ({ table }) => {
             emissiveIntensity={railEmissiveInt}
           />
         </mesh>
+        <CuboidCollider
+          args={[railThick / 2, railH / 2, (length + railThick * 2) / 2]}
+          position={[halfW + railThick / 2, railH / 2, 0]}
+        />
       </RigidBody>
 
       {/* ══════════════════════════════════════════════════════════
           6. END BUMPERS (North & South solid walls)
          ══════════════════════════════════════════════════════════ */}
-      <RigidBody type="fixed" friction={table.friction * 0.7} restitution={table.restitution * 0.85}>
+      <RigidBody type="fixed" colliders={false} friction={table.friction * 0.7} restitution={table.restitution * 0.85}>
         <mesh position={[0, railH / 2, halfL + railThick / 2]} castShadow receiveShadow>
           <boxGeometry args={[width + railThick * 2, railH, railThick]} />
           <meshStandardMaterial
@@ -208,8 +217,12 @@ export const Board: React.FC<BoardProps> = ({ table }) => {
             metalness={isCyber ? 0.7 : 0.1}
           />
         </mesh>
+        <CuboidCollider
+          args={[(width + railThick * 2) / 2, railH / 2, railThick / 2]}
+          position={[0, railH / 2, halfL + railThick / 2]}
+        />
       </RigidBody>
-      <RigidBody type="fixed" friction={table.friction * 0.7} restitution={table.restitution * 0.85}>
+      <RigidBody type="fixed" colliders={false} friction={table.friction * 0.7} restitution={table.restitution * 0.85}>
         <mesh position={[0, railH / 2, -halfL - railThick / 2]} castShadow receiveShadow>
           <boxGeometry args={[width + railThick * 2, railH, railThick]} />
           <meshStandardMaterial
@@ -218,6 +231,10 @@ export const Board: React.FC<BoardProps> = ({ table }) => {
             metalness={isCyber ? 0.7 : 0.1}
           />
         </mesh>
+        <CuboidCollider
+          args={[(width + railThick * 2) / 2, railH / 2, railThick / 2]}
+          position={[0, railH / 2, -halfL - railThick / 2]}
+        />
       </RigidBody>
 
       {/* ══════════════════════════════════════════════════════════

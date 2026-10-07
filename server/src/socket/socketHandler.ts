@@ -170,7 +170,6 @@ export function setupSocketHandlers(io: Server): void {
         socket.to(roomId).emit('opponentDisconnected');
         socketRooms.delete(socket.id);
       }
-      console.log(`[Socket] Socket disconnected: ${socket.id}`);
     });
   });
 }

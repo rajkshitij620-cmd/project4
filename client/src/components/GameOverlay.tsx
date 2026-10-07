@@ -34,103 +34,106 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
 
   return (
     <div className="absolute inset-0 pointer-events-none select-none z-20 flex flex-col justify-between p-4">
-      {/* Top Bar: Back Button, Player Stats, Table Pill */}
-      <div className="flex items-center justify-between gap-3 w-full">
-        {/* Back / Surrender Button */}
-        <button
-          onClick={() => {
-            soundEffects.playClick();
-            setShowExitConfirm(true);
-          }}
-          className="pointer-events-auto p-2.5 rounded-xl bg-slate-950/80 backdrop-blur-md border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 active:scale-95 shadow-lg"
-          title="Leave Match"
-        >
-          <ArrowLeft size={20} />
-        </button>
+      {/* Top Header Section */}
+      <div className="flex flex-col items-center gap-2 w-full">
+        {/* Top Bar: Back Button, Player Stats, Table Pill */}
+        <div className="flex items-center justify-between gap-3 w-full">
+          {/* Back / Surrender Button */}
+          <button
+            onClick={() => {
+              soundEffects.playClick();
+              setShowExitConfirm(true);
+            }}
+            className="pointer-events-auto p-2.5 rounded-xl bg-slate-950/80 backdrop-blur-md border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 active:scale-95 shadow-lg"
+            title="Leave Match"
+          >
+            <ArrowLeft size={20} />
+          </button>
 
-        {/* Players HUD */}
-        <div 
-          className="flex items-center gap-3 border border-[#f8edeb]/90 px-4 py-2 rounded-2xl shadow-xl"
-          style={{
-            background: 'rgba(248, 237, 235, 0.75)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)'
-          }}
-        >
-          {/* Player A (You) */}
-          <div className="flex items-center gap-2">
-            <div
-              className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md border-2"
-              style={{
-                backgroundColor: colorDefA?.hex || '#2563eb',
-                borderColor: currentTurn === 'playerA' ? '#000000' : 'transparent'
-              }}
-            >
-              {playerA.avatar}
+          {/* Players HUD */}
+          <div 
+            className="flex items-center gap-3 border border-[#f8edeb]/90 px-4 py-2 rounded-2xl shadow-xl"
+            style={{
+              background: 'rgba(248, 237, 235, 0.75)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)'
+            }}
+          >
+            {/* Player A (You) */}
+            <div className="flex items-center gap-2">
+              <div
+                className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md border-2"
+                style={{
+                  backgroundColor: colorDefA?.hex || '#2563eb',
+                  borderColor: currentTurn === 'playerA' ? '#000000' : 'transparent'
+                }}
+              >
+                {playerA.avatar}
+              </div>
+              <div className="flex flex-col text-left">
+                <span className="text-xs font-black text-slate-950">{playerA.name}</span>
+                <div className="flex items-center gap-1">
+                  <Target size={11} className="text-slate-600" />
+                  <span className="text-[11px] font-black text-blue-700">
+                    {remainingA} left
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col text-left">
-              <span className="text-xs font-black text-slate-950">{playerA.name}</span>
-              <div className="flex items-center gap-1">
-                <Target size={11} className="text-slate-600" />
-                <span className="text-[11px] font-black text-rose-800">
-                  {remainingA} left
-                </span>
+
+            <div className="text-xs font-black text-rose-950 tracking-widest px-1">VS</div>
+
+            {/* Player B (Opponent / Bot) */}
+            <div className="flex items-center gap-2">
+              <div className="flex flex-col text-right">
+                <span className="text-xs font-black text-slate-950">{playerB.name}</span>
+                <div className="flex items-center justify-end gap-1">
+                  <span className="text-[11px] font-black text-red-700">
+                    {remainingB} left
+                  </span>
+                  <Target size={11} className="text-slate-600" />
+                </div>
+              </div>
+              <div
+                className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md border-2"
+                style={{
+                  backgroundColor: colorDefB?.hex || '#dc2626',
+                  borderColor: currentTurn === 'playerB' ? '#000000' : 'transparent'
+                }}
+              >
+                {playerB.avatar}
               </div>
             </div>
           </div>
 
-          <div className="text-xs font-black text-rose-950 tracking-widest px-1">VS</div>
-
-          {/* Player B (Opponent / Bot) */}
-          <div className="flex items-center gap-2">
-            <div className="flex flex-col text-right">
-              <span className="text-xs font-black text-slate-950">{playerB.name}</span>
-              <div className="flex items-center justify-end gap-1">
-                <span className="text-[11px] font-black text-rose-950">
-                  {remainingB} left
-                </span>
-                <Target size={11} className="text-slate-600" />
-              </div>
-            </div>
-            <div
-              className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md border-2"
-              style={{
-                backgroundColor: colorDefB?.hex || '#dc2626',
-                borderColor: currentTurn === 'playerB' ? '#000000' : 'transparent'
-              }}
-            >
-              {playerB.avatar}
-            </div>
+          {/* Table pill */}
+          <div 
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#f8edeb] text-xs font-black text-slate-950 shadow-sm"
+            style={{
+              background: 'rgba(248, 237, 235, 0.75)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)'
+            }}
+          >
+            <span className="w-2 h-2 rounded-full" style={{ backgroundColor: table.borderColor }} />
+            <span>{table.name}</span>
           </div>
         </div>
 
-        {/* Table pill */}
-        <div 
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#f8edeb] text-xs font-black text-slate-950 shadow-sm"
-          style={{
-            background: 'rgba(248, 237, 235, 0.75)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)'
-          }}
-        >
-          <span className="w-2 h-2 rounded-full" style={{ backgroundColor: table.borderColor }} />
-          <span>{table.name}</span>
+        {/* Compact Action Badge (below HUD, keeping center gate completely open) */}
+        <div className="flex items-center justify-center">
+          {isSimulating ? (
+            <div className="px-3.5 py-1 rounded-full bg-slate-900/85 backdrop-blur-md border border-cyan-500/40 text-cyan-300 text-[11px] font-bold tracking-wider uppercase flex items-center gap-1.5 shadow-lg">
+              <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+              Physics in motion...
+            </div>
+          ) : (
+            <div className="px-3.5 py-1 rounded-full bg-blue-600/85 backdrop-blur-md border border-blue-400/50 text-white text-[11px] font-black tracking-wider uppercase shadow-lg flex items-center gap-1.5">
+              <Target size={12} />
+              SLING YOUR PUCKS!
+            </div>
+          )}
         </div>
-      </div>
-
-      {/* Center Action Banner — Real Sling Puck: both play simultaneously */}
-      <div className="flex flex-col items-center justify-center">
-        {isSimulating ? (
-          <div className="px-5 py-2 rounded-full bg-slate-900/90 backdrop-blur-md border border-slate-700/80 text-cyan-300 text-xs font-bold tracking-widest uppercase flex items-center gap-2 shadow-2xl">
-            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-            Physics in motion...
-          </div>
-        ) : (
-          <div className="px-6 py-2.5 rounded-2xl backdrop-blur-md border border-cyan-400/80 text-sm font-black tracking-widest uppercase shadow-2xl flex items-center gap-2 bg-gradient-to-r from-blue-600/90 to-cyan-500/90 text-white shadow-cyan-500/30">
-            <Target size={16} />
-            SLING YOUR PUCKS!
-          </div>
-        )}
       </div>
 
       {/* Bottom Hint Indicator */}

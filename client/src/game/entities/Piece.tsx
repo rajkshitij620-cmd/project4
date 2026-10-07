@@ -61,22 +61,44 @@ export const Piece: React.FC<PieceProps> = ({
     }
   }, [pendingImpulse, piece.isPocketed]);
 
-  // Sync pocketed state — move off board
-  useEffect(() => {
-    if (piece.isPocketed && rigidBodyRef.current && !hasPocketedRef.current) {
-      hasPocketedRef.current = true;
-      try {
-        rigidBodyRef.current.setTranslation({ x: 0, y: -50, z: 0 }, true);
-        rigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
-      } catch {}
-    }
-  }, [piece.isPocketed]);
+  const mountTimeRef = useRef(performance.now());
 
-  // Check crossing the center gate (pock = crossing detection)
+  // Sync pocketed state and reset puck position on new match / restart
+  useEffect(() => {
+    if (!piece.isPocketed) {
+      hasPocketedRef.current = false;
+      mountTimeRef.current = performance.now();
+      if (rigidBodyRef.current) {
+        try {
+          rigidBodyRef.current.setTranslation({ x: piece.x, y: 0.13, z: piece.z }, true);
+          rigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
+          rigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
+        } catch {}
+      }
+    } else {
+      hasPocketedRef.current = true;
+      if (rigidBodyRef.current) {
+        try {
+          rigidBodyRef.current.setTranslation({ x: 0, y: -50, z: 0 }, true);
+          rigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
+        } catch {}
+      }
+    }
+  }, [piece.isPocketed, piece.x, piece.z]);
+
+  // Check crossing the center gate slot
   useFrame(() => {
     if (!rigidBodyRef.current || piece.isPocketed || hasPocketedRef.current) return;
+    // Grace period on spawn: do not trigger scoring in the first 500ms
+    if (performance.now() - mountTimeRef.current < 500) return;
+
     try {
       const pos = rigidBodyRef.current.translation();
+      // Keep Y firmly on the tabletop surface
+      if (Math.abs(pos.y - 0.13) > 0.015) {
+        rigidBodyRef.current.setTranslation({ x: pos.x, y: 0.13, z: pos.z }, true);
+      }
+
       const pocketResult = GameRulesEngine.checkPocketEntry(piece, pos.x, pos.z);
       if (pocketResult.pocketed) {
         hasPocketedRef.current = true;
@@ -190,8 +212,9 @@ export const Piece: React.FC<PieceProps> = ({
     <RigidBody
       ref={rigidBodyRef}
       colliders={false}
-      position={[piece.x, height / 2 + 0.01, piece.z]}
+      position={[piece.x, 0.13, piece.z]}
       type="dynamic"
+      enabledTranslations={[true, false, true]}
       enabledRotations={[false, true, false]}
       linearDamping={1.1}
       angularDamping={1.4}
@@ -199,7 +222,7 @@ export const Piece: React.FC<PieceProps> = ({
       friction={0.12}
       onCollisionEnter={handleCollision}
     >
-      <CylinderCollider args={[height / 2, radius]} />
+      <CylinderCollider args={[height / 2, radius]} position={[0, 0, 0]} />
 
       {/* 3D Puck Mesh */}
       <group visible={!piece.isPocketed && !hasPocketedRef.current}>

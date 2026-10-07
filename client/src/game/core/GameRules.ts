@@ -158,9 +158,10 @@ export class GameRulesEngine {
     z: number,
   ): { pocketed: boolean; intoOpponentGoal: boolean; goalName?: string } {
     const halfL = DEFAULT_BOARD_DIMENSIONS.length / 2;
+    const gateHalfW = DEFAULT_BOARD_DIMENSIONS.gateWidth / 2; // 0.8
 
     // If puck falls completely off the board ends — remove it
-    if (z < -halfL - 0.3 || z > halfL + 0.3) {
+    if (z < -halfL - 0.5 || z > halfL + 0.5) {
       return {
         pocketed: true,
         intoOpponentGoal: false, // went off edge, not a clean cross — counts as neutral removal
@@ -168,9 +169,13 @@ export class GameRulesEngine {
       };
     }
 
+    // A puck ONLY scores if it actually passes through the center gate opening!
+    // The gate is at Z = 0 with opening from -gateHalfW to +gateHalfW in X.
+    const isPassingThroughGate = Math.abs(x) < (gateHalfW + 0.15);
+
     // REAL SLING PUCK WIN CHECK:
-    // Player A's puck crosses center (goes from Z > 0 to Z < -0.3) = scored onto opponent's side
-    if (piece.owner === 'playerA' && z < -0.3) {
+    // Player A's puck crosses center (goes from Z > 0 to Z < -0.4) through the gate
+    if (piece.owner === 'playerA' && isPassingThroughGate && z < -0.4) {
       return {
         pocketed: true,
         intoOpponentGoal: true,
@@ -178,8 +183,8 @@ export class GameRulesEngine {
       };
     }
 
-    // Player B's puck crosses center (goes from Z < 0 to Z > 0.3) = scored onto opponent's side
-    if (piece.owner === 'playerB' && z > 0.3) {
+    // Player B's puck crosses center (goes from Z < 0 to Z > 0.4) through the gate
+    if (piece.owner === 'playerB' && isPassingThroughGate && z > 0.4) {
       return {
         pocketed: true,
         intoOpponentGoal: true,

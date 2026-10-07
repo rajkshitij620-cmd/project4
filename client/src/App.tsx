@@ -49,9 +49,6 @@ export const App: React.FC = () => {
   useEffect(() => {
     initGuest();
     socketService.connect();
-    return () => {
-      socketService.disconnect();
-    };
   }, [initGuest]);
 
   const isGameActive = phase === 'PLAYING' || phase === 'SIMULATING' || phase === 'GAME_OVER';

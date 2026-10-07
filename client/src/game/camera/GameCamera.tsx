@@ -20,30 +20,24 @@ export const GameCamera: React.FC<GameCameraProps> = ({ currentTurn, isSimulatin
 
     const aspect = size.width / size.height;
 
-    // Phone portrait (most common use case) — bring camera close so board fills screen
-    if (aspect < 0.55) {
-      // Very tall portrait (iPhone Pro Max, Galaxy Ultra)
-      targetPos.current.set(0, 10.8, 6.2);
-      targetLook.current.set(0, 0, 0.2);
-    } else if (aspect < 0.70) {
-      // Standard Android portrait (most phones)
-      targetPos.current.set(0, 10.2, 5.8);
-      targetLook.current.set(0, 0, 0.1);
-    } else if (aspect < 0.85) {
-      // Wider phone portrait / compact tablet
-      targetPos.current.set(0, 9.6, 5.4);
-      targetLook.current.set(0, 0, 0.0);
-    } else if (aspect < 1.0) {
-      // Near-square tablet portrait
-      targetPos.current.set(0, 9.2, 5.0);
-      targetLook.current.set(0, 0, 0);
-    } else {
-      // Landscape
-      targetPos.current.set(0, 11.0, 6.5);
-      targetLook.current.set(0, 0, 0);
-    }
+    // Board length is 12.8 + rails ≈ 13.9. Board width is 7.2 + rails ≈ 8.3.
+    // Calculate required camera height so both ends (North & South bumpers)
+    // and both sides (Left & Right rails) fit comfortably with UI padding.
+    const vFovRad = (46 * Math.PI) / 180;
+    const tanHalfFov = Math.tan(vFovRad / 2);
 
-    cameraRef.current.position.lerp(targetPos.current, 0.08);
+    const marginL = 17.5; // vertical span clearance
+    const marginW = 9.8;  // horizontal span clearance
+
+    const yForLength = marginL / (2 * tanHalfFov);
+    const yForWidth  = marginW / (2 * tanHalfFov * aspect);
+    const targetY    = Math.max(yForLength, yForWidth);
+
+    // Subtle perspective tilt (Z: 1.2) so 3D depth looks realistic without hiding either end
+    targetPos.current.set(0, targetY, 1.2);
+    targetLook.current.set(0, 0, 0);
+
+    cameraRef.current.position.lerp(targetPos.current, 0.12);
     cameraRef.current.lookAt(targetLook.current);
   });
 
@@ -51,10 +45,10 @@ export const GameCamera: React.FC<GameCameraProps> = ({ currentTurn, isSimulatin
     <PerspectiveCamera
       ref={cameraRef}
       makeDefault
-      fov={58}
-      position={[0, 10.2, 5.8]}
+      fov={46}
+      position={[0, 22.0, 1.2]}
       near={0.1}
-      far={120}
+      far={150}
     />
   );
 };
