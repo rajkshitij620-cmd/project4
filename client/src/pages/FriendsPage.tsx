@@ -80,10 +80,10 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
     return (
       <div className="w-full h-full overflow-y-auto pb-24 px-4 pt-12 max-w-md mx-auto flex flex-col items-center justify-center text-center select-none">
         <div 
-          className="p-8 rounded-3xl border border-amber-300/60 shadow-2xl flex flex-col items-center"
-          style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+          className="p-8 rounded-3xl border border-[#b9e3c6]/70 shadow-2xl flex flex-col items-center"
+          style={{ background: 'rgba(185, 227, 198, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         >
-          <div className="w-16 h-16 rounded-2xl bg-amber-200/90 border border-amber-400 text-amber-900 flex items-center justify-center mb-4 shadow-sm">
+          <div className="w-16 h-16 rounded-2xl bg-emerald-200/90 border border-emerald-400 text-emerald-950 flex items-center justify-center mb-4 shadow-sm">
             <ShieldAlert size={32} />
           </div>
           <h2 className="font-display text-2xl font-black text-slate-950 mb-2">FRIEND SYSTEM</h2>
@@ -117,15 +117,15 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
             value={searchPlayerId}
             onChange={(e) => setSearchPlayerId(e.target.value.toUpperCase())}
             placeholder="Search by Player ID (e.g. TM8K29XP)"
-            className="w-full pl-10 pr-4 py-3 rounded-2xl text-xs font-mono font-bold text-slate-950 placeholder-slate-500 focus:outline-none focus:border-amber-400 uppercase shadow-md border border-amber-300/60"
-            style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+            className="w-full pl-10 pr-4 py-3 rounded-2xl text-xs font-mono font-bold text-slate-950 placeholder-slate-500 focus:outline-none focus:border-[#b9e3c6] uppercase shadow-md border border-[#b9e3c6]/70"
+            style={{ background: 'rgba(185, 227, 198, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
           />
         </div>
         <button
           type="submit"
           disabled={isSearching}
-          className="px-5 py-3 rounded-2xl text-slate-950 text-xs font-black transition-all active:scale-95 shadow-md border border-amber-300/70"
-          style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+          className="px-5 py-3 rounded-2xl text-slate-950 text-xs font-black transition-all active:scale-95 shadow-md border border-[#b9e3c6]/80"
+          style={{ background: 'rgba(185, 227, 198, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         >
           {isSearching ? '...' : 'Search'}
         </button>
@@ -140,8 +140,8 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
 
       {searchedUser && (
         <div 
-          className="p-4 rounded-2xl border border-amber-300/60 flex items-center justify-between shadow-md"
-          style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+          className="p-4 rounded-2xl border border-[#b9e3c6]/70 flex items-center justify-between shadow-md"
+          style={{ background: 'rgba(185, 227, 198, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         >
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-amber-200/70 border border-amber-300 flex items-center justify-center text-lg shadow-sm">
@@ -223,16 +223,16 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
             friends.map((friend) => (
               <div
                 key={friend._id}
-                className="p-3.5 rounded-2xl border border-amber-200/90 shadow-md flex items-center justify-between"
+                className="p-3.5 rounded-2xl border border-[#b9e3c6]/80 shadow-md flex items-center justify-between"
                 style={{
-                  background: 'rgba(254, 250, 224, 0.45)',
+                  background: 'rgba(185, 227, 198, 0.45)',
                   backdropFilter: 'blur(12px)',
                   WebkitBackdropFilter: 'blur(12px)'
                 }}
               >
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="w-10 h-10 rounded-xl bg-amber-200/70 border border-amber-300 flex items-center justify-center text-lg shadow-sm">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-200/70 border border-emerald-300 flex items-center justify-center text-lg shadow-sm">
                       {friend.avatar}
                     </div>
                     <Circle
@@ -244,7 +244,7 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
                   </div>
                   <div>
                     <h4 className="text-xs font-black text-slate-950">{friend.username}</h4>
-                    <span className="text-[11px] font-mono font-bold text-amber-900">{friend.playerId}</span>
+                    <span className="text-[11px] font-mono font-bold text-emerald-950">{friend.playerId}</span>
                   </div>
                 </div>
 
@@ -254,7 +254,7 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
                   className={`px-3 py-1.5 rounded-xl text-xs font-black flex items-center gap-1.5 transition-all ${
                     friend.isOnline
                       ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-md shadow-blue-600/25 active:scale-95'
-                      : 'bg-amber-200 text-amber-800 cursor-not-allowed'
+                      : 'bg-emerald-200 text-emerald-900 cursor-not-allowed'
                   }`}
                 >
                   <Gamepad2 size={14} />
@@ -277,9 +277,9 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
             incomingRequests.map((req) => (
               <div
                 key={req._id}
-                className="p-3.5 rounded-2xl border border-amber-200/90 shadow-md flex items-center justify-between"
+                className="p-3.5 rounded-2xl border border-[#b9e3c6]/80 shadow-md flex items-center justify-between"
                 style={{
-                  background: 'rgba(254, 250, 224, 0.45)',
+                  background: 'rgba(185, 227, 198, 0.45)',
                   backdropFilter: 'blur(12px)',
                   WebkitBackdropFilter: 'blur(12px)'
                 }}

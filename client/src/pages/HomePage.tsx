@@ -45,14 +45,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartOffline, onNavigateTa
       {/* ── Page Content ── */}
       <div className="relative z-10 px-4 pt-5 pb-4 flex flex-col gap-5 max-w-lg mx-auto">
       {/* 3D Animated Hero Preview Banner */}
-      <div className="relative rounded-3xl overflow-hidden p-6 border border-amber-300/60 shadow-2xl"
-        style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
-        {/* Subtle warm glow accents */}
-        <div className="absolute -top-8 -right-8 w-36 h-36 bg-amber-400/20 rounded-full blur-2xl pointer-events-none" />
-        <div className="absolute -bottom-8 -left-8 w-28 h-28 bg-yellow-400/20 rounded-full blur-2xl pointer-events-none" />
+      <div className="relative rounded-3xl overflow-hidden p-6 border border-[#b9e3c6]/70 shadow-2xl"
+        style={{ background: 'rgba(185, 227, 198, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+        {/* Subtle glow accents */}
+        <div className="absolute -top-8 -right-8 w-36 h-36 bg-emerald-400/20 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute -bottom-8 -left-8 w-28 h-28 bg-teal-400/20 rounded-full blur-2xl pointer-events-none" />
         <div className="relative z-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-200/70 border border-amber-400/50 text-amber-900 text-xs font-bold tracking-wider mb-3 shadow-sm">
-            <Sparkles size={13} className="text-amber-700" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-200/70 border border-emerald-400/50 text-emerald-950 text-xs font-bold tracking-wider mb-3 shadow-sm">
+            <Sparkles size={13} className="text-emerald-700" />
             <span>3D PHYSICS MULTIPLAYER</span>
           </div>
           <h2 className="font-display text-3xl font-black text-slate-950 tracking-wide leading-tight mb-2">
@@ -80,8 +80,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartOffline, onNavigateTa
             soundEffects.playClick();
             onNavigateTab('friends');
           }}
-          className="p-5 rounded-2xl border border-amber-300/60 cursor-pointer transition-all active:scale-95 flex flex-col justify-between group shadow-lg"
-          style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+          className="p-5 rounded-2xl border border-[#b9e3c6]/70 cursor-pointer transition-all active:scale-95 flex flex-col justify-between group shadow-lg"
+          style={{ background: 'rgba(185, 227, 198, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         >
           <div className="w-12 h-12 rounded-xl bg-cyan-600/20 text-cyan-900 flex items-center justify-center mb-4 group-active:scale-110 transition-transform border border-cyan-500/40">
             <Users size={24} />
@@ -100,8 +100,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartOffline, onNavigateTa
             soundEffects.playClick();
             onStartOffline();
           }}
-          className="p-5 rounded-2xl border border-amber-300/60 cursor-pointer transition-all active:scale-95 flex flex-col justify-between group shadow-lg"
-          style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+          className="p-5 rounded-2xl border border-[#b9e3c6]/70 cursor-pointer transition-all active:scale-95 flex flex-col justify-between group shadow-lg"
+          style={{ background: 'rgba(185, 227, 198, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         >
           <div className="w-12 h-12 rounded-xl bg-indigo-600/20 text-indigo-900 flex items-center justify-center mb-4 group-active:scale-110 transition-transform border border-indigo-500/40">
             <Bot size={24} />
@@ -120,11 +120,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartOffline, onNavigateTa
             soundEffects.playClick();
             onNavigateTab('tables');
           }}
-          className="col-span-2 p-4 rounded-2xl border border-amber-300/60 cursor-pointer transition-all active:scale-95 flex items-center justify-between shadow-lg"
-          style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+          className="col-span-2 p-4 rounded-2xl border border-[#b9e3c6]/70 cursor-pointer transition-all active:scale-95 flex items-center justify-between shadow-lg"
+          style={{ background: 'rgba(185, 227, 198, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         >
           <div className="flex items-center gap-3.5">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/30 text-amber-900 flex items-center justify-center border border-amber-500/40">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/30 text-emerald-950 flex items-center justify-center border border-emerald-500/40">
               <Layers size={20} />
             </div>
             <div>
@@ -137,8 +137,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartOffline, onNavigateTa
       </div>
 
       {/* Daily Reward Bonus Card */}
-      <div className="p-4 rounded-2xl border border-amber-300/60 flex items-center justify-between shadow-lg"
-        style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+      <div className="p-4 rounded-2xl border border-[#b9e3c6]/70 flex items-center justify-between shadow-lg"
+        style={{ background: 'rgba(185, 227, 198, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-amber-500/25 text-amber-800 border border-amber-500/30">
             <Gift size={22} />
