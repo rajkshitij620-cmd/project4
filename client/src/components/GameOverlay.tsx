@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Target, Award, Info } from 'lucide-react';
+import { ArrowLeft, Target, Info } from 'lucide-react';
 import { useGameStore } from '../store/gameStore';
 import { COLOR_PALETTE } from '@shared/types';
 import { soundEffects } from '../audio/SoundEffects';
@@ -119,46 +118,29 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
         </div>
       </div>
 
-      {/* Center Turn Banner */}
+      {/* Center Action Banner — Real Sling Puck: both play simultaneously */}
       <div className="flex flex-col items-center justify-center">
-        <AnimatePresence mode="wait">
-          {isSimulating ? (
-            <motion.div
-              key="simulating"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="px-5 py-2 rounded-full bg-slate-900/90 backdrop-blur-md border border-slate-700/80 text-cyan-300 text-xs font-bold tracking-widest uppercase flex items-center gap-2 shadow-2xl"
-            >
-              <div className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-              Simulating Physics...
-            </motion.div>
-          ) : (
-            <motion.div
-              key={currentTurn}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              className={`px-6 py-2.5 rounded-2xl backdrop-blur-md border text-sm font-black tracking-widest uppercase shadow-2xl flex items-center gap-2 ${
-                isMyTurn
-                  ? 'bg-gradient-to-r from-blue-600/90 to-cyan-500/90 border-cyan-400/80 text-white shadow-cyan-500/30'
-                  : 'bg-slate-900/90 border-slate-700 text-slate-300'
-              }`}
-            >
-              <Target size={16} />
-              {isMyTurn ? 'YOUR TURN — SLING TO SHOOT' : `${playerB.name}'s TURN`}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {isSimulating ? (
+          <div className="px-5 py-2 rounded-full bg-slate-900/90 backdrop-blur-md border border-slate-700/80 text-cyan-300 text-xs font-bold tracking-widest uppercase flex items-center gap-2 shadow-2xl">
+            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+            Physics in motion...
+          </div>
+        ) : (
+          <div className="px-6 py-2.5 rounded-2xl backdrop-blur-md border border-cyan-400/80 text-sm font-black tracking-widest uppercase shadow-2xl flex items-center gap-2 bg-gradient-to-r from-blue-600/90 to-cyan-500/90 text-white shadow-cyan-500/30">
+            <Target size={16} />
+            SLING YOUR PUCKS!
+          </div>
+        )}
       </div>
 
       {/* Bottom Hint Indicator */}
       <div className="flex flex-col items-center pb-2">
         <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950/70 backdrop-blur-md border border-slate-800/60 text-[11px] text-slate-400">
           <Info size={13} className="text-cyan-400" />
-          <span>Objective: Pocket all your colored pieces into the opponent's goal!</span>
+          <span>Sling Puck: Clear your side first — sling all 5 pucks through the gate to WIN! 🏆</span>
         </div>
       </div>
+
 
       {/* Exit Match Confirmation Modal */}
       {showExitConfirm && (

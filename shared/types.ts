@@ -82,14 +82,15 @@ export interface TableConfig {
 
 export const GAME_TABLES: TableConfig[] = [
   {
+    // ── Classic Arena: Warm honey-maple wood, cream surface
     id: 'table_classic',
     name: 'Classic Arena',
-    tagline: 'Warm mahogany wood & brass finish',
+    tagline: 'Honey maple wood · Cream felt · Brass rails',
     entryFee: 0,
     minCoinsRequired: 0,
     theme: 'classic',
-    boardColor: '#4a2511',
-    feltColor: '#1c1917',
+    boardColor: '#92400e',      // Rich amber-brown wood rails
+    feltColor: '#fef3c7',       // Warm cream/ivory playing surface
     borderColor: '#b45309',
     ambientLight: '#fff7ed',
     pointLightColor: '#fbbf24',
@@ -99,52 +100,55 @@ export const GAME_TABLES: TableConfig[] = [
     unlockedByDefault: true
   },
   {
+    // ── Neon Arena: Midnight black surface, electric cyan/pink neon rails
     id: 'table_neon',
     name: 'Neon Arena',
-    tagline: 'Cyberpunk glass grid with laser rails',
+    tagline: 'Midnight black · Electric cyan neon · Laser rails',
     entryFee: 100,
     minCoinsRequired: 100,
     theme: 'neon',
-    boardColor: '#090d16',
-    feltColor: '#030712',
+    boardColor: '#164e63',      // Dark cyan-teal rails glowing with neon
+    feltColor: '#020c14',       // Ultra-dark near-black playing surface
     borderColor: '#06b6d4',
     ambientLight: '#c084fc',
     pointLightColor: '#ec4899',
-    goalGlowColor: '#38bdf8',
+    goalGlowColor: '#22d3ee',
     friction: 0.08,
     restitution: 0.94,
     unlockedByDefault: false
   },
   {
+    // ── Royal Arena: Deep emerald green surface, gold rails
     id: 'table_royal',
     name: 'Royal Arena',
-    tagline: 'Imperial gold trim & deep velvet emerald',
+    tagline: 'Emerald velvet · Imperial gold frame · Crown jewel finish',
     entryFee: 500,
     minCoinsRequired: 500,
     theme: 'royal',
-    boardColor: '#1e1b4b',
-    feltColor: '#064e3b',
-    borderColor: '#eab308',
+    boardColor: '#78350f',      // Rich antique gold-brown wood frame
+    feltColor: '#14532d',       // Deep emerald green felt
+    borderColor: '#ca8a04',
     ambientLight: '#fef08a',
-    pointLightColor: '#f59e0b',
-    goalGlowColor: '#fbbf24',
+    pointLightColor: '#fbbf24',
+    goalGlowColor: '#fde047',
     friction: 0.10,
     restitution: 0.90,
     unlockedByDefault: false
   },
   {
+    // ── Cyber Arena: Deep violet surface, chrome-purple alloy rails
     id: 'table_cyber',
     name: 'Cyber Arena',
-    tagline: 'Quantum hyper-alloy with particle fields',
+    tagline: 'Hyper-violet · Chrome alloy · Quantum particle field',
     entryFee: 1000,
     minCoinsRequired: 1000,
     theme: 'cyber',
-    boardColor: '#020617',
-    feltColor: '#0f172a',
+    boardColor: '#3b0764',      // Deep glowing purple chrome frame
+    feltColor: '#1e1b4b',       // Indigo-violet playing surface
     borderColor: '#8b5cf6',
     ambientLight: '#818cf8',
-    pointLightColor: '#06b6d4',
-    goalGlowColor: '#a855f7',
+    pointLightColor: '#a855f7',
+    goalGlowColor: '#c026d3',
     friction: 0.06,
     restitution: 0.96,
     unlockedByDefault: false

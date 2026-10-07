@@ -226,7 +226,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       set({
         phase: 'GAME_OVER',
         winner: winEval.winner,
-        matchStats: { ...state.matchStats, durationSeconds: duration }
+        matchStats: { ...state.matchStats, durationSeconds: duration },
       });
       if (winEval.winner === state.myRole) {
         soundEffects.playWin();
@@ -236,45 +236,39 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       return;
     }
 
-    const nextTurn = state.currentTurn === 'playerA' ? 'playerB' : 'playerA';
-    set({
-      phase: 'PLAYING',
-      currentTurn: nextTurn
-    });
+    // REAL SLING PUCK: No turn alternation — both players shoot simultaneously.
+    // After physics settles, immediately allow playerA to shoot again.
+    set({ phase: 'PLAYING', currentTurn: 'playerA' });
+    soundEffects.playTurnNotification(true);
 
-    const isMyTurnNow = nextTurn === state.myRole;
-    soundEffects.playTurnNotification(isMyTurnNow);
-
-    // If offline and now Player B's (AI's) turn, trigger AI shot with brief thinking pause
-    if (state.mode === 'OFFLINE' && nextTurn === 'playerB') {
+    // AI (Player B) also takes its next shot quickly after settle
+    if (state.mode === 'OFFLINE') {
       setTimeout(() => {
         get().triggerAITurn();
-      }, 800);
+      }, 550);
     }
   },
 
   triggerAITurn: () => {
     const state = get();
-    if (state.mode !== 'OFFLINE' || state.currentTurn !== 'playerB' || state.phase !== 'PLAYING') {
+    // AI can act whenever game is PLAYING (not necessarily its "turn")
+    if (state.mode !== 'OFFLINE' || state.phase !== 'PLAYING') {
       return;
     }
 
-    const strikerPos = { x: 0, z: -4.2 };
+    // AI picks a puck on its own side (Z < 0) and slings it toward center gate
+    const strikerPos = { x: 0, z: -3.4 };
     const shot = DiskSlamAI.calculateShot(
       strikerPos,
       state.pieces,
       'playerB',
-      state.aiDifficulty
+      state.aiDifficulty,
     );
 
-    // AI triggers shot impulse in physics world
     set({
       phase: 'SIMULATING',
       pendingExternalShot: { dirX: shot.dirX, dirZ: shot.dirZ, power: shot.power },
-      matchStats: {
-        ...state.matchStats,
-        shotsB: state.matchStats.shotsB + 1
-      }
+      matchStats: { ...state.matchStats, shotsB: state.matchStats.shotsB + 1 },
     });
   },
 
@@ -283,7 +277,8 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       phase: 'LOBBY',
       winner: null,
       pendingExternalShot: null,
-      pieces: []
+      pieces: [],
     });
-  }
+  },
 }));
+
