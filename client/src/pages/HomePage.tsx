@@ -46,7 +46,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartOffline, onNavigateTa
       <div className="relative z-10 px-4 pt-5 pb-4 flex flex-col gap-5 max-w-lg mx-auto">
       {/* 3D Animated Hero Preview Banner */}
       <div className="relative rounded-3xl overflow-hidden p-6 border border-[#361D2E]/70 shadow-2xl"
-        style={{ background: 'rgba(54, 29, 46, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+        style={{ background: 'rgba(54, 29, 46, 1)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
         {/* Subtle glow accents */}
         <div className="absolute -top-8 -right-8 w-36 h-36 bg-rose-400/20 rounded-full blur-2xl pointer-events-none" />
         <div className="absolute -bottom-8 -left-8 w-28 h-28 bg-amber-400/20 rounded-full blur-2xl pointer-events-none" />
@@ -81,7 +81,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartOffline, onNavigateTa
             onNavigateTab('friends');
           }}
           className="p-5 rounded-2xl border border-[#361D2E]/70 cursor-pointer transition-all active:scale-95 flex flex-col justify-between group shadow-lg"
-          style={{ background: 'rgba(54, 29, 46, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+          style={{ background: 'rgba(54, 29, 46, 1)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         >
           <div className="w-12 h-12 rounded-xl bg-cyan-600/20 text-cyan-300 flex items-center justify-center mb-4 group-active:scale-110 transition-transform border border-cyan-500/40">
             <Users size={24} />
@@ -101,7 +101,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartOffline, onNavigateTa
             onStartOffline();
           }}
           className="p-5 rounded-2xl border border-[#361D2E]/70 cursor-pointer transition-all active:scale-95 flex flex-col justify-between group shadow-lg"
-          style={{ background: 'rgba(54, 29, 46, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+          style={{ background: 'rgba(54, 29, 46, 1)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         >
           <div className="w-12 h-12 rounded-xl bg-indigo-600/20 text-indigo-300 flex items-center justify-center mb-4 group-active:scale-110 transition-transform border border-indigo-500/40">
             <Bot size={24} />
@@ -121,7 +121,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartOffline, onNavigateTa
             onNavigateTab('tables');
           }}
           className="col-span-2 p-4 rounded-2xl border border-[#361D2E]/70 cursor-pointer transition-all active:scale-95 flex items-center justify-between shadow-lg"
-          style={{ background: 'rgba(54, 29, 46, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+          style={{ background: 'rgba(54, 29, 46, 1)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         >
           <div className="flex items-center gap-3.5">
             <div className="w-10 h-10 rounded-xl bg-rose-500/25 text-rose-300 flex items-center justify-center border border-rose-300/40">
@@ -138,7 +138,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartOffline, onNavigateTa
 
       {/* Daily Reward Bonus Card */}
       <div className="p-4 rounded-2xl border border-[#361D2E]/70 flex items-center justify-between shadow-lg"
-        style={{ background: 'rgba(54, 29, 46, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+        style={{ background: 'rgba(54, 29, 46, 1)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-amber-500/25 text-amber-400 border border-amber-500/30">
             <Gift size={22} />

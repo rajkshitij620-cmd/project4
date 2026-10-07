@@ -54,7 +54,7 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
           <div 
             className="flex items-center gap-3 border border-[#361D2E] px-4 py-2 rounded-2xl shadow-xl"
             style={{
-              background: 'rgba(54, 29, 46, 0.92)',
+              background: 'rgba(54, 29, 46, 1)',
               backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)'
             }}
@@ -110,7 +110,7 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
           <div 
             className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#361D2E] text-xs font-black text-white shadow-sm"
             style={{
-              background: 'rgba(54, 29, 46, 0.92)',
+              background: 'rgba(54, 29, 46, 1)',
               backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)'
             }}
@@ -151,7 +151,7 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
           <div 
             className="border border-[#361D2E] rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl"
             style={{
-              background: 'rgba(54, 29, 46, 0.92)',
+              background: 'rgba(54, 29, 46, 1)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)'
             }}

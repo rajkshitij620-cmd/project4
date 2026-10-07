@@ -59,7 +59,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenAuth }) => {
         <div 
           className="flex items-center gap-1 px-2.5 py-1 rounded-xl border border-[#361D2E] text-amber-300 font-black text-xs shadow-sm"
           style={{
-            background: 'rgba(54, 29, 46, 0.92)',
+            background: 'rgba(54, 29, 46, 1)',
             backdropFilter: 'blur(10px)',
             WebkitBackdropFilter: 'blur(10px)'
           }}
@@ -76,7 +76,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenAuth }) => {
               isGuest ? 'cursor-pointer active:scale-95' : ''
             }`}
             style={{
-              background: 'rgba(54, 29, 46, 0.92)',
+              background: 'rgba(54, 29, 46, 1)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}

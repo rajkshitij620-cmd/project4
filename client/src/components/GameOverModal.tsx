@@ -49,7 +49,7 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
       <div 
         className="border border-[#361D2E] rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl relative overflow-hidden animate-in fade-in zoom-in duration-300"
         style={{
-          background: 'rgba(54, 29, 46, 0.94)',
+          background: 'rgba(54, 29, 46, 1)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)'
         }}
@@ -97,7 +97,7 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
           <div 
             className="border border-[#361D2E] rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(54, 29, 46, 0.85)',
+              background: 'rgba(54, 29, 46, 1)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}
@@ -112,7 +112,7 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
           <div 
             className="border border-[#361D2E] rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(54, 29, 46, 0.85)',
+              background: 'rgba(54, 29, 46, 1)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}
@@ -127,7 +127,7 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
           <div 
             className="border border-[#361D2E] rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(54, 29, 46, 0.85)',
+              background: 'rgba(54, 29, 46, 1)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}
@@ -142,7 +142,7 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
           <div 
             className="border border-[#361D2E] rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(54, 29, 46, 0.85)',
+              background: 'rgba(54, 29, 46, 1)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}

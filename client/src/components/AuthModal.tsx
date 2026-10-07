@@ -68,7 +68,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
       <div 
         className="relative w-full max-w-sm border border-[#361D2E] rounded-3xl p-5 shadow-2xl flex flex-col justify-between items-center min-h-[580px] overflow-hidden"
         style={{
-          background: 'rgba(54, 29, 46, 0.92)',
+          background: 'rgba(54, 29, 46, 1)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)'
         }}
@@ -79,7 +79,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <div 
             className="w-full h-full"
             style={{
-              background: 'radial-gradient(circle at 50% 25%, rgba(54, 29, 46, 0.85) 0%, rgba(80, 40, 70, 0.3) 45%, transparent 75%)'
+              background: 'radial-gradient(circle at 50% 25%, rgba(54, 29, 46, 1) 0%, rgba(80, 40, 70, 0.3) 45%, transparent 75%)'
             }}
           />
         </div>
@@ -121,7 +121,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         <div 
           className="w-full relative z-10 my-4 p-4 rounded-2xl border border-[#361D2E] shadow-md flex flex-col items-center text-center"
           style={{
-            background: 'rgba(54, 29, 46, 0.85)',
+            background: 'rgba(54, 29, 46, 1)',
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)'
           }}
@@ -161,7 +161,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <div 
             className="w-full relative z-10 p-4 rounded-2xl border border-[#361D2E] shadow-xl flex flex-col gap-3 my-2"
             style={{
-              background: 'rgba(54, 29, 46, 0.96)',
+              background: 'rgba(54, 29, 46, 1)',
               backdropFilter: 'blur(16px)',
               WebkitBackdropFilter: 'blur(16px)'
             }}
