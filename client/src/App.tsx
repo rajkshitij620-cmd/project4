@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useAuthStore } from './store/authStore';
 import { useGameStore } from './store/gameStore';
 import { socketService } from './services/socketService';
-import { HeaderBar } from './components/HeaderBar';
 import { Navigation, NavTab } from './components/Navigation';
 import { HomePage } from './pages/HomePage';
 import { PlayOfflinePage } from './pages/PlayOfflinePage';
@@ -114,8 +113,6 @@ export const App: React.FC = () => {
         <div className="w-full h-full flex flex-col relative overflow-hidden">
           {/* ── Global 3D Colorful Animation Background across ALL Pages ── */}
           <HomeBackground />
-
-          <HeaderBar onOpenAuth={() => setIsAuthOpen(true)} />
 
           <main className="flex-1 w-full relative z-10 overflow-hidden">
             {isOfflineLauncherOpen ? (
