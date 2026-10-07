@@ -18,7 +18,8 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onChangeTab }
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-slate-950/90 backdrop-blur-xl border-t border-slate-800/80 px-6 flex items-center justify-around z-30 max-w-lg mx-auto md:max-w-2xl md:rounded-t-2xl md:border-x shadow-2xl">
+    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/80 px-6 flex items-center justify-around z-30 shadow-2xl"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const isActive = activeTab === tab.id;

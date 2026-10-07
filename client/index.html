@@ -3,15 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <!-- Mobile-first viewport: no scaling, no zoom, safe area insets for notch -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <meta name="theme-color" content="#030712" />
     <meta name="description" content="3D Multiplayer Physics Board Game - Disk Slam Arena" />
+    <!-- PWA Mobile Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Disk Slam 3D" />
+    <meta name="format-detection" content="telephone=no" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Rajdhani:wght@600;700;800&display=swap" rel="stylesheet">
     <title>Disk Slam 3D — Multiplayer Physics Board Game</title>
     <style>
-      /* Prevent unwanted gestures, pull-to-refresh & pinch zoom during 3D gaming */
+      /* ===== MOBILE-ONLY APP ===== */
       html, body, #root {
         width: 100%;
         height: 100%;
@@ -22,10 +29,68 @@
         -webkit-user-select: none;
         touch-action: none;
         background-color: #030712;
+        /* Use safe area for notched phones */
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+      }
+      /* Desktop block screen — shown on wide screens via CSS only */
+      #desktop-block {
+        display: none;
+      }
+      @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+        /* This is a mouse+keyboard device (PC/Laptop) */
+        #root { display: none !important; }
+        #desktop-block { display: flex !important; }
       }
     </style>
   </head>
   <body class="bg-gray-950 text-white antialiased overflow-hidden select-none">
+
+    <!-- Desktop Block Screen (shown only on PC/Laptop via CSS media query) -->
+    <div id="desktop-block" style="
+      display: none;
+      position: fixed; inset: 0;
+      background: #030712;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      font-family: Inter, sans-serif;
+      text-align: center;
+      padding: 40px;
+    ">
+      <div style="font-size: 72px; line-height: 1;">📱</div>
+      <div style="
+        font-size: 28px;
+        font-weight: 900;
+        background: linear-gradient(90deg, #60a5fa, #22d3ee);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 2px;
+      ">DISK SLAM 3D</div>
+      <div style="color: #94a3b8; font-size: 16px; max-width: 380px; line-height: 1.7;">
+        This game is designed exclusively for<br/>
+        <strong style="color: #e2e8f0;">mobile phones & tablets.</strong><br/><br/>
+        Open this link on your <span style="color: #22d3ee;">Android or iPhone</span> to play!
+      </div>
+      <div style="
+        margin-top: 8px;
+        padding: 14px 28px;
+        border-radius: 16px;
+        background: linear-gradient(90deg, #1d4ed8, #0e7490);
+        color: white;
+        font-weight: 800;
+        font-size: 14px;
+        letter-spacing: 1px;
+      ">📲 USE YOUR PHONE TO PLAY</div>
+      <div style="color: #475569; font-size: 12px; margin-top: 4px;">
+        Supports Android · iPhone · iPad
+      </div>
+    </div>
+
+    <!-- Mobile App Root -->
     <div id="root" class="w-full h-full"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

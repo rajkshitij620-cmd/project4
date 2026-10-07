@@ -21,22 +21,22 @@ export const GameCamera: React.FC<GameCameraProps> = ({ currentTurn, isSimulatin
 
     const aspect = size.width / size.height;
 
-    // Responsive camera framing
-    if (aspect < 0.7) {
-      // Very tall portrait phone (e.g., iPhone 15, Samsung Galaxy)
-      targetPos.current.set(0, 19.5, 9.5);
+    // Phone-only camera framing
+    if (aspect < 0.6) {
+      // Very tall portrait phone (iPhone 15 Pro Max, Galaxy Ultra, etc.)
+      targetPos.current.set(0, 21, 10.5);
+      targetLook.current.set(0, 0, 0.6);
+    } else if (aspect < 0.75) {
+      // Standard Android portrait (most common)
+      targetPos.current.set(0, 19.5, 10.0);
       targetLook.current.set(0, 0, 0.4);
     } else if (aspect < 1.0) {
-      // Standard tablet portrait
-      targetPos.current.set(0, 17.5, 9.0);
+      // Wider phone portrait / small tablet portrait
+      targetPos.current.set(0, 18.0, 9.5);
       targetLook.current.set(0, 0, 0.2);
-    } else if (aspect < 1.6) {
-      // Laptop / tablet landscape
-      targetPos.current.set(0, 15.0, 8.5);
-      targetLook.current.set(0, 0, 0);
     } else {
-      // Ultra-wide desktop
-      targetPos.current.set(0, 14.5, 8.0);
+      // Phone landscape or tablet landscape
+      targetPos.current.set(0, 16.0, 9.0);
       targetLook.current.set(0, 0, 0);
     }
 

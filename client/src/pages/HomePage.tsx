@@ -58,7 +58,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartOffline, onNavigateTa
 
           <button
             onClick={handleQuickPlay}
-            className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-cyan-500/30 active:scale-95 transition-all flex items-center justify-center gap-2"
+            className="w-full px-8 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 active:from-blue-500 active:to-cyan-400 text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-cyan-500/30 active:scale-95 transition-all flex items-center justify-center gap-2"
           >
             <Play size={18} fill="currentColor" />
             <span>QUICK PLAY NOW</span>
