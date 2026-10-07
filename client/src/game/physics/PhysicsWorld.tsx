@@ -1,11 +1,10 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Physics, RapierRigidBody } from '@react-three/rapier';
 import { TableConfig, PlayerColor, COLOR_PALETTE } from '../../types/shared';
 import { PieceData } from '../core/GameRules';
 import { Board } from '../entities/Board';
 import { Piece } from '../entities/Piece';
-import { Striker } from '../entities/Striker';
 import { AimTrajectory } from '../entities/AimTrajectory';
 import { GameCamera } from '../camera/GameCamera';
 
@@ -17,7 +16,7 @@ interface PhysicsWorldProps {
   currentTurn: 'playerA' | 'playerB';
   isMyTurn: boolean;
   isSimulating: boolean;
-  pendingExternalShot?: { dirX: number; dirZ: number; power: number } | null;
+  pendingExternalShot?: { dirX: number; dirZ: number; power: number; targetPieceId?: string } | null;
   onClearExternalShot?: () => void;
   onShoot: (dirX: number, dirZ: number, power: number) => void;
   onSimulationSettled: () => void;
@@ -114,8 +113,37 @@ export const PhysicsWorld: React.FC<PhysicsWorldProps> = ({
     []
   );
 
-  const strikerColor = currentTurn === 'playerA' ? playerAColor : playerBColor;
-  const baselineZ = currentTurn === 'playerA' ? 4.2 : -4.2;
+  // Apply AI shot directly to the target puck's rigid body
+  useEffect(() => {
+    if (!pendingExternalShot?.targetPieceId) return;
+    const { dirX, dirZ, power, targetPieceId } = pendingExternalShot;
+
+    // Try immediately, then retry once after a brief delay if body not yet registered
+    const applyImpulse = () => {
+      const body = rigidBodiesRef.current.get(targetPieceId);
+      if (body) {
+        const force = power * 18;
+        try {
+          body.applyImpulse({ x: dirX * force, y: 0, z: dirZ * force }, true);
+        } catch {}
+        if (onClearExternalShot) onClearExternalShot();
+        return true;
+      }
+      return false;
+    };
+
+    if (!applyImpulse()) {
+      // Retry after 100ms if body wasn't registered yet
+      const t = setTimeout(() => {
+        applyImpulse();
+      }, 100);
+      return () => clearTimeout(t);
+    }
+  }, [pendingExternalShot, onClearExternalShot]);
+
+  // Player (playerA) can interact when game is in PLAYING phase and not simulating
+  const playerCanInteract = isMyTurn && !isSimulating;
+  const currentPlayerColor = currentTurn === 'playerA' ? playerAColor : playerBColor;
 
   return (
     <div className="w-full h-full relative select-none">
@@ -141,39 +169,28 @@ export const PhysicsWorld: React.FC<PhysicsWorldProps> = ({
           {/* Table Arena & Borders */}
           <Board table={table} />
 
-          {/* Pieces */}
+          {/* Pieces — player can drag-sling their own pucks */}
           {pieces.map((piece) => (
             <Piece
               key={piece.id}
               piece={piece}
+              isPlayerOwned={piece.owner === 'playerA'}
+              canInteract={piece.owner === 'playerA' && playerCanInteract}
               onPiecePocketed={onPiecePocketed}
               onRegisterBody={handleRegisterBody}
+              onShoot={onShoot}
+              onAimChange={handleAimChange}
             />
           ))}
 
-          {/* Active Striker with stable key to prevent unmounting across turns */}
-          <Striker
-            key="board_striker"
-            id="board_striker"
-            color={strikerColor}
-            isMyTurn={isMyTurn}
-            canShoot={!isSimulating}
-            baselineZ={baselineZ}
-            pendingExternalShot={pendingExternalShot}
-            onClearExternalShot={onClearExternalShot}
-            onShoot={onShoot}
-            onRegisterBody={handleRegisterBody}
-            onAimChange={handleAimChange}
-          />
-
-          {/* Visual Aiming Trajectory */}
+          {/* Visual Aiming Trajectory (shows when player is pulling a puck) */}
           <AimTrajectory
             isAiming={aimState.isAiming}
             dirX={aimState.dirX}
             dirZ={aimState.dirZ}
             power={aimState.power}
             strikerPos={aimState.strikerPos}
-            color={COLOR_PALETTE[strikerColor].glowHex}
+            color={COLOR_PALETTE[currentPlayerColor]?.glowHex ?? '#ffffff'}
           />
 
           {/* Settle Physics Monitor */}

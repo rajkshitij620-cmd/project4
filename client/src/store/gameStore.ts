@@ -26,7 +26,7 @@ interface GameStoreState {
   pieces: PieceData[];
   aiDifficulty: AIDifficulty;
   winner: 'playerA' | 'playerB' | null;
-  pendingExternalShot: { dirX: number; dirZ: number; power: number } | null;
+  pendingExternalShot: { dirX: number; dirZ: number; power: number; targetPieceId?: string } | null;
   matchStats: {
     shotsA: number;
     shotsB: number;
@@ -267,7 +267,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
 
     set({
       phase: 'SIMULATING',
-      pendingExternalShot: { dirX: shot.dirX, dirZ: shot.dirZ, power: shot.power },
+      pendingExternalShot: { dirX: shot.dirX, dirZ: shot.dirZ, power: shot.power, targetPieceId: shot.targetPieceId },
       matchStats: { ...state.matchStats, shotsB: state.matchStats.shotsB + 1 },
     });
   },

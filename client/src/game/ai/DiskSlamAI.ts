@@ -1,226 +1,156 @@
-import { PieceData, DEFAULT_BOARD_DIMENSIONS, GOAL_LOCATIONS } from '../core/GameRules';
+/**
+ * SlingPuckAI.ts
+ * ---------------------------------------------------------------------------
+ * AI for Real Sling Puck game:
+ * - AI plays as Player B (North side, Z < 0)
+ * - Goal: Sling own pucks through the center gate (slot) to Player A's side (Z > 0)
+ * - Difficulty affects: aim accuracy, power variance, shot frequency, and strategy
+ *
+ * EASY:   Wide angle errors, inconsistent power, slow reaction
+ * MEDIUM: Moderate precision, targets open gate, tactical
+ * HARD:   Near-perfect aim through gate slot, aggressive & fast
+ */
+
+import { PieceData, DEFAULT_BOARD_DIMENSIONS } from '../core/GameRules';
 
 export type AIDifficulty = 'EASY' | 'MEDIUM' | 'HARD';
 
 export interface AIShotDecision {
   dirX: number;
   dirZ: number;
-  power: number; // 0.0 to 1.0 (will be scaled to physics impulse)
+  power: number; // 0.0 to 1.0
   targetPieceId?: string;
-  strategy: 'DIRECT_POCKET' | 'BANK_SHOT' | 'DEFENSIVE_CLEAR' | 'FALLBACK';
+  strategy: 'THROUGH_GATE' | 'ANGLE_SHOT' | 'FALLBACK';
 }
+
+// Center gate is at Z = 0, width = 1.6 units from -0.8 to +0.8 in X
+const GATE_X_HALF = DEFAULT_BOARD_DIMENSIONS.gateWidth / 2; // 0.8
+const GATE_Z = 0; // center divider
 
 export class DiskSlamAI {
   /**
-   * Compute physics-aware shot for AI player
+   * Compute the AI's next sling puck shot.
+   * AI picks one of its own pucks on its side and aims it through the gate.
    */
   public static calculateShot(
-    strikerPos: { x: number; z: number },
+    _strikerPos: { x: number; z: number }, // kept for API compatibility
     pieces: PieceData[],
     aiOwner: 'playerA' | 'playerB',
-    difficulty: AIDifficulty = 'MEDIUM'
+    difficulty: AIDifficulty = 'MEDIUM',
   ): AIShotDecision {
-    const targetGoal = aiOwner === 'playerB' ? GOAL_LOCATIONS.playerAGoal : GOAL_LOCATIONS.playerBGoal;
-    const opponentGoal = aiOwner === 'playerB' ? GOAL_LOCATIONS.playerBGoal : GOAL_LOCATIONS.playerAGoal;
+    // AI's own pucks still on its own side
+    const aiZ_sign = aiOwner === 'playerB' ? -1 : 1; // playerB is on Z < 0
+    const myPucks = pieces.filter(
+      (p) => p.owner === aiOwner && !p.isPocketed && Math.sign(p.z) === aiZ_sign,
+    );
 
-    const myPieces = pieces.filter(p => p.owner === aiOwner && !p.isPocketed);
-    const opponentPieces = pieces.filter(p => p.owner !== aiOwner && !p.isPocketed);
-
-    if (myPieces.length === 0) {
-      return { dirX: 0, dirZ: 1, power: 0.5, strategy: 'FALLBACK' };
+    if (myPucks.length === 0) {
+      // No pucks to sling — idle fallback
+      return { dirX: 0, dirZ: aiZ_sign * -1, power: 0.3, strategy: 'FALLBACK' };
     }
 
-    interface CandidateShot {
-      piece: PieceData;
-      shootDirX: number;
-      shootDirZ: number;
-      power: number;
-      score: number;
-      distToPocket: number;
-    }
-
-    const candidates: CandidateShot[] = [];
-
-    // Evaluate each of AI's pieces for a direct shot into the goal
-    for (const piece of myPieces) {
-      // 1. Vector from piece to pocket
-      const dxToGoal = targetGoal.x - piece.x;
-      const dzToGoal = targetGoal.z - piece.z;
-      const distToPocket = Math.hypot(dxToGoal, dzToGoal);
-      if (distToPocket < 0.001) continue;
-
-      const normGoalX = dxToGoal / distToPocket;
-      const normGoalZ = dzToGoal / distToPocket;
-
-      // 2. Ideal contact point on the piece:
-      // The striker must strike the piece on the opposite side of the vector pointing toward the goal
-      const combinedRadius = DEFAULT_BOARD_DIMENSIONS.pieceRadius + DEFAULT_BOARD_DIMENSIONS.strikerRadius;
-      const contactX = piece.x - normGoalX * combinedRadius;
-      const contactZ = piece.z - normGoalZ * combinedRadius;
-
-      // 3. Vector from striker to contact point
-      const dxStriker = contactX - strikerPos.x;
-      const dzStriker = contactZ - strikerPos.z;
-      const distStrikerToContact = Math.hypot(dxStriker, dzStriker);
-      if (distStrikerToContact < 0.001) continue;
-
-      const shootDirX = dxStriker / distStrikerToContact;
-      const shootDirZ = dzStriker / distStrikerToContact;
-
-      // 4. Dot product between (striker -> contact) and (contact -> piece -> goal)
-      // High dot product means a natural straight shot, low means extreme cut shot
-      const alignment = shootDirX * normGoalX + shootDirZ * normGoalZ;
-
-      // Obstacle penalty
-      let obstaclePenalty = 0;
-      for (const obstacle of pieces) {
-        if (obstacle.id === piece.id || obstacle.isPocketed) continue;
-        // Check distance of obstacle to trajectory
-        const d = this.distPointToSegment(
-          obstacle.x,
-          obstacle.z,
-          strikerPos.x,
-          strikerPos.z,
-          contactX,
-          contactZ
-        );
-        if (d < DEFAULT_BOARD_DIMENSIONS.pieceRadius * 1.8) {
-          obstaclePenalty += 40;
-        }
-      }
-
-      // Check if path from piece to pocket is blocked
-      for (const obstacle of pieces) {
-        if (obstacle.id === piece.id || obstacle.isPocketed) continue;
-        const d = this.distPointToSegment(
-          obstacle.x,
-          obstacle.z,
-          piece.x,
-          piece.z,
-          targetGoal.x,
-          targetGoal.z
-        );
-        if (d < DEFAULT_BOARD_DIMENSIONS.pieceRadius * 1.8) {
-          obstaclePenalty += 50;
-        }
-      }
-
-      // Calculate score: prefer high alignment, close to pocket, and low obstacle penalty
-      // Cut angle penalty if alignment is too low (< 0.2)
-      if (alignment < 0.1) continue;
-
-      const score = (alignment * 100) - (distToPocket * 5) - (distStrikerToContact * 3) - obstaclePenalty;
-
-      // Power calculation based on total travel distance and table friction
-      const totalDistance = distStrikerToContact + distToPocket * 1.3;
-      const calculatedPower = Math.min(Math.max(totalDistance / 14.0 + 0.35, 0.4), 1.0);
-
-      candidates.push({
-        piece,
-        shootDirX,
-        shootDirZ,
-        power: calculatedPower,
-        score,
-        distToPocket
-      });
-    }
-
-    // Sort candidates by highest score
-    candidates.sort((a, b) => b.score - a.score);
-
-    let chosenShot: AIShotDecision;
-
-    if (candidates.length > 0 && candidates[0].score > 0) {
-      const best = candidates[0];
-      chosenShot = {
-        dirX: best.shootDirX,
-        dirZ: best.shootDirZ,
-        power: best.power,
-        targetPieceId: best.piece.id,
-        strategy: 'DIRECT_POCKET'
-      };
-    } else {
-      // Defensive fallback: knock opponent's most dangerous piece away
-      const dangerousOpponent = [...opponentPieces].sort((a, b) => {
-        const distA = Math.hypot(opponentGoal.x - a.x, opponentGoal.z - a.z);
-        const distB = Math.hypot(opponentGoal.x - b.x, opponentGoal.z - b.z);
-        return distA - distB;
-      })[0];
-
-      if (dangerousOpponent) {
-        const dx = dangerousOpponent.x - strikerPos.x;
-        const dz = dangerousOpponent.z - strikerPos.z;
-        const len = Math.hypot(dx, dz) || 1;
-        chosenShot = {
-          dirX: dx / len,
-          dirZ: dz / len,
-          power: 0.85,
-          targetPieceId: dangerousOpponent.id,
-          strategy: 'DEFENSIVE_CLEAR'
-        };
-      } else {
-        // Simple direct center bank shot
-        const targetPiece = myPieces[0];
-        const dx = targetPiece.x - strikerPos.x;
-        const dz = targetPiece.z - strikerPos.z;
-        const len = Math.hypot(dx, dz) || 1;
-        chosenShot = {
-          dirX: dx / len,
-          dirZ: dz / len,
-          power: 0.65,
-          targetPieceId: targetPiece.id,
-          strategy: 'FALLBACK'
-        };
-      }
-    }
-
-    // Apply difficulty modifiers (error margin)
-    let angleErrorRad = 0;
-    let powerVariance = 1.0;
+    // ── Difficulty: Strategy parameters ──────────────────────────────────
+    let angleErrorRad: number;
+    let powerBase: number;
+    let powerVariance: number;
 
     switch (difficulty) {
       case 'EASY':
-        // +/- 10-15 degrees error
-        angleErrorRad = (Math.random() - 0.5) * 0.28;
-        powerVariance = 0.8 + Math.random() * 0.35;
+        // Wide random misses — sometimes doesn't even aim through gate
+        angleErrorRad = (Math.random() - 0.5) * 0.55; // ±16°
+        powerBase = 0.45 + Math.random() * 0.35;
+        powerVariance = 0.75 + Math.random() * 0.35;
         break;
+
       case 'MEDIUM':
-        // +/- 3-5 degrees error
-        angleErrorRad = (Math.random() - 0.5) * 0.08;
-        powerVariance = 0.92 + Math.random() * 0.16;
+        // Moderate accuracy — usually through gate, varying power
+        angleErrorRad = (Math.random() - 0.5) * 0.16; // ±5°
+        powerBase = 0.65 + Math.random() * 0.25;
+        powerVariance = 0.90 + Math.random() * 0.18;
         break;
+
       case 'HARD':
-        // Near surgical precision: +/- 0.5 degrees
-        angleErrorRad = (Math.random() - 0.5) * 0.015;
-        powerVariance = 0.98 + Math.random() * 0.04;
+        // Near-surgical precision through the gate slot
+        angleErrorRad = (Math.random() - 0.5) * 0.03; // ±1°
+        powerBase = 0.82 + Math.random() * 0.18;
+        powerVariance = 0.97 + Math.random() * 0.05;
         break;
     }
 
-    // Rotate shoot direction by angleErrorRad
+    // ── Pick a puck to sling ──────────────────────────────────────────────
+    let targetPuck: PieceData;
+
+    if (difficulty === 'HARD') {
+      // Hard AI: pick the puck closest to the center gate (easiest to sling through)
+      targetPuck = [...myPucks].sort((a, b) => {
+        const scoreA = -Math.abs(a.x) - Math.abs(a.z) * 0.5; // prefer centered & closer to divider
+        const scoreB = -Math.abs(b.x) - Math.abs(b.z) * 0.5;
+        return scoreB - scoreA;
+      })[0];
+    } else {
+      // Easy/Medium: pick a random puck from own side
+      targetPuck = myPucks[Math.floor(Math.random() * myPucks.length)];
+    }
+
+    // ── Aim through the gate ──────────────────────────────────────────────
+    // Gate target: aim at a random point inside the gate opening (X from -GATE_X_HALF to +GATE_X_HALF)
+    let gateTargetX: number;
+    if (difficulty === 'HARD') {
+      // Hard: aim at center of gate with slight random offset
+      gateTargetX = (Math.random() - 0.5) * GATE_X_HALF * 0.6;
+    } else if (difficulty === 'MEDIUM') {
+      // Medium: aim within 70% of gate opening
+      gateTargetX = (Math.random() - 0.5) * GATE_X_HALF * 1.3;
+    } else {
+      // Easy: aim anywhere (might miss the gate)
+      gateTargetX = (Math.random() - 0.5) * GATE_X_HALF * 2.8;
+    }
+
+    // Direction vector from target puck to gate target point
+    const dxToGate = gateTargetX - targetPuck.x;
+    const dzToGate = GATE_Z - targetPuck.z;
+    const distToGate = Math.hypot(dxToGate, dzToGate);
+
+    if (distToGate < 0.01) {
+      // Puck is already at gate — fallback
+      return { dirX: 0, dirZ: aiZ_sign * -1, power: powerBase, strategy: 'FALLBACK' };
+    }
+
+    let dirX = dxToGate / distToGate;
+    let dirZ = dzToGate / distToGate;
+
+    // ── Apply angle error for difficulty ──────────────────────────────────
     const cos = Math.cos(angleErrorRad);
     const sin = Math.sin(angleErrorRad);
-    const finalDirX = chosenShot.dirX * cos - chosenShot.dirZ * sin;
-    const finalDirZ = chosenShot.dirX * sin + chosenShot.dirZ * cos;
+    const rotDirX = dirX * cos - dirZ * sin;
+    const rotDirZ = dirX * sin + dirZ * cos;
+    dirX = rotDirX;
+    dirZ = rotDirZ;
+
+    // Power scales with distance to gate (farther pucks need more force)
+    const distanceFactor = Math.min(distToGate / 4.0, 1.0);
+    const finalPower = Math.min(Math.max(powerBase * powerVariance * (0.7 + distanceFactor * 0.45), 0.2), 1.0);
 
     return {
-      dirX: finalDirX,
-      dirZ: finalDirZ,
-      power: Math.min(Math.max(chosenShot.power * powerVariance, 0.25), 1.0),
-      targetPieceId: chosenShot.targetPieceId,
-      strategy: chosenShot.strategy
+      dirX,
+      dirZ,
+      power: finalPower,
+      targetPieceId: targetPuck.id,
+      strategy: 'THROUGH_GATE',
     };
   }
 
   /**
    * Distance from 2D point (px, pz) to line segment (x1, z1) -> (x2, z2)
+   * Kept for potential future use
    */
-  private static distPointToSegment(
+  static distPointToSegment(
     px: number,
     pz: number,
     x1: number,
     z1: number,
     x2: number,
-    z2: number
+    z2: number,
   ): number {
     const l2 = (x2 - x1) ** 2 + (z2 - z1) ** 2;
     if (l2 === 0) return Math.hypot(px - x1, pz - z1);
