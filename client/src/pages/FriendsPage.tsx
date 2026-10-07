@@ -81,7 +81,7 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
       <div className="w-full h-full overflow-y-auto pb-24 px-4 pt-12 max-w-md mx-auto flex flex-col items-center justify-center text-center select-none">
         <div 
           className="p-8 rounded-3xl border border-[#361D2E]/70 shadow-2xl flex flex-col items-center"
-          style={{ background: 'rgba(54, 29, 46, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+          style={{ background: 'rgba(54, 29, 46, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         >
           <div className="w-16 h-16 rounded-2xl bg-[#361D2E]/80 border border-[#361D2E] text-rose-300 flex items-center justify-center mb-4 shadow-sm">
             <ShieldAlert size={32} />
@@ -118,14 +118,14 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
             onChange={(e) => setSearchPlayerId(e.target.value.toUpperCase())}
             placeholder="Search by Player ID (e.g. TM8K29XP)"
             className="w-full pl-10 pr-4 py-3 rounded-2xl text-xs font-mono font-bold text-white placeholder-slate-400 focus:outline-none focus:border-[#361D2E] uppercase shadow-md border border-[#361D2E]/70"
-            style={{ background: 'rgba(54, 29, 46, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+            style={{ background: 'rgba(54, 29, 46, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
           />
         </div>
         <button
           type="submit"
           disabled={isSearching}
           className="px-5 py-3 rounded-2xl text-white text-xs font-black transition-all active:scale-95 shadow-md border border-[#361D2E]/80"
-          style={{ background: 'rgba(54, 29, 46, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+          style={{ background: 'rgba(54, 29, 46, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         >
           {isSearching ? '...' : 'Search'}
         </button>
@@ -141,7 +141,7 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
       {searchedUser && (
         <div 
           className="p-4 rounded-2xl border border-[#361D2E]/70 flex items-center justify-between shadow-md"
-          style={{ background: 'rgba(54, 29, 46, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+          style={{ background: 'rgba(54, 29, 46, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         >
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[#361D2E]/80 border border-[#361D2E] flex items-center justify-center text-lg shadow-sm">
@@ -225,7 +225,7 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
                 key={friend._id}
                 className="p-3.5 rounded-2xl border border-[#361D2E]/80 shadow-md flex items-center justify-between"
                 style={{
-                  background: 'rgba(54, 29, 46, 0.45)',
+                  background: 'rgba(54, 29, 46, 0.85)',
                   backdropFilter: 'blur(12px)',
                   WebkitBackdropFilter: 'blur(12px)'
                 }}
@@ -279,7 +279,7 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
                 key={req._id}
                 className="p-3.5 rounded-2xl border border-[#361D2E]/80 shadow-md flex items-center justify-between"
                 style={{
-                  background: 'rgba(54, 29, 46, 0.45)',
+                  background: 'rgba(54, 29, 46, 0.85)',
                   backdropFilter: 'blur(12px)',
                   WebkitBackdropFilter: 'blur(12px)'
                 }}

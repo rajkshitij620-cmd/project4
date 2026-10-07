@@ -49,7 +49,7 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
       <div 
         className="border border-[#361D2E] rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl relative overflow-hidden animate-in fade-in zoom-in duration-300"
         style={{
-          background: 'rgba(54, 29, 46, 0.70)',
+          background: 'rgba(54, 29, 46, 0.94)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)'
         }}
@@ -86,7 +86,7 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
 
         {/* Coin Reward Banner */}
         {rewardCoins > 0 && (
-          <div className="mb-6 py-2.5 px-4 rounded-xl bg-[#361D2E]/80 border border-[#361D2E] flex items-center justify-center gap-2 text-amber-300 font-black text-base shadow-sm">
+          <div className="mb-6 py-2.5 px-4 rounded-xl bg-[#361D2E] border border-[#361D2E] flex items-center justify-center gap-2 text-amber-300 font-black text-base shadow-sm">
             <Coins size={18} className="text-amber-400" />
             <span>+{rewardCoins} Coins Earned!</span>
           </div>
@@ -95,9 +95,9 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-3 mb-8">
           <div 
-            className="border border-[#361D2E]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            className="border border-[#361D2E] rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(54, 29, 46, 0.50)',
+              background: 'rgba(54, 29, 46, 0.85)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}
@@ -110,9 +110,9 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
           </div>
 
           <div 
-            className="border border-[#361D2E]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            className="border border-[#361D2E] rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(54, 29, 46, 0.50)',
+              background: 'rgba(54, 29, 46, 0.85)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}
@@ -125,9 +125,9 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
           </div>
 
           <div 
-            className="border border-[#361D2E]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            className="border border-[#361D2E] rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(54, 29, 46, 0.50)',
+              background: 'rgba(54, 29, 46, 0.85)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}
@@ -140,9 +140,9 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
           </div>
 
           <div 
-            className="border border-[#361D2E]/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            className="border border-[#361D2E] rounded-2xl p-3 flex flex-col items-center shadow-sm"
             style={{
-              background: 'rgba(54, 29, 46, 0.50)',
+              background: 'rgba(54, 29, 46, 0.85)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)'
             }}

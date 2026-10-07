@@ -242,7 +242,7 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
         className="rounded-3xl border overflow-hidden shadow-2xl"
         style={{
           borderColor: OFFLINE_TABLE.borderColor + 'aa',
-          background: 'rgba(54, 29, 46, 0.50)',
+          background: 'rgba(54, 29, 46, 0.88)',
           backdropFilter: 'blur(14px)',
           WebkitBackdropFilter: 'blur(14px)',
         }}
@@ -298,7 +298,7 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
                 className={`p-4 rounded-2xl border-2 transition-all cursor-pointer shadow-md active:scale-98 ${
                   isSelected ? `${diff.border} ring-2 ring-blue-500/30` : 'border-[#361D2E]/80'
                 }`}
-                style={{ background: 'rgba(54, 29, 46, 0.50)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+                style={{ background: 'rgba(54, 29, 46, 0.88)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
               >
                 <div className="flex items-center gap-3">
                   {/* Icon */}

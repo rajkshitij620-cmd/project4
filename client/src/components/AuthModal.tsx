@@ -66,9 +66,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 select-none overflow-y-auto">
       {/* Vertical Mobile Game Card */}
       <div 
-        className="relative w-full max-w-sm border border-[#361D2E]/80 rounded-3xl p-5 shadow-2xl flex flex-col justify-between items-center min-h-[580px] overflow-hidden"
+        className="relative w-full max-w-sm border border-[#361D2E] rounded-3xl p-5 shadow-2xl flex flex-col justify-between items-center min-h-[580px] overflow-hidden"
         style={{
-          background: 'rgba(54, 29, 46, 0.70)',
+          background: 'rgba(54, 29, 46, 0.92)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)'
         }}
@@ -79,7 +79,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <div 
             className="w-full h-full"
             style={{
-              background: 'radial-gradient(circle at 50% 25%, rgba(54, 29, 46, 0.5) 0%, rgba(80, 40, 70, 0.2) 45%, transparent 75%)'
+              background: 'radial-gradient(circle at 50% 25%, rgba(54, 29, 46, 0.85) 0%, rgba(80, 40, 70, 0.3) 45%, transparent 75%)'
             }}
           />
         </div>
@@ -90,7 +90,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             soundEffects.playClick();
             onClose();
           }}
-          className="absolute top-4 right-4 z-20 p-2 rounded-xl bg-[#361D2E]/80 border border-[#361D2E] text-rose-200 hover:text-white active:scale-90 transition-all"
+          className="absolute top-4 right-4 z-20 p-2 rounded-xl bg-[#361D2E] border border-[#361D2E] text-rose-200 hover:text-white active:scale-90 transition-all"
           title="Close"
         >
           <X size={18} />
@@ -119,9 +119,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
 
         {/* ── MIDDLE SECTION: 8-BALL POOL STYLE REWARD CARD ── */}
         <div 
-          className="w-full relative z-10 my-4 p-4 rounded-2xl border border-[#361D2E]/80 shadow-md flex flex-col items-center text-center"
+          className="w-full relative z-10 my-4 p-4 rounded-2xl border border-[#361D2E] shadow-md flex flex-col items-center text-center"
           style={{
-            background: 'rgba(54, 29, 46, 0.55)',
+            background: 'rgba(54, 29, 46, 0.85)',
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)'
           }}
@@ -143,7 +143,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             Claim <span className="text-amber-400 font-black">1,000 FREE coins</span> &amp; online rewards!
           </p>
 
-          <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#361D2E]/80 border border-rose-900/60 text-[10px] font-black text-rose-200">
+          <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#361D2E] border border-rose-900/60 text-[10px] font-black text-rose-200">
             <Sparkles size={12} className="text-rose-400" />
             <span>REAL-TIME 1v1 MATCHMAKING</span>
           </div>
@@ -161,7 +161,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <div 
             className="w-full relative z-10 p-4 rounded-2xl border border-[#361D2E] shadow-xl flex flex-col gap-3 my-2"
             style={{
-              background: 'rgba(54, 29, 46, 0.85)',
+              background: 'rgba(54, 29, 46, 0.96)',
               backdropFilter: 'blur(16px)',
               WebkitBackdropFilter: 'blur(16px)'
             }}

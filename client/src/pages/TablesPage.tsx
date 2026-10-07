@@ -210,7 +210,7 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
               }`}
               style={{
                 borderColor: isLocked ? 'rgba(200,190,190,0.5)' : table.borderColor + 'aa',
-                background: 'rgba(54, 29, 46, 0.42)',
+                background: 'rgba(54, 29, 46, 0.88)',
                 backdropFilter: 'blur(14px)',
                 WebkitBackdropFilter: 'blur(14px)',
               }}
@@ -265,7 +265,7 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
                 {/* Physics stats */}
                 <div
                   className="rounded-xl border border-[#361D2E]/60 px-3 py-2 flex flex-col gap-1.5"
-                  style={{ background: 'rgba(54, 29, 46, 0.35)', backdropFilter: 'blur(6px)' }}
+                  style={{ background: 'rgba(54, 29, 46, 0.75)', backdropFilter: 'blur(6px)' }}
                 >
                   <StatPill
                     icon={Droplets}

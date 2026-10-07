@@ -29,12 +29,12 @@ export const IncomingInviteModal: React.FC = () => {
       <div 
         className="border border-[#361D2E] rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl shadow-rose-950/40 animate-in fade-in zoom-in duration-200"
         style={{
-          background: 'rgba(54, 29, 46, 0.70)',
+          background: 'rgba(54, 29, 46, 0.92)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)'
         }}
       >
-        <div className="w-16 h-16 rounded-2xl bg-[#361D2E]/80 border border-[#361D2E] text-rose-300 mx-auto flex items-center justify-center mb-4 shadow-sm">
+        <div className="w-16 h-16 rounded-2xl bg-[#361D2E] border border-[#361D2E] text-rose-300 mx-auto flex items-center justify-center mb-4 shadow-sm">
           <Gamepad2 size={32} />
         </div>
 

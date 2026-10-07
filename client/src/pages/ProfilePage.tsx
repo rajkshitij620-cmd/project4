@@ -30,7 +30,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onOpenAuth }) => {
       {/* Main Profile Card */}
       <div 
         className="p-6 rounded-3xl border border-[#361D2E]/70 shadow-xl flex flex-col items-center text-center relative overflow-hidden"
-        style={{ background: 'rgba(54, 29, 46, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+        style={{ background: 'rgba(54, 29, 46, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
       >
         <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-[#361D2E]/40 to-transparent pointer-events-none" />
 
@@ -71,7 +71,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onOpenAuth }) => {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           <div 
             className="p-3.5 rounded-2xl border border-[#361D2E]/70 shadow-md flex flex-col items-center"
-            style={{ background: 'rgba(54, 29, 46, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+            style={{ background: 'rgba(54, 29, 46, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
           >
             <span className="text-[10px] text-slate-300 font-bold uppercase">Matches</span>
             <span className="text-lg font-black text-white mt-0.5">{stats.matches}</span>
@@ -79,7 +79,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onOpenAuth }) => {
 
           <div 
             className="p-3.5 rounded-2xl border border-[#361D2E]/70 shadow-md flex flex-col items-center"
-            style={{ background: 'rgba(54, 29, 46, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+            style={{ background: 'rgba(54, 29, 46, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
           >
             <span className="text-[10px] text-slate-300 font-bold uppercase">Wins</span>
             <span className="text-lg font-black text-emerald-400 mt-0.5">{stats.wins}</span>
@@ -87,7 +87,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onOpenAuth }) => {
 
           <div 
             className="p-3.5 rounded-2xl border border-[#361D2E]/70 shadow-md flex flex-col items-center"
-            style={{ background: 'rgba(54, 29, 46, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+            style={{ background: 'rgba(54, 29, 46, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
           >
             <span className="text-[10px] text-slate-300 font-bold uppercase">Losses</span>
             <span className="text-lg font-black text-rose-400 mt-0.5">{stats.losses}</span>
@@ -95,7 +95,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onOpenAuth }) => {
 
           <div 
             className="p-3.5 rounded-2xl border border-[#361D2E]/70 shadow-md flex flex-col items-center"
-            style={{ background: 'rgba(54, 29, 46, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+            style={{ background: 'rgba(54, 29, 46, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
           >
             <span className="text-[10px] text-slate-300 font-bold uppercase">Win Rate</span>
             <span className="text-lg font-black text-cyan-400 mt-0.5">{stats.winRate}%</span>
