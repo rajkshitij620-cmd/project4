@@ -84,19 +84,20 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
                   soundEffects.playClick();
                   setSelectedTable(t);
                 }}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between ${
+                className={`p-4 rounded-2xl border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between shadow-md ${
                   isSelected
-                    ? 'bg-slate-900 border-cyan-400 shadow-lg shadow-cyan-500/20'
+                    ? 'border-blue-600 ring-2 ring-blue-500/50'
                     : isLocked
-                    ? 'bg-slate-950/40 border-slate-900 opacity-60'
-                    : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'
+                    ? 'opacity-60 border-slate-300'
+                    : 'border-amber-200/90 hover:border-amber-300'
                 }`}
+                style={{ background: '#fefae0' }}
               >
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-xs font-bold text-white">{t.name}</span>
+                    <span className="text-xs font-black text-slate-950">{t.name}</span>
                     {isLocked ? (
-                      <Lock size={14} className="text-slate-500" />
+                      <Lock size={14} className="text-slate-600" />
                     ) : (
                       <span
                         className="w-2.5 h-2.5 rounded-full"
@@ -104,12 +105,12 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
                       />
                     )}
                   </div>
-                  <p className="text-[10px] text-slate-400 leading-snug">{t.tagline}</p>
+                  <p className="text-[10px] text-slate-600 font-medium leading-snug">{t.tagline}</p>
                 </div>
 
-                <div className="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
-                  <span className="text-slate-500">Entry:</span>
-                  <span className="font-bold text-amber-300">
+                <div className="mt-3 pt-2 border-t border-amber-200/80 flex items-center justify-between text-[11px]">
+                  <span className="text-slate-600 font-medium">Entry:</span>
+                  <span className="font-black text-amber-800">
                     {t.entryFee === 0 ? 'FREE' : `🪙 ${t.entryFee}`}
                   </span>
                 </div>
@@ -136,28 +137,29 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
                   soundEffects.playClick();
                   setSelectedDifficulty(diff.id);
                 }}
-                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between shadow-md ${
                   isSelected
-                    ? `bg-slate-900 ${diff.color} border-current shadow-md`
-                    : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 text-slate-400'
+                    ? 'border-blue-600 ring-2 ring-blue-500/50'
+                    : 'border-amber-200/90 hover:border-amber-300'
                 }`}
+                style={{ background: '#fefae0' }}
               >
                 <div className="flex items-center gap-3">
-                  <div className={`p-2 rounded-xl bg-slate-950/50 ${isSelected ? '' : 'text-slate-500'}`}>
+                  <div className="p-2 rounded-xl bg-amber-200/80 text-slate-900 border border-amber-300">
                     <Icon size={18} />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-white">{diff.name}</h4>
-                    <p className="text-[11px] text-slate-400">{diff.desc}</p>
+                    <h4 className="text-xs font-black text-slate-950">{diff.name}</h4>
+                    <p className="text-[11px] text-slate-600 font-medium">{diff.desc}</p>
                   </div>
                 </div>
 
                 <div
                   className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                    isSelected ? 'border-cyan-400 bg-cyan-400' : 'border-slate-600'
+                    isSelected ? 'border-blue-600 bg-blue-600' : 'border-slate-400'
                   }`}
                 >
-                  {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-slate-950" />}
+                  {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                 </div>
               </div>
             );

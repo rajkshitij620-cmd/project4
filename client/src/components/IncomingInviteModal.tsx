@@ -26,15 +26,18 @@ export const IncomingInviteModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 select-none">
-      <div className="bg-slate-900 border border-cyan-500/40 rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl shadow-cyan-500/20 animate-in fade-in zoom-in duration-200">
-        <div className="w-16 h-16 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 mx-auto flex items-center justify-center mb-4">
+      <div 
+        className="border border-amber-300 rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl shadow-amber-400/20 animate-in fade-in zoom-in duration-200"
+        style={{ background: '#fefae0' }}
+      >
+        <div className="w-16 h-16 rounded-2xl bg-amber-200/80 border border-amber-300 text-amber-900 mx-auto flex items-center justify-center mb-4 shadow-sm">
           <Gamepad2 size={32} />
         </div>
 
-        <h3 className="font-display text-xl font-bold text-white mb-1">GAME INVITATION</h3>
-        <p className="text-xs text-slate-300 mb-4">
-          <span className="font-bold text-cyan-300">{incomingInvite.fromUsername}</span> invited you to a match in{' '}
-          <span className="font-bold text-amber-300">{table.name}</span>!
+        <h3 className="font-display text-xl font-black text-slate-950 mb-1">GAME INVITATION</h3>
+        <p className="text-xs text-slate-700 font-medium mb-4">
+          <span className="font-black text-blue-700">{incomingInvite.fromUsername}</span> invited you to a match in{' '}
+          <span className="font-black text-amber-900">{table.name}</span>!
         </p>
 
         <div className="flex gap-3">

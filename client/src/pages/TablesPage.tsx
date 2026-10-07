@@ -31,11 +31,12 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
           return (
             <div
               key={table.id}
-              className={`rounded-3xl border p-5 transition-all relative overflow-hidden flex flex-col justify-between ${
+              className={`rounded-3xl border p-5 transition-all relative overflow-hidden flex flex-col justify-between shadow-xl ${
                 isLocked
-                  ? 'bg-slate-950/40 border-slate-900 opacity-60'
-                  : 'bg-slate-900/90 border-slate-800 shadow-xl'
+                  ? 'border-slate-300 opacity-60'
+                  : 'border-amber-200/90'
               }`}
+              style={{ background: '#fefae0' }}
             >
               {/* Background Theme Glow */}
               <div
@@ -50,32 +51,35 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
                       className="w-3 h-3 rounded-full"
                       style={{ backgroundColor: table.borderColor }}
                     />
-                    <h3 className="font-display text-lg font-bold text-white">{table.name}</h3>
+                    <h3 className="font-display text-lg font-black text-slate-950">{table.name}</h3>
                   </div>
-                  <p className="text-xs text-slate-400 mt-1">{table.tagline}</p>
+                  <p className="text-xs text-slate-600 font-medium mt-1">{table.tagline}</p>
                 </div>
 
                 <div className="text-right">
-                  <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">
+                  <span className="text-[10px] text-slate-600 font-bold uppercase tracking-wider block">
                     Entry Fee
                   </span>
-                  <span className="text-sm font-extrabold text-amber-300">
+                  <span className="text-sm font-black text-amber-800">
                     {table.entryFee === 0 ? 'FREE' : `🪙 ${table.entryFee.toLocaleString()}`}
                   </span>
                 </div>
               </div>
 
               {/* Table Attributes / Physics */}
-              <div className="relative z-10 grid grid-cols-2 gap-2 mb-4 py-2 px-3 rounded-xl bg-slate-950/60 border border-slate-800/80 text-[11px]">
-                <div className="flex justify-between text-slate-400">
+              <div 
+                className="relative z-10 grid grid-cols-2 gap-2 mb-4 py-2 px-3 rounded-xl border border-amber-300/80 text-[11px] shadow-inner"
+                style={{ background: '#fefae0' }}
+              >
+                <div className="flex justify-between text-slate-600 font-medium">
                   <span>Surface Glide:</span>
-                  <span className="font-bold text-slate-200">
+                  <span className="font-black text-slate-950">
                     {table.friction <= 0.08 ? 'Ultra Smooth' : 'Standard Felt'}
                   </span>
                 </div>
-                <div className="flex justify-between text-slate-400">
+                <div className="flex justify-between text-slate-600 font-medium">
                   <span>Cushion Bounce:</span>
-                  <span className="font-bold text-slate-200">
+                  <span className="font-black text-slate-950">
                     {Math.round(table.restitution * 100)}%
                   </span>
                 </div>
@@ -89,10 +93,10 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
                   onSelectTablePlay(table);
                 }}
                 disabled={isLocked}
-                className={`w-full py-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
+                className={`w-full py-3 rounded-xl font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
                   isLocked
-                    ? 'bg-slate-800 text-slate-500 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 text-white shadow-lg shadow-cyan-500/20 active:scale-98'
+                    ? 'bg-amber-200 text-amber-800 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 text-white shadow-lg shadow-blue-600/25 active:scale-98'
                 }`}
               >
                 {isLocked ? (

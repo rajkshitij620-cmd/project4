@@ -50,47 +50,50 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
         </button>
 
         {/* Players HUD */}
-        <div className="flex items-center gap-3 bg-slate-950/85 backdrop-blur-md border border-slate-800/80 px-4 py-2 rounded-2xl shadow-xl">
+        <div 
+          className="flex items-center gap-3 border border-amber-300/90 px-4 py-2 rounded-2xl shadow-xl"
+          style={{ background: '#fefae0' }}
+        >
           {/* Player A (You) */}
           <div className="flex items-center gap-2">
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md border-2"
               style={{
                 backgroundColor: colorDefA?.hex || '#2563eb',
-                borderColor: currentTurn === 'playerA' ? '#ffffff' : 'transparent'
+                borderColor: currentTurn === 'playerA' ? '#000000' : 'transparent'
               }}
             >
               {playerA.avatar}
             </div>
             <div className="flex flex-col text-left">
-              <span className="text-xs font-bold text-slate-200">{playerA.name}</span>
+              <span className="text-xs font-black text-slate-950">{playerA.name}</span>
               <div className="flex items-center gap-1">
-                <Target size={11} className="text-slate-400" />
-                <span className="text-[11px] font-bold text-emerald-400">
+                <Target size={11} className="text-slate-600" />
+                <span className="text-[11px] font-black text-emerald-800">
                   {remainingA} left
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="text-xs font-black text-slate-500 tracking-widest px-1">VS</div>
+          <div className="text-xs font-black text-amber-900 tracking-widest px-1">VS</div>
 
           {/* Player B (Opponent / Bot) */}
           <div className="flex items-center gap-2">
             <div className="flex flex-col text-right">
-              <span className="text-xs font-bold text-slate-200">{playerB.name}</span>
+              <span className="text-xs font-black text-slate-950">{playerB.name}</span>
               <div className="flex items-center justify-end gap-1">
-                <span className="text-[11px] font-bold text-emerald-400">
+                <span className="text-[11px] font-black text-amber-900">
                   {remainingB} left
                 </span>
-                <Target size={11} className="text-slate-400" />
+                <Target size={11} className="text-slate-600" />
               </div>
             </div>
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md border-2"
               style={{
                 backgroundColor: colorDefB?.hex || '#dc2626',
-                borderColor: currentTurn === 'playerB' ? '#ffffff' : 'transparent'
+                borderColor: currentTurn === 'playerB' ? '#000000' : 'transparent'
               }}
             >
               {playerB.avatar}
@@ -99,7 +102,10 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
         </div>
 
         {/* Table pill */}
-        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/80 backdrop-blur-md border border-slate-800 text-xs font-semibold text-slate-300">
+        <div 
+          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-amber-300 text-xs font-black text-slate-950 shadow-sm"
+          style={{ background: '#fefae0' }}
+        >
           <span className="w-2 h-2 rounded-full" style={{ backgroundColor: table.borderColor }} />
           <span>{table.name}</span>
         </div>
@@ -149,9 +155,12 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
       {/* Exit Match Confirmation Modal */}
       {showExitConfirm && (
         <div className="fixed inset-0 pointer-events-auto bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl">
-            <h3 className="text-lg font-bold text-white mb-2">Leave Match?</h3>
-            <p className="text-sm text-slate-400 mb-6">
+          <div 
+            className="border border-amber-300 rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl"
+            style={{ background: '#fefae0' }}
+          >
+            <h3 className="text-lg font-black text-slate-950 mb-2">Leave Match?</h3>
+            <p className="text-sm font-semibold text-slate-700 mb-6">
               Leaving the current game will forfeit the match. Are you sure?
             </p>
             <div className="flex gap-3">
@@ -160,7 +169,7 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
                   soundEffects.playClick();
                   setShowExitConfirm(false);
                 }}
-                className="flex-1 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold hover:bg-slate-700 active:scale-95"
+                className="flex-1 py-2.5 rounded-xl bg-amber-200 hover:bg-amber-300 text-slate-900 font-black active:scale-95 border border-amber-300"
               >
                 Resume
               </button>
@@ -170,7 +179,7 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
                   setShowExitConfirm(false);
                   onExitMatch();
                 }}
-                className="flex-1 py-2.5 rounded-xl bg-red-600 text-white font-bold hover:bg-red-500 active:scale-95"
+                className="flex-1 py-2.5 rounded-xl bg-red-600 text-white font-black hover:bg-red-500 active:scale-95 shadow-md shadow-red-600/30"
               >
                 Quit Game
               </button>

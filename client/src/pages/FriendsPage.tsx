@@ -79,22 +79,27 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
   if (isGuest) {
     return (
       <div className="w-full h-full overflow-y-auto pb-24 px-4 pt-12 max-w-md mx-auto flex flex-col items-center justify-center text-center select-none">
-        <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mb-4">
-          <ShieldAlert size={32} />
-        </div>
-        <h2 className="font-display text-2xl font-bold text-white mb-2">FRIEND SYSTEM</h2>
-        <p className="text-xs text-slate-400 mb-6 max-w-xs">
-          Sign up with your free account to generate a permanent Player ID, add friends, and challenge them to 1v1 battles!
-        </p>
-        <button
-          onClick={() => {
-            soundEffects.playClick();
-            onOpenAuth();
-          }}
-          className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-sm shadow-lg shadow-cyan-500/25 active:scale-95 transition-all"
+        <div 
+          className="p-8 rounded-3xl border border-amber-200/90 shadow-2xl flex flex-col items-center"
+          style={{ background: '#fefae0' }}
         >
-          SIGN UP / LOG IN
-        </button>
+          <div className="w-16 h-16 rounded-2xl bg-amber-200/80 border border-amber-300 text-amber-900 flex items-center justify-center mb-4 shadow-sm">
+            <ShieldAlert size={32} />
+          </div>
+          <h2 className="font-display text-2xl font-black text-slate-950 mb-2">FRIEND SYSTEM</h2>
+          <p className="text-xs text-slate-700 font-medium mb-6 max-w-xs leading-relaxed">
+            Connect your Google account to generate a permanent Player ID, add friends, and challenge them to 1v1 battles!
+          </p>
+          <button
+            onClick={() => {
+              soundEffects.playClick();
+              onOpenAuth();
+            }}
+            className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-blue-600/30 active:scale-95 transition-all"
+          >
+            LOGIN WITH GOOGLE
+          </button>
+        </div>
       </div>
     );
   }
@@ -112,13 +117,15 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
             value={searchPlayerId}
             onChange={(e) => setSearchPlayerId(e.target.value.toUpperCase())}
             placeholder="Search by Player ID (e.g. TM8K29XP)"
-            className="w-full pl-10 pr-4 py-3 bg-slate-900 border border-slate-800 rounded-2xl text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors uppercase"
+            className="w-full pl-10 pr-4 py-3 rounded-2xl text-xs font-mono font-bold text-slate-950 placeholder-slate-400 focus:outline-none focus:border-amber-400 uppercase shadow-md border border-amber-200/90"
+            style={{ background: '#fefae0' }}
           />
         </div>
         <button
           type="submit"
           disabled={isSearching}
-          className="px-5 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition-all active:scale-95"
+          className="px-5 py-3 rounded-2xl text-slate-950 text-xs font-black transition-all active:scale-95 shadow-md border border-amber-300"
+          style={{ background: '#fefae0' }}
         >
           {isSearching ? '...' : 'Search'}
         </button>
@@ -132,14 +139,17 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
       )}
 
       {searchedUser && (
-        <div className="p-4 rounded-2xl bg-cyan-950/20 border border-cyan-500/30 flex items-center justify-between">
+        <div 
+          className="p-4 rounded-2xl border border-amber-300/80 flex items-center justify-between shadow-md"
+          style={{ background: '#fefae0' }}
+        >
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-lg">
+            <div className="w-10 h-10 rounded-xl bg-amber-200/70 border border-amber-300 flex items-center justify-center text-lg shadow-sm">
               {searchedUser.avatar}
             </div>
             <div>
-              <h4 className="text-xs font-bold text-white">{searchedUser.username}</h4>
-              <span className="text-[11px] font-mono text-cyan-400">{searchedUser.playerId}</span>
+              <h4 className="text-xs font-black text-slate-950">{searchedUser.username}</h4>
+              <span className="text-[11px] font-mono font-bold text-amber-900">{searchedUser.playerId}</span>
             </div>
           </div>
 
@@ -213,33 +223,34 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
             friends.map((friend) => (
               <div
                 key={friend._id}
-                className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between"
+                className="p-3.5 rounded-2xl border border-amber-200/90 shadow-md flex items-center justify-between"
+                style={{ background: '#fefae0' }}
               >
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-lg">
+                    <div className="w-10 h-10 rounded-xl bg-amber-200/70 border border-amber-300 flex items-center justify-center text-lg shadow-sm">
                       {friend.avatar}
                     </div>
                     <Circle
                       size={10}
                       className={`absolute -bottom-0.5 -right-0.5 fill-current ${
-                        friend.isOnline ? 'text-emerald-400' : 'text-slate-600'
+                        friend.isOnline ? 'text-emerald-500' : 'text-slate-400'
                       }`}
                     />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-white">{friend.username}</h4>
-                    <span className="text-[11px] font-mono text-slate-400">{friend.playerId}</span>
+                    <h4 className="text-xs font-black text-slate-950">{friend.username}</h4>
+                    <span className="text-[11px] font-mono font-bold text-amber-900">{friend.playerId}</span>
                   </div>
                 </div>
 
                 <button
                   onClick={() => handleInviteToGame(friend)}
                   disabled={!friend.isOnline}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black flex items-center gap-1.5 transition-all ${
                     friend.isOnline
-                      ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-md shadow-cyan-500/20 active:scale-95'
-                      : 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                      ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-md shadow-blue-600/25 active:scale-95'
+                      : 'bg-amber-200 text-amber-800 cursor-not-allowed'
                   }`}
                 >
                   <Gamepad2 size={14} />
@@ -262,29 +273,30 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
             incomingRequests.map((req) => (
               <div
                 key={req._id}
-                className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between"
+                className="p-3.5 rounded-2xl border border-amber-200/90 shadow-md flex items-center justify-between"
+                style={{ background: '#fefae0' }}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-lg">
+                  <div className="w-10 h-10 rounded-xl bg-amber-200/70 border border-amber-300 flex items-center justify-center text-lg shadow-sm">
                     {req.from.avatar}
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-white">{req.from.username}</h4>
-                    <span className="text-[11px] font-mono text-slate-400">{req.from.playerId}</span>
+                    <h4 className="text-xs font-black text-slate-950">{req.from.username}</h4>
+                    <span className="text-[11px] font-mono font-bold text-amber-900">{req.from.playerId}</span>
                   </div>
                 </div>
 
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleRespondRequest(req._id, 'REJECT')}
-                    className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400"
+                    className="p-2 rounded-xl bg-amber-200 hover:bg-amber-300 text-slate-800 border border-amber-300"
                     title="Reject"
                   >
                     <X size={15} />
                   </button>
                   <button
                     onClick={() => handleRespondRequest(req._id, 'ACCEPT')}
-                    className="p-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold"
+                    className="p-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-bold shadow-sm"
                     title="Accept"
                   >
                     <Check size={15} />

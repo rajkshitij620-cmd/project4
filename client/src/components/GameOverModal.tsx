@@ -46,11 +46,14 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
 
   return (
     <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 select-none">
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl relative overflow-hidden animate-in fade-in zoom-in duration-300">
+      <div 
+        className="border border-amber-300 rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl relative overflow-hidden animate-in fade-in zoom-in duration-300"
+        style={{ background: '#fefae0' }}
+      >
         {/* Glow Header Accent */}
         <div
           className={`absolute -top-24 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full blur-3xl pointer-events-none ${
-            isWinner ? 'bg-amber-500/20' : 'bg-red-500/20'
+            isWinner ? 'bg-amber-400/30' : 'bg-red-400/20'
           }`}
         />
 
@@ -60,7 +63,7 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
             className={`w-20 h-20 rounded-2xl flex items-center justify-center border-2 shadow-xl ${
               isWinner
                 ? 'bg-gradient-to-tr from-amber-500 to-yellow-300 border-amber-300 text-slate-950 shadow-amber-500/30'
-                : 'bg-gradient-to-tr from-slate-800 to-slate-700 border-slate-600 text-slate-300'
+                : 'bg-gradient-to-tr from-slate-300 to-slate-200 border-slate-400 text-slate-800'
             }`}
           >
             {isWinner ? <Trophy size={42} /> : <Award size={42} />}
@@ -68,10 +71,10 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
         </div>
 
         {/* Title */}
-        <h2 className="font-display text-3xl font-extrabold uppercase tracking-wider mb-1 text-white">
+        <h2 className="font-display text-3xl font-black uppercase tracking-wider mb-1 text-slate-950">
           {isWinner ? 'VICTORY!' : 'DEFEAT'}
         </h2>
-        <p className="text-sm font-semibold text-slate-400 mb-6">
+        <p className="text-sm font-semibold text-slate-700 mb-6">
           {isWinner
             ? `You cleared all your pieces into ${loserPlayer.name}'s goal!`
             : `${winnerPlayer.name} pocketed all pieces first.`}
@@ -79,44 +82,56 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
 
         {/* Coin Reward Banner */}
         {rewardCoins > 0 && (
-          <div className="mb-6 py-2.5 px-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center gap-2 text-amber-300 font-extrabold text-base">
-            <Coins size={18} className="text-amber-400" />
+          <div className="mb-6 py-2.5 px-4 rounded-xl bg-amber-200/80 border border-amber-400 flex items-center justify-center gap-2 text-amber-950 font-black text-base shadow-sm">
+            <Coins size={18} className="text-amber-700" />
             <span>+{rewardCoins} Coins Earned!</span>
           </div>
         )}
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-3 mb-8">
-          <div className="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-3 flex flex-col items-center">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-1">
-              <Crosshair size={13} className="text-cyan-400" />
+          <div 
+            className="border border-amber-300/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            style={{ background: '#fefae0' }}
+          >
+            <div className="flex items-center gap-1.5 text-xs text-slate-600 font-bold mb-1">
+              <Crosshair size={13} className="text-blue-700" />
               <span>Pieces Pocketed</span>
             </div>
-            <span className="text-lg font-bold text-white">{pocketedCount} / 4</span>
+            <span className="text-lg font-black text-slate-950">{pocketedCount} / 4</span>
           </div>
 
-          <div className="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-3 flex flex-col items-center">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-1">
-              <Award size={13} className="text-amber-400" />
+          <div 
+            className="border border-amber-300/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            style={{ background: '#fefae0' }}
+          >
+            <div className="flex items-center gap-1.5 text-xs text-slate-600 font-bold mb-1">
+              <Award size={13} className="text-amber-700" />
               <span>Accuracy</span>
             </div>
-            <span className="text-lg font-bold text-white">{accuracy}%</span>
+            <span className="text-lg font-black text-slate-950">{accuracy}%</span>
           </div>
 
-          <div className="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-3 flex flex-col items-center">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-1">
-              <Trophy size={13} className="text-purple-400" />
+          <div 
+            className="border border-amber-300/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            style={{ background: '#fefae0' }}
+          >
+            <div className="flex items-center gap-1.5 text-xs text-slate-600 font-bold mb-1">
+              <Trophy size={13} className="text-purple-700" />
               <span>Total Shots</span>
             </div>
-            <span className="text-lg font-bold text-white">{shotsCount}</span>
+            <span className="text-lg font-black text-slate-950">{shotsCount}</span>
           </div>
 
-          <div className="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-3 flex flex-col items-center">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-1">
-              <Clock size={13} className="text-emerald-400" />
+          <div 
+            className="border border-amber-300/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
+            style={{ background: '#fefae0' }}
+          >
+            <div className="flex items-center gap-1.5 text-xs text-slate-600 font-bold mb-1">
+              <Clock size={13} className="text-emerald-700" />
               <span>Duration</span>
             </div>
-            <span className="text-lg font-bold text-white">{matchStats.durationSeconds}s</span>
+            <span className="text-lg font-black text-slate-950">{matchStats.durationSeconds}s</span>
           </div>
         </div>
 

@@ -56,8 +56,11 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenAuth }) => {
         </button>
 
         {/* Coins Badge */}
-        <div className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-gradient-to-r from-amber-500/10 to-yellow-500/20 border border-amber-500/30 text-amber-300 font-bold text-xs shadow-inner">
-          <Coins size={14} className="text-amber-400" />
+        <div 
+          className="flex items-center gap-1 px-2.5 py-1 rounded-xl border border-amber-300 text-amber-950 font-black text-xs shadow-sm"
+          style={{ background: '#fefae0' }}
+        >
+          <Coins size={14} className="text-amber-800" />
           <span>{user?.coins.toLocaleString() || '1,000'}</span>
         </div>
 
@@ -65,29 +68,30 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenAuth }) => {
         {user && (
           <div
             onClick={isGuest ? onOpenAuth : undefined}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-900 border border-slate-800 ${
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border border-amber-300 shadow-sm ${
               isGuest ? 'cursor-pointer active:scale-95' : ''
             }`}
+            style={{ background: '#fefae0' }}
           >
             <div className="text-base">{user.avatar}</div>
             <div className="flex flex-col text-left">
-              <span className="text-[11px] font-semibold text-slate-200 leading-tight">
+              <span className="text-[11px] font-black text-slate-950 leading-tight">
                 {user.username.length > 8 ? user.username.slice(0, 8) + '…' : user.username}
               </span>
-              <div className="flex items-center gap-1 text-[10px] text-cyan-400 font-mono">
+              <div className="flex items-center gap-1 text-[10px] text-amber-900 font-mono font-bold">
                 <span>{user.playerId}</span>
                 <button
                   onClick={handleCopyId}
-                  className="active:scale-90 transition-transform"
+                  className="active:scale-90 transition-transform text-slate-700 hover:text-black"
                   title="Copy Player ID"
                 >
-                  {copied ? <Check size={10} className="text-emerald-400" /> : <Copy size={10} />}
+                  {copied ? <Check size={10} className="text-emerald-700" /> : <Copy size={10} />}
                 </button>
               </div>
             </div>
 
             {isGuest && (
-              <span className="text-[9px] uppercase font-bold px-1 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30">
+              <span className="text-[9px] uppercase font-black px-1.5 py-0.5 rounded bg-amber-200 text-amber-900 border border-amber-400">
                 Login
               </span>
             )}
