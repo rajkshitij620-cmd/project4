@@ -75,7 +75,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-full bg-slate-950 text-white flex flex-col relative overflow-hidden select-none">
+    <div className="w-full h-full bg-[#0d0a0f] text-white flex flex-col relative overflow-hidden select-none">
       {/* Real-time Game Invitation Pop-up */}
       <IncomingInviteModal />
 

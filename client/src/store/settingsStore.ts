@@ -7,28 +7,39 @@ interface SettingsState {
   soundEnabled: boolean;
   musicEnabled: boolean;
   quality: QualitySetting;
+  volume: number;  // 0.0 - 1.0 (maps to 0 - 2.0 in audio engine for extra loudness)
   toggleSound: () => void;
   toggleMusic: () => void;
   setQuality: (quality: QualitySetting) => void;
+  setVolume: (vol: number) => void;
 }
 
-export const useSettingsStore = create<SettingsState>((set, get) => ({
+export const useSettingsStore = create<SettingsState>((set) => ({
   soundEnabled: true,
   musicEnabled: true,
   quality: 'HIGH',
+  volume: 0.75,  // 75% = maps to 1.5 gain (louder than before)
 
   toggleSound: () => {
-    const next = !get().soundEnabled;
-    soundEffects.setSoundEnabled(next);
-    set({ soundEnabled: next });
+    set((state) => {
+      const next = !state.soundEnabled;
+      soundEffects.setSoundEnabled(next);
+      return { soundEnabled: next };
+    });
   },
 
   toggleMusic: () => {
-    const next = !get().musicEnabled;
-    soundEffects.setMusicEnabled(next);
-    set({ musicEnabled: next });
+    set((state) => {
+      const next = !state.musicEnabled;
+      soundEffects.setMusicEnabled(next);
+      return { musicEnabled: next };
+    });
   },
 
-  setQuality: (quality) => set({ quality })
-}));
+  setQuality: (quality) => set({ quality }),
 
+  setVolume: (vol: number) => {
+    soundEffects.setVolume(vol);
+    set({ volume: vol });
+  },
+}));

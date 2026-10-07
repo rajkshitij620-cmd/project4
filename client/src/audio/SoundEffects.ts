@@ -8,6 +8,7 @@ class SoundEngine {
   private soundEnabled: boolean = true;
   private musicEnabled: boolean = true;
   private masterGain: GainNode | null = null;
+  private volume: number = 1.5;  // Increased default volume (was 0.7)
 
   constructor() {
     // AudioContext will be initialized on first user interaction
@@ -18,7 +19,7 @@ class SoundEngine {
       const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       this.ctx = new AudioCtx();
       this.masterGain = this.ctx.createGain();
-      this.masterGain.gain.setValueAtTime(0.7, this.ctx.currentTime);
+      this.masterGain.gain.setValueAtTime(this.volume, this.ctx.currentTime);
       this.masterGain.connect(this.ctx.destination);
     }
     if (this.ctx.state === 'suspended') {
@@ -40,6 +41,23 @@ class SoundEngine {
 
   public isMusicEnabled() {
     return this.musicEnabled;
+  }
+
+  public getVolume(): number {
+    return this.volume;
+  }
+
+  public setVolume(vol: number) {
+    // vol is 0.0 - 1.0 from slider, map to 0 - 2.0 for extra loudness
+    this.volume = Math.max(0, Math.min(2.0, vol * 2.0));
+    if (this.masterGain && this.ctx) {
+      this.masterGain.gain.setValueAtTime(this.volume, this.ctx.currentTime);
+    }
+  }
+
+  public getVolumeNormalized(): number {
+    // Return 0.0-1.0 for slider
+    return this.volume / 2.0;
   }
 
   // UI Button Click Sound

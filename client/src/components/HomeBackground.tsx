@@ -48,8 +48,7 @@ export const HomeBackground: React.FC = () => {
         }}
       />
 
-      {/* ── Subtle Bottom Vignette for UI Navigation Legibility ── */}
-      <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent pointer-events-none" />
+
     </div>
   );
 };

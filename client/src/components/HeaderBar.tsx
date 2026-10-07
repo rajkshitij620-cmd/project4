@@ -23,7 +23,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenAuth }) => {
   };
 
   return (
-    <header className="w-full h-14 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-4 flex items-center justify-between z-30 select-none flex-shrink-0">
+    <header className="w-full h-14 bg-transparent backdrop-blur-sm border-b border-white/10 px-4 flex items-center justify-between z-30 select-none flex-shrink-0">
       {/* Brand Logo */}
       <div className="flex items-center gap-2">
         <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-500 to-cyan-400 p-[2px] shadow-lg shadow-cyan-500/20">
