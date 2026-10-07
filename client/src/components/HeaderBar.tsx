@@ -58,7 +58,11 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenAuth }) => {
         {/* Coins Badge */}
         <div 
           className="flex items-center gap-1 px-2.5 py-1 rounded-xl border border-amber-300 text-amber-950 font-black text-xs shadow-sm"
-          style={{ background: '#fefae0' }}
+          style={{
+            background: 'rgba(254, 250, 224, 0.70)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)'
+          }}
         >
           <Coins size={14} className="text-amber-800" />
           <span>{user?.coins.toLocaleString() || '1,000'}</span>
@@ -71,7 +75,11 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({ onOpenAuth }) => {
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border border-amber-300 shadow-sm ${
               isGuest ? 'cursor-pointer active:scale-95' : ''
             }`}
-            style={{ background: '#fefae0' }}
+            style={{
+              background: 'rgba(254, 250, 224, 0.70)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)'
+            }}
           >
             <div className="text-base">{user.avatar}</div>
             <div className="flex flex-col text-left">

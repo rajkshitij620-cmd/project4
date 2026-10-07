@@ -52,7 +52,11 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
         {/* Players HUD */}
         <div 
           className="flex items-center gap-3 border border-amber-300/90 px-4 py-2 rounded-2xl shadow-xl"
-          style={{ background: '#fefae0' }}
+          style={{
+            background: 'rgba(254, 250, 224, 0.75)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)'
+          }}
         >
           {/* Player A (You) */}
           <div className="flex items-center gap-2">
@@ -104,7 +108,11 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
         {/* Table pill */}
         <div 
           className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-amber-300 text-xs font-black text-slate-950 shadow-sm"
-          style={{ background: '#fefae0' }}
+          style={{
+            background: 'rgba(254, 250, 224, 0.75)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)'
+          }}
         >
           <span className="w-2 h-2 rounded-full" style={{ backgroundColor: table.borderColor }} />
           <span>{table.name}</span>
@@ -157,7 +165,11 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({ onExitMatch }) => {
         <div className="fixed inset-0 pointer-events-auto bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div 
             className="border border-amber-300 rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl"
-            style={{ background: '#fefae0' }}
+            style={{
+              background: 'rgba(254, 250, 224, 0.70)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)'
+            }}
           >
             <h3 className="text-lg font-black text-slate-950 mb-2">Leave Match?</h3>
             <p className="text-sm font-semibold text-slate-700 mb-6">

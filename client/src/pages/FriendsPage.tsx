@@ -80,14 +80,14 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
     return (
       <div className="w-full h-full overflow-y-auto pb-24 px-4 pt-12 max-w-md mx-auto flex flex-col items-center justify-center text-center select-none">
         <div 
-          className="p-8 rounded-3xl border border-amber-200/90 shadow-2xl flex flex-col items-center"
-          style={{ background: '#fefae0' }}
+          className="p-8 rounded-3xl border border-amber-300/60 shadow-2xl flex flex-col items-center"
+          style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         >
-          <div className="w-16 h-16 rounded-2xl bg-amber-200/80 border border-amber-300 text-amber-900 flex items-center justify-center mb-4 shadow-sm">
+          <div className="w-16 h-16 rounded-2xl bg-amber-200/90 border border-amber-400 text-amber-900 flex items-center justify-center mb-4 shadow-sm">
             <ShieldAlert size={32} />
           </div>
           <h2 className="font-display text-2xl font-black text-slate-950 mb-2">FRIEND SYSTEM</h2>
-          <p className="text-xs text-slate-700 font-medium mb-6 max-w-xs leading-relaxed">
+          <p className="text-xs text-slate-800 font-semibold mb-6 max-w-xs leading-relaxed">
             Connect your Google account to generate a permanent Player ID, add friends, and challenge them to 1v1 battles!
           </p>
           <button
@@ -117,15 +117,15 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
             value={searchPlayerId}
             onChange={(e) => setSearchPlayerId(e.target.value.toUpperCase())}
             placeholder="Search by Player ID (e.g. TM8K29XP)"
-            className="w-full pl-10 pr-4 py-3 rounded-2xl text-xs font-mono font-bold text-slate-950 placeholder-slate-400 focus:outline-none focus:border-amber-400 uppercase shadow-md border border-amber-200/90"
-            style={{ background: '#fefae0' }}
+            className="w-full pl-10 pr-4 py-3 rounded-2xl text-xs font-mono font-bold text-slate-950 placeholder-slate-500 focus:outline-none focus:border-amber-400 uppercase shadow-md border border-amber-300/60"
+            style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
           />
         </div>
         <button
           type="submit"
           disabled={isSearching}
-          className="px-5 py-3 rounded-2xl text-slate-950 text-xs font-black transition-all active:scale-95 shadow-md border border-amber-300"
-          style={{ background: '#fefae0' }}
+          className="px-5 py-3 rounded-2xl text-slate-950 text-xs font-black transition-all active:scale-95 shadow-md border border-amber-300/70"
+          style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         >
           {isSearching ? '...' : 'Search'}
         </button>
@@ -140,8 +140,8 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
 
       {searchedUser && (
         <div 
-          className="p-4 rounded-2xl border border-amber-300/80 flex items-center justify-between shadow-md"
-          style={{ background: '#fefae0' }}
+          className="p-4 rounded-2xl border border-amber-300/60 flex items-center justify-between shadow-md"
+          style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
         >
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-amber-200/70 border border-amber-300 flex items-center justify-center text-lg shadow-sm">
@@ -224,7 +224,11 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
               <div
                 key={friend._id}
                 className="p-3.5 rounded-2xl border border-amber-200/90 shadow-md flex items-center justify-between"
-                style={{ background: '#fefae0' }}
+                style={{
+                  background: 'rgba(254, 250, 224, 0.45)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)'
+                }}
               >
                 <div className="flex items-center gap-3">
                   <div className="relative">
@@ -274,7 +278,11 @@ export const FriendsPage: React.FC<FriendsPageProps> = ({ onOpenAuth }) => {
               <div
                 key={req._id}
                 className="p-3.5 rounded-2xl border border-amber-200/90 shadow-md flex items-center justify-between"
-                style={{ background: '#fefae0' }}
+                style={{
+                  background: 'rgba(254, 250, 224, 0.45)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)'
+                }}
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-amber-200/70 border border-amber-300 flex items-center justify-center text-lg shadow-sm">

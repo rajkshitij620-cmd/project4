@@ -48,7 +48,11 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
     <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 select-none">
       <div 
         className="border border-amber-300 rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl relative overflow-hidden animate-in fade-in zoom-in duration-300"
-        style={{ background: '#fefae0' }}
+        style={{
+          background: 'rgba(254, 250, 224, 0.70)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)'
+        }}
       >
         {/* Glow Header Accent */}
         <div
@@ -92,7 +96,11 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
         <div className="grid grid-cols-2 gap-3 mb-8">
           <div 
             className="border border-amber-300/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
-            style={{ background: '#fefae0' }}
+            style={{
+              background: 'rgba(254, 250, 224, 0.50)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)'
+            }}
           >
             <div className="flex items-center gap-1.5 text-xs text-slate-600 font-bold mb-1">
               <Crosshair size={13} className="text-blue-700" />
@@ -103,7 +111,11 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
 
           <div 
             className="border border-amber-300/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
-            style={{ background: '#fefae0' }}
+            style={{
+              background: 'rgba(254, 250, 224, 0.50)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)'
+            }}
           >
             <div className="flex items-center gap-1.5 text-xs text-slate-600 font-bold mb-1">
               <Award size={13} className="text-amber-700" />
@@ -114,7 +126,11 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
 
           <div 
             className="border border-amber-300/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
-            style={{ background: '#fefae0' }}
+            style={{
+              background: 'rgba(254, 250, 224, 0.50)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)'
+            }}
           >
             <div className="flex items-center gap-1.5 text-xs text-slate-600 font-bold mb-1">
               <Trophy size={13} className="text-purple-700" />
@@ -125,7 +141,11 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ onPlayAgain, onBac
 
           <div 
             className="border border-amber-300/80 rounded-2xl p-3 flex flex-col items-center shadow-sm"
-            style={{ background: '#fefae0' }}
+            style={{
+              background: 'rgba(254, 250, 224, 0.50)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)'
+            }}
           >
             <div className="flex items-center gap-1.5 text-xs text-slate-600 font-bold mb-1">
               <Clock size={13} className="text-emerald-700" />

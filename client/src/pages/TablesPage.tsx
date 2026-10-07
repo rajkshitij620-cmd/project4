@@ -36,7 +36,7 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
                   ? 'border-slate-300 opacity-60'
                   : 'border-amber-200/90'
               }`}
-              style={{ background: '#fefae0' }}
+              style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
             >
               {/* Background Theme Glow */}
               <div
@@ -53,14 +53,14 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
                     />
                     <h3 className="font-display text-lg font-black text-slate-950">{table.name}</h3>
                   </div>
-                  <p className="text-xs text-slate-600 font-medium mt-1">{table.tagline}</p>
+                  <p className="text-xs text-slate-700 font-semibold mt-1">{table.tagline}</p>
                 </div>
 
                 <div className="text-right">
-                  <span className="text-[10px] text-slate-600 font-bold uppercase tracking-wider block">
+                  <span className="text-[10px] text-slate-700 font-bold uppercase tracking-wider block">
                     Entry Fee
                   </span>
-                  <span className="text-sm font-black text-amber-800">
+                  <span className="text-sm font-black text-amber-900">
                     {table.entryFee === 0 ? 'FREE' : `🪙 ${table.entryFee.toLocaleString()}`}
                   </span>
                 </div>
@@ -68,8 +68,8 @@ export const TablesPage: React.FC<TablesPageProps> = ({ onSelectTablePlay }) => 
 
               {/* Table Attributes / Physics */}
               <div 
-                className="relative z-10 grid grid-cols-2 gap-2 mb-4 py-2 px-3 rounded-xl border border-amber-300/80 text-[11px] shadow-inner"
-                style={{ background: '#fefae0' }}
+                className="relative z-10 grid grid-cols-2 gap-2 mb-4 py-2 px-3 rounded-xl border border-amber-300/60 text-[11px] shadow-inner"
+                style={{ background: 'rgba(254, 250, 224, 0.35)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
               >
                 <div className="flex justify-between text-slate-600 font-medium">
                   <span>Surface Glide:</span>

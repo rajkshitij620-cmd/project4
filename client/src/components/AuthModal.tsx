@@ -67,7 +67,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
       {/* Vertical Mobile Game Card */}
       <div 
         className="relative w-full max-w-sm border border-amber-300/80 rounded-3xl p-5 shadow-2xl flex flex-col justify-between items-center min-h-[580px] overflow-hidden"
-        style={{ background: '#fefae0' }}
+        style={{
+          background: 'rgba(254, 250, 224, 0.70)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)'
+        }}
       >
         
         {/* Subtle sunburst background effect */}
@@ -116,7 +120,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         {/* ── MIDDLE SECTION: 8-BALL POOL STYLE REWARD CARD ── */}
         <div 
           className="w-full relative z-10 my-4 p-4 rounded-2xl border border-amber-300/80 shadow-md flex flex-col items-center text-center"
-          style={{ background: '#fefae0' }}
+          style={{
+            background: 'rgba(254, 250, 224, 0.55)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)'
+          }}
         >
           {/* Floating gifts & rewards illustrations */}
           <div className="flex items-center justify-center gap-6 mb-2">
@@ -152,7 +160,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         {showGooglePrompt ? (
           <div 
             className="w-full relative z-10 p-4 rounded-2xl border border-amber-300 shadow-xl flex flex-col gap-3 my-2"
-            style={{ background: '#fefae0' }}
+            style={{
+              background: 'rgba(254, 250, 224, 0.85)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)'
+            }}
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-black text-slate-900 flex items-center gap-1.5">

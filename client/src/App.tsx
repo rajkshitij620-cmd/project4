@@ -16,6 +16,7 @@ import { GameOverlay } from './components/GameOverlay';
 import { GameOverModal } from './components/GameOverModal';
 import { TableConfig } from '@shared/types';
 import { soundEffects } from './audio/SoundEffects';
+import { HomeBackground } from './components/HomeBackground';
 
 export const App: React.FC = () => {
   const { initGuest } = useAuthStore();
@@ -112,11 +113,14 @@ export const App: React.FC = () => {
           )}
         </div>
       ) : (
-        /* MAIN APPLICATION MENU VIEW */
-        <div className="w-full h-full flex flex-col">
+        /* MAIN APPLICATION MENU VIEW (ALL PAGES SHARE 3D BACKGROUND) */
+        <div className="w-full h-full flex flex-col relative overflow-hidden">
+          {/* ── Global 3D Colorful Animation Background across ALL Pages ── */}
+          <HomeBackground />
+
           <HeaderBar onOpenAuth={() => setIsAuthOpen(true)} />
 
-          <main className="flex-1 w-full relative overflow-hidden">
+          <main className="flex-1 w-full relative z-10 overflow-hidden">
             {isOfflineLauncherOpen ? (
               <PlayOfflinePage onBack={() => setIsOfflineLauncherOpen(false)} />
             ) : activeTab === 'home' ? (

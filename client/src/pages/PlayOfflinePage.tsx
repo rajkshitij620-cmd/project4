@@ -91,7 +91,7 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
                     ? 'opacity-60 border-slate-300'
                     : 'border-amber-200/90 hover:border-amber-300'
                 }`}
-                style={{ background: '#fefae0' }}
+                style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
               >
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
@@ -105,12 +105,12 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
                       />
                     )}
                   </div>
-                  <p className="text-[10px] text-slate-600 font-medium leading-snug">{t.tagline}</p>
+                  <p className="text-[10px] text-slate-700 font-semibold leading-snug">{t.tagline}</p>
                 </div>
 
-                <div className="mt-3 pt-2 border-t border-amber-200/80 flex items-center justify-between text-[11px]">
-                  <span className="text-slate-600 font-medium">Entry:</span>
-                  <span className="font-black text-amber-800">
+                <div className="mt-3 pt-2 border-t border-amber-300/60 flex items-center justify-between text-[11px]">
+                  <span className="text-slate-700 font-bold">Entry:</span>
+                  <span className="font-black text-amber-900">
                     {t.entryFee === 0 ? 'FREE' : `🪙 ${t.entryFee}`}
                   </span>
                 </div>
@@ -140,9 +140,9 @@ export const PlayOfflinePage: React.FC<PlayOfflinePageProps> = ({ onBack }) => {
                 className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between shadow-md ${
                   isSelected
                     ? 'border-blue-600 ring-2 ring-blue-500/50'
-                    : 'border-amber-200/90 hover:border-amber-300'
+                    : 'border-amber-300/60 hover:border-amber-300'
                 }`}
-                style={{ background: '#fefae0' }}
+                style={{ background: 'rgba(254, 250, 224, 0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
               >
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-xl bg-amber-200/80 text-slate-900 border border-amber-300">
